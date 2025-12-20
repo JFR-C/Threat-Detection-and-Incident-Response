@@ -2,10 +2,10 @@
 Threat hunting with Windows event logs and the tool APT-Hunter
 ===============================================================================================================================================
 
-> APT-Hunter is a threat hunting tool (python script or compiled binary) for windows event logs (made with a purple team mindset) to detect APT movements 
-  hidden in the sea of windows event logs and to reduce the time to uncover suspicious activities.
-> Logs Analyzed: Sysmon, Security, System, Powershell, Powershell_Operational, ScheduledTask, WinRM, TerminalServices, Windows_Defender, ...
-> It uses SIGMA rules from 'https://github.com/SigmaHQ'
+> APT-Hunter is a threat‑hunting tool (available as a Python script or compiled binary) designed to analyze Windows event logs. 
+  Built with a purple‑team mindset, it helps uncover APT activity hidden within large volumes of logs and reduces the time required to identify suspicious behavior.
+  It uses SIGMA rules from 'https://github.com/SigmaHQ'
+> Logs analyzed: Sysmon, Security, System, Powershell, Powershell_Operational, ScheduledTask, WinRM, TerminalServices, Windows_Defender, ...
 > It produces several output files (xlsx and CSV): a global report, logon events, objects access events, process execution events, etc.
 
 GitHub link - https://github.com/ahmedkhlief/APT-Hunter
