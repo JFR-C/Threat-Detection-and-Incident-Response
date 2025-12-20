@@ -1,21 +1,212 @@
-==================================================================================================================================
+===============================================================================================================================================
 Threat hunting with Windows event logs and the tool APT-Hunter
-==================================================================================================================================
+===============================================================================================================================================
 
-> APT-Hunter is a threat hunting tool (python script) for windows event logs (made with a purple team mindset) to detect APT movements 
+> APT-Hunter is a threat hunting tool (executable and python script) for windows event logs (made with a purple team mindset) to detect APT movements 
   hidden in the sea of windows event logs and to reduce the time to uncover suspicious activities.
+> Logs Analyzed: Sysmon, Security, System, Powershell, Powershell_Operational, ScheduledTask, WinRM, TerminalServices, Windows_Defender, ...
+> It uses SIGMA rules from 'https://github.com/SigmaHQ'
 > It produces several output files (xlsx and CSV): a global report, logon events, objects access events, process execution events, etc.
 
 GitHub link - https://github.com/ahmedkhlief/APT-Hunter
 
 
-==================================================================================================================================
-PoC / Test - Threat Hunting using APT-Hunter
-==================================================================================================================================
+===============================================================================================================================================
+1. PoC / Test - Threat Hunting using the tool 'APT-Hunter' version 3.3
+===============================================================================================================================================
 
------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
+Step 1 - Extract the event logs of the Windows machine that you want to audit and analyze 
+----------------------------------------------------------------------------------------------------------------------------------
+
+> The audited machine for this PoC is the Domain Controller of an offensive security training lab environment (Windows Server 2022)
+
+PS C:\Temp> hostname
+DC01
+
+PS C:\Temp> .\windows-log-collector-full-v3-EVTX.ps1
+                                                                                                                            
+Directory: C:\Temp                                                                                                                                                                                                                                                                                                                                                  Mode                 LastWriteTime         Length Name                                                                  ----                 -------------         ------ ----
+d-----        12/18/2025   8:20 PM                wineventlog
+
+PS C:\Temp> ls
+
+    Directory: C:\Temp
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        12/18/2025   8:20 PM                wineventlog
+-a----        12/18/2025   8:20 PM       19267142 logs.zip
+-a----          2/6/2024   7:29 PM           1784 windows-log-collector-full-v3-EVTX.ps1
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+Step 2: Copy the Windows event logs on your DFIR workstation//VM
+----------------------------------------------------------------------------------------------------------------------------------
+
+C:\Users\dfir-analyst\Documents\DFIR\DC01\wineventlog> ls
+
+    Directory: C:\Users\dfir-analyst\Documents\DFIR\DC01\wineventlog
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        12/18/2025   8:20 PM        3215360 Application.evtx
+-a----        12/18/2025   8:20 PM        1118208 LocalSessionManager.evtx
+-a----        12/18/2025   8:20 PM       15798272 Powershell_Operational.evtx
+-a----        12/18/2025   8:20 PM      102830080 Security.evtx
+-a----        12/18/2025   8:20 PM       66129920 Sysmon.evtx
+-a----        12/18/2025   8:20 PM        6361088 System.evtx
+-a----        12/18/2025   8:20 PM       10555392 TaskScheduler.evtx
+-a----        12/18/2025   8:20 PM        2166784 Windows_Defender.evtx
+-a----        12/18/2025   8:20 PM       15798272 Windows_PowerShell.evtx
+-a----        12/18/2025   8:20 PM        1118208 WinRM.evtx
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Step 3: Run APT-Hunter on your DFIR workstation/VM to analyze the audited Windows machine’s event logs for suspicious activity and potential threats
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+C:\Users\dfir-analyst\Documents\DFIR\DC01> APT-Hunter.exe -p .\wineventlog\ -o DC01-APT-Hunter -allreport
+
+  /$$$$$$  /$$$$$$$  /$$$$$$$$         /$$   /$$                       /$$
+ /$$__  $$| $$__  $$|__  $$__/        | $$  | $$                      | $$
+| $$  \ $$| $$  \ $$   | $$           | $$  | $$ /$$   /$$ /$$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$
+| $$$$$$$$| $$$$$$$/   | $$    /$$$$$$| $$$$$$$$| $$  | $$| $$__  $$|_  $$_/   /$$__  $$ /$$__  $$
+| $$__  $$| $$____/    | $$   |______/| $$__  $$| $$  | $$| $$  \ $$  | $$    | $$$$$$$$| $$  \__/
+| $$  | $$| $$         | $$           | $$  | $$| $$  | $$| $$  | $$  | $$ /$$| $$_____/| $$
+| $$  | $$| $$         | $$           | $$  | $$|  $$$$$$/| $$  | $$  |  $$$$/|  $$$$$$$| $$
+|__/  |__/|__/         |__/           |__/  |__/ \______/ |__/  |__/   \___/   \_______/|__/
+
+                                                                By : Ahmed Khlief , @ahmed_khlief
+                                                                Version : 3.3
+output folder DC01-APT-Hunter has been created
+temp/ has been created
+Analyzing wineventlog\Application.evtx
+Analyzing wineventlog\LocalSessionManager.evtx
+Analyzing wineventlog\Powershell_Operational.evtx
+Analyzing wineventlog\Security.evtx
+Analyzing wineventlog\Sysmon.evtx
+Analyzing wineventlog\System.evtx
+Analyzing wineventlog\TaskScheduler.evtx
+Analyzing wineventlog\Windows_Defender.evtx
+Analyzing wineventlog\Windows_PowerShell.evtx
+Analyzing wineventlog\WinRM.evtx
+
+Windows Defender Logs Done in 3.3415 seconds
+ScheduledTask Logs Done in 12.4633 seconds
+Powershell Operational Done in 21.3391 seconds
+Security Logs Done in 43.5686 seconds
+
+preparing results
+temp/_User_SIDs_report.csv does not exist.
+preparing report
+temp/_User_SIDs_report.csv does not exist.
+temp/_System_report.csv does not exist.
+temp/_TerminalServices_RDPClient_report.csv does not exist.
+temp/_Group_Policy_report.csv does not exist.
+temp/_SMB_Server_report.csv does not exist.
+temp/_SMB_Client_report.csv does not exist.
+Time Sketch Report saved as DC01-APT-Hunter/DC01-APT-Hunter_TimeSketch.csv
+Logon Events Report saved as DC01-APT-Hunter/DC01-APT-Hunter_Logon_Events.csv
+Object Access Events Report saved as DC01-APT-Hunter/DC01-APT-Hunter_Object_Access_Events.csv
+Process Execution Events Report saved as DC01-APT-Hunter/DC01-APT-Hunter_Process_Execution_Events.csv
+Report saved as DC01-APT-Hunter/DC01-APT-Hunter_Report.xlsx
+
+Detection Summary :
+############################################
+Number of incidents by Severity:
+Severity
+Medium      9329
+High        2986
+Critical     450
+Low           97
+############################################
+
+Number of incidents by Detection Rule:
+message
+Powershell Executing Pipeline - Suspicious Powershell Commands detected                                5506
+Pass the hash attempt Detected                                                                         1421
+schedule task updated                                                                                  1218
+Powershell Module logging - Malicious Commands Detected                                                1182
+Windows Defender antimalware platform configuration changed                                            1020
+Dcsync Attack detected                                                                                  672
+Suspicious PowerShell commands Detected                                                                 272
+[T1070] Indicator removal on host                                                                       259
+Command run remotely Using WMI                                                                          250
+powershell script block - Found Suspicious PowerShell commands                                          142
+schedule task registered                                                                                114
+schedule task deleted                                                                                   112
+[T1117] Bypassing Application Whitelisting                                                               61
+[T1117] Bypassing Application Whitelisting with Regsvr32,rundll32,certutil or scrobj                     61
+[T1085] Rundll32 Execution detected                                                                      55
+User Created through management interface                                                                53
+User added to global group                                                                               51
+[T1059] Command-Line Interface                                                                           48
+User Loggedon to machine                                                                                 47
+Windows is shutting down                                                                                 25
+User added to local group                                                                                25
+[T1086] PowerShell Process found                                                                         25
+[ T1086 ]  Powershell with Suspicious Argument                                                           25
+User connected RDP to this machine                                                                       24
+[ T0000 ] Suspicious process name detected                                                               15
+[  T1543 ] Sc.exe manipulating windows services                                                          14
+User Loggedon to machine after working hours                                                             14
+[T1077] Windows Admin Shares - Process - Created                                                         12
+[T1082] System Information Discovery                                                                     12
+Windows Defender Found Malware                                                                           11
+Windows Defender took action against Malware                                                             10
+Windows Defender deleted history of malwares                                                             10
+[T1047] Windows Management Instrumentation - Instances of an Active Script Event Consumer - Process      10
+[T1047] Windows Management Instrumentation - Process                                                     10
+[T1077] Windows Admin Shares - Network                                                                    9
+Powershell Executing Pipeline - User Powershell Commands                                                  8
+connection is initiated using WinRM to this machine - Powershell remoting                                 7
+Powershell Module logging - Operation including TEMP folder                                               7
+User Removed from Global Group                                                                            7
+Windows Defender real-time protection configuration changed                                               7
+[T1117] Regsvr32                                                                                          6
+Windows Defender real-time protection disabled                                                            4
+connection is initiated using WinRM from this machine - Powershell remoting                               4
+User added to Universal group                                                                             3
+Suspicious Command or process found in the log                                                            2
+Process running in Unusual location                                                                       2
+Prohibited Process connecting to internet                                                                 2
+User Account Removed                                                                                      2
+[T1053] Scheduled Task manipulation                                                                       2
+[T1053] Scheduled Task - Process                                                                          2
+Password Spray Detected                                                                                   1
+Process running in suspicious location                                                                    1
+
+Analysis finished in 55.6302 seconds
+
+
+------------------------
+Conclusion
+------------------------
+> Numerous suspicious activities and potential threats have been detected in the Windows event logs.
+> All the reports files have been created in the folder 'DC01-APT-Hunter'.
+
+PS C:\Users\dfir-analyst\Documents\DFIR\DC01\DC01-APT-Hunter> ls
+
+    Directory: C:\Users\dfir-analyst\Documents\DFIR\DC01\DC01-APT-Hunter
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        12/18/2025   8:25 PM             10 DC01-APT-Hunter_Collected_SIDs.csv
+-a----        12/18/2025   8:25 PM       82142876 DC01-APT-Hunter_Logon_Events.csv
+-a----        12/18/2025   8:25 PM            125 DC01-APT-Hunter_Object_Access_Events.csv
+-a----        12/18/2025   8:25 PM         960822 DC01-APT-Hunter_Process_Execution_Events.csv
+-a----        12/18/2025   8:25 PM        1707648 DC01-APT-Hunter_Report.xlsx
+-a----        12/18/2025   8:25 PM       29656701 DC01-APT-Hunter_TimeSketch.csv
+
+
+===============================================================================================================================================
+2. PoC / Test - Threat Hunting using APT-Hunter v3.2
+===============================================================================================================================================
+
+----------------------------------------------------------------------------------------------------------------------------------
 Step 1 - Download, install and update the tool in your Linux DFIR machine/VM
------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
 
 Download URL:  https://github.com/ahmedkhlief/APT-Hunter
 
@@ -75,9 +266,11 @@ options:
                         cpu cores to be used in multiprocessing , default is half the number
                         of availble CPU cores
 
-----------------------------------------------------------------------------------------------------------------
-Step 2 - Extract the Windows event logs of the Windows machine that you want to audit (e.g. Windows 10 laptop) 
-----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
+Step 2 - Extract the event logs of the Windows machine that you want to audit and analyze
+----------------------------------------------------------------------------------------------------------------------------------
+
+> The audited machine for this PoC is a Windows laptop used for offensive security training.
 
 PS C:\temp> .\windows-log-collector-full-v3-EVTX.ps1
 
@@ -103,9 +296,9 @@ Mode                 LastWriteTime         Length Name
 -a----         2/18/2024   9:27 PM        1118208 WinRM.evtx
 
 
-----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
 Step 3: Copy all the Windows event logs on your Linux DFIR computer/VM
-----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
 
 jeff@linuxbox:~/Documents/Tools/APT-Hunter-main$ ls ./Logs
 Application.evtx   
@@ -122,9 +315,9 @@ System.evtx
 Windows_PowerShell.evtx
 
 
-----------------------------------------------------------------------------------------------------------------
-Step 4: Run APT-Hunter on your Linux DFIR computer/VM to detect suspicious activities and potential threats
-----------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Step 4: Run APT-Hunter on your (Linux) DFIR workstation/VM to analyze the audited Windows machine’s event logs for suspicious activity and potential threats
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 jeff@linuxbox:~/Documents/Tools/APT-Hunter-main$ python3 /home/jeff/Documents/Tools/APT-Hunter-main/APT-Hunter.py -p /home/jeff/Documents/Tools/APT-Hunter-main/Logs/ -o TestThreatHunting -allreport
 
@@ -186,6 +379,7 @@ High        3552
 Critical    1148
 Low          112
 ############################################
+
 Number of incidents by Detection Rule:
 Suspicious PowerShell commands Detected                                    5794
 schedule task updated                                                      5009
