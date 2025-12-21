@@ -1,0 +1,1260 @@
+==================================================================================================================================
+Deployment and test of the 'WAZUH' Open Source Security Platform (Unified XDR and SIEM protection for endpoints and cloud workloads)
+====================================================================================================================================
+
+Wazuh is an open‑source security platform that combines XDR and SIEM capabilities to protect endpoints, cloud workloads, and on‑premises environments.
+It originated as a fork of OSSEC HIDS, extending its host‑based intrusion detection capabilities with more advanced log analysis, threat detection, and scalability features.
+Wazuh can ingest and analyze Sysmon event data, enabling deep visibility into Windows process activity, network connections, and system changes for enhanced threat detection
+By correlating OSSEC‑style HIDS monitoring with rich Sysmon telemetry, Wazuh strengthens detection of malicious behavior and advanced persistent threats. 
+Its open‑source nature and active community make it a flexible, scalable, and reliable solution for modern security operations.
+
+-----------------------------------
+Usefull links
+-----------------------------------
+> https://documentation.wazuh.com
+> https://documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html#access-the-wazuh-dashboard
+> https://github.com/wazuh/wazuh
+> https://github.com/george-ajayiola/Intrusion-detection-lab-with-wazuh
+> https://github.com/breatheco-de/wazuh-configuration-as-edr?tab=readme-ov-file
+> https://github.com/JM2K69/WAZUH-Sentinel-AD / https://github.com/CyberFlooD/Wazuh-All-in-One
+> https://github.com/socfortress/Wazuh-Rules/tree/main
+> https://medium.com/@laurent.mandine/wazuh-setup-and-detecting-malware-8aca37f33faf
+
+
+==================================================================================================================================
+STEP 1. Download and install the Wazuh pre-built virtual machine
+==================================================================================================================================
+
+Wazuh Virtual Machine (OVA)
+----------------------------
+> Wazuh provides a pre-built virtual machine image in Open Virtual Appliance (OVA) format. 
+> This can be directly imported to VirtualBox or other OVA compatible virtualization systems. 
+> Take into account that this VM only runs on 64-bit systems with x86_64/AMD64 architecture. 
+> It does not provide high availability and scalability out of the box. However, these can be implemented by using distributed deployment.
+
+Download the virtual appliance (OVA), which includes Amazon Linux 2023 and the Wazuh central components.
+---------------------------------------------------------------------------------------------------------
+> Wazuh manager 4.12.0
+> Filebeat-OSS 7.10.2
+> Wazuh indexer 4.12.0
+> Wazuh dashboard 4.12.0
+
+Urls
+-----
++ https://packages.wazuh.com/4.x/vm/wazuh-4.12.0.ova
++ https://documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html#access-the-wazuh-dashboard
+
+-------------------------------------------------
+Import and access the virtual machine
+------------------------------------------------
+
+1. Import the OVA to the virtualization platform.
+
+2. If you're using VirtualBox, set the VMSVGA graphic controller. Setting another graphic controller freezes the VM window.
+   a) Select the imported VM.
+   b) Click Settings > Display
+   c) In Graphic controller, select the VMSVGA option.
+
+3. Start the machine.
+
+4. Access the virtual machine using the following user and password. You can use the virtualization platform or access it via SSH.
+
+	user: wazuh-user
+	password: wazuh
+
+> Run the following commands to update the machine:
+	$ sudo -i
+
+> Find the machine's IP (ifconfig or ip a) and use the obtained IP to access the Wazuh dashboard from a browser:
+	https://X.X.X.X/app/login?
+
+
+> Finally, log in to the Wazuh interface with the credentials provided in the documentation.
+	user: admin
+	password: admin
+
+-------------------------------------------------
+Wazuh configuration files
+-------------------------------------------------
+All components included in this virtual image are configured to work out-of-the-box, without the need to modify any settings. 
+However, all components can be fully customized. These are the configuration files locations:
+
+> Wazuh manager: /var/ossec/etc/ossec.conf
+> Wazuh indexer: /etc/wazuh-indexer/opensearch.yml
+> Filebeat-OSS: /etc/filebeat/filebeat.yml
+> Wazuh dashboard:
+	/etc/wazuh-dashboard/opensearch_dashboards.yml
+	/usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml
+
+-------------------------------------------------
+VirtualBox time configuration
+-------------------------------------------------
+In case of using VirtualBox, once the virtual machine is imported it may run into issues caused by time skew when VirtualBox synchronizes the time of the guest machine. 
+To avoid this situation, enable the "Hardware Clock in UTC Time" option in the "System tab" of the virtual machine configuration.
+
+
+==================================================================================================================================
+STEP 2. Update the Wazuh SIEM configuration to add more detection rules for Windows/AD attacks
+==================================================================================================================================
+
+Wazuh is using a custom/forked version of the OSSEC open source host-based Intrusion Detection System (IDS).
+
+To add custom detection rules we can update the file "/var/ossec/etc/rules/local_rules.xml" on the Linux server hosting Wazuh.
+
+URLs containing custom OSSEC detection rules for Windows:
+-----------------------------------------------------------
+> https://wazuh.com/blog/how-to-detect-active-directory-attacks-with-wazuh-part-1-of-2/
+> https://wazuh.com/blog/how-to-detect-active-directory-attacks-with-wazuh-part-2/
+> https://wazuh.com/blog/detecting-windows-persistence-techniques-with-wazuh/
+> https://wazuh.com/blog/detecting-powershell-exploitation-techniques-in-windows-using-wazuh/
+> https://documentation.wazuh.com/current/user-manual/capabilities/malware-detection/win-defender-logs-collection.html
+> https://documentation.wazuh.com/current/proof-of-concept-guide/detect-brute-force-attack.html
+> https://wazuh.com/blog/detecting-impacket-with-wazuh/
+> https://github.com/CyberFlooD/wazuh-sentinel-ad
+> https://medium.com/@bappesarker2010/a-practical-guide-for-comprehensive-windows-defender-and-rdp-log-monitoring-using-wazuh-siem-0645dba45f47
+> https://github.com/juaromu/wazuh-windows-software-policy
+
+
+Microsoft Windows [Version 10.0.19045.6216]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\j-cana>ssh wazuh-user@192.168.1.53
+wazuh-user@192.168.1.53's password:
+
+Run "/usr/bin/dnf check-release-update" for full release and version update info
+wwwwww.           wwwwwww.          wwwwwww.
+wwwwwww.          wwwwwww.          wwwwwww.
+ wwwwww.         wwwwwwwww.        wwwwwww.
+ wwwwwww.        wwwwwwwww.        wwwwwww.
+  wwwwww.       wwwwwwwwwww.      wwwwwww.
+  wwwwwww.      wwwwwwwwwww.      wwwwwww.
+   wwwwww.     wwwwww.wwwwww.    wwwwwww.
+   wwwwwww.    wwwww. wwwwww.    wwwwwww.
+    wwwwww.   wwwwww.  wwwwww.  wwwwwww.
+    wwwwwww.  wwwww.   wwwwww.  wwwwwww.
+     wwwwww. wwwwww.    wwwwww.wwwwwww.
+     wwwwwww.wwwww.     wwwwww.wwwwwww.
+      wwwwwwwwwwww.      wwwwwwwwwwww.
+      wwwwwwwwwww.       wwwwwwwwwwww.      oooooo
+       wwwwwwwwww.        wwwwwwwwww.      oooooooo
+       wwwwwwwww.         wwwwwwwwww.     oooooooooo
+        wwwwwwww.          wwwwwwww.      oooooooooo
+        wwwwwww.           wwwwwwww.       oooooooo
+         wwwwww.            wwwwww.         oooooo
+
+
+         WAZUH Open Source Security Platform
+                  https://wazuh.com
+Last login: Thu Aug 21 02:02:06 2025
+[wazuh-user@wazuh-server ~]$ 
+
+[wazuh-user@wazuh-server ~]$ /usr/bin/dnf check-release-update
+
+<SNIP>
+
+[wazuh-user@wazuh-server ~]$
+
+[wazuh-user@wazuh-server ~]$ sudo -i
+
+[root@wazuh-server ~]# cd /var/ossec/etc/rules/
+
+[root@wazuh-server rules]# ls
+local_rules.xml
+
+[root@wazuh-server rules]# cp local_rules.xml local_rules-xml.bck
+
+[root@wazuh-server rules]# wget http://192.168.1.144:8080/local_rules.xml
+
+--2025-08-22 00:41:48--  http://192.168.1.144:8080/local_rules.xml
+Connecting to 192.168.1.144:8080... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 27314 (27K) [application/octet-stream]
+Saving to: ‘local_rules.xml’
+
+local_rules.xml                            100%[========================================================================================>]  26.67K  --.-KB/s    in 0s
+
+2025-08-22 00:41:48 (112 MB/s) - ‘local_rules.xml’ saved [27314/27314]
+
+[root@wazuh-server rules]#
+
+[root@wazuh-server rules]# ls -al
+total 76
+drwxrwx---. 2 root  wazuh    85 Aug 22 00:41 .
+drwxrwx---. 7 wazuh wazuh 16384 Aug 21 22:23 ..
+-rw-r-----. 1 root  root    497 Aug 22 00:41 local_rules-xml.bck
+-rw-rw----. 1 wazuh wazuh 27314 Aug 22 00:37 local_rules.xml
+
+[root@wazuh-server rules]# systemctl restart wazuh-manager
+
+[root@wazuh-server rules]# cat local_rules.xml
+
+<!-- Local rules -->
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+<!-- Example -->
+<group name="local,syslog,sshd,">
+
+  <!--
+  Dec 10 01:02:02 host sshd[1234]: Failed none for root from 1.1.1.1 port 1066 ssh2
+  -->
+  <rule id="100001" level="5">
+    <if_sid>5716</if_sid>
+    <srcip>1.1.1.1</srcip>
+    <description>sshd: authentication failed from IP 1.1.1.1.</description>
+    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
+  </rule>
+
+</group>
+
+<group name="security_event,windows,">
+ 
+  <!-- This rule detects DCSync attacks using windows security event on the domain controller -->
+  <rule id="110001" level="12">
+    <if_sid>60103</if_sid>
+    <field name="win.system.eventID">^4662$</field>
+    <field name="win.eventdata.properties" type="pcre2">{1131f6aa-9c07-11d1-f79f-00c04fc2dcd2}|{19195a5b-6da0-11d0-afd3-00c04fd930c9}</field>
+    <options>no_full_log</options>
+    <description>Directory Service Access. Possible DCSync attack</description>
+  </rule>
+ 
+ <!-- This rule ignores Directory Service Access originating from machine accounts containing $ -->
+ <rule id="110009" level="0">
+    <if_sid>60103</if_sid>
+    <field name="win.system.eventID">^4662$</field>
+    <field name="win.eventdata.properties" type="pcre2">{1131f6aa-9c07-11d1-f79f-00c04fc2dcd2}|{19195a5b-6da0-11d0-afd3-00c04fd930c9}</field>
+    <field name="win.eventdata.SubjectUserName" type="pcre2">\$$</field>
+    <options>no_full_log</options>
+    <description>Ignore all Directory Service Access that is originated from a machine account containing $</description>
+  </rule>
+ 
+  <!-- This rule detects Keberoasting attacks using windows security event on the domain controller -->
+  <rule id="110002" level="12">
+    <if_sid>60103</if_sid>
+    <field name="win.system.eventID">^4769$</field>
+    <field name="win.eventdata.TicketOptions" type="pcre2">0x40810000</field>
+    <field name="win.eventdata.TicketEncryptionType" type="pcre2">0x17</field>
+    <options>no_full_log</options>
+    <description>Possible Keberoasting attack</description>
+  </rule>
+ 
+  <!-- This rule detects Golden Ticket attacks using windows security events on the domain controller -->
+  <rule id="110003" level="12">
+    <if_sid>60103</if_sid>
+    <field name="win.system.eventID">^4624$</field>
+    <field name="win.eventdata.LogonGuid" type="pcre2">{00000000-0000-0000-0000-000000000000}</field>
+    <field name="win.eventdata.logonType" type="pcre2">3</field>
+    <options>no_full_log</options>
+    <description>Possible Golden Ticket attack</description>
+  </rule>
+ 
+  <!-- This rule detects when PsExec is launched remotely to perform lateral movement within the domain. The rule uses Sysmon events collected from the domain controller. -->
+  <rule id="110004" level="12">
+    <if_sid>61600</if_sid>
+    <field name="win.system.eventID" type="pcre2">17|18</field>
+    <field name="win.eventdata.PipeName" type="pcre2">\\PSEXESVC</field>
+    <options>no_full_log</options>
+    <description>PsExec service launched for possible lateral movement within the domain</description>
+  </rule>
+
+  <!-- This rule detects NTDS.dit file extraction using a sysmon event captured on the domain controller -->
+  <rule id="110006" level="12">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.commandLine" type="pcre2">NTDSUTIL</field>
+    <description>Possible NTDS.dit file extraction using ntdsutil.exe</description>
+  </rule>
+
+  <!-- This rule detects Pass-the-ash (PtH) attacks using windows security event 4624 on the compromised endpoint -->
+  <rule id="110007" level="12">
+    <if_sid>60103</if_sid>
+    <field name="win.system.eventID">^4624$</field>
+    <field name="win.eventdata.LogonProcessName" type="pcre2">seclogo</field>
+    <field name="win.eventdata.LogonType" type="pcre2">9</field>
+    <field name="win.eventdata.AuthenticationPackageName" type="pcre2">Negotiate</field>
+    <field name="win.eventdata.LogonGuid" type="pcre2">{00000000-0000-0000-0000-000000000000}</field>
+    <options>no_full_log</options>
+    <description>Possible Pass the hash attack</description>
+  </rule>
+  
+  <!-- This rule detects credential dumping when the command sekurlsa::logonpasswords is run on mimikatz -->
+  <rule id="110008" level="12">
+    <if_sid>61612</if_sid>
+    <field name="win.eventdata.TargetImage" type="pcre2">(?i)\\\\system32\\\\lsass.exe</field>
+    <field name="win.eventdata.GrantedAccess" type="pcre2">(?i)0x1010</field>
+    <description>Possible credential dumping using mimikatz</description>
+  </rule>
+  
+</group>
+
+<group name="windows,ad,ultimate_ruleset">
+
+  <!-- R1 - LOGON NETWORK (4624) -->
+  <rule id="410001" level="5">
+    <field name="win.system.eventID">^4624$</field>
+    <field name="win.eventdata.LogonType">^3$</field>
+    <field name="win.eventdata.SubjectUserName" type="pcre2" negate="yes">(SYSTEM|ANONYMOUS LOGON|NT AUTHORITY|\$)</field>
+    <description>Connexion réseau suspecte (LogonType=3)</description>
+    <group>windows,auth_success</group>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R2 - DS ACCESS WITH REPLICATION GUIDS (4662) -->
+  <rule id="410002" level="7">
+    <field name="win.system.eventID">^4662$</field>
+    <field name="win.eventdata.Properties" type="pcre2">{1131f6aa-9c07-11d1-f79f-00c04fc2dcd2}|{19195a5b-6da0-11d0-afd3-00c04fd930c9}</field>
+    <field name="win.eventdata.SubjectUserName" type="pcre2" negate="yes">(SYSTEM|\$)</field>
+    <description>Accès Active Directory avec GUID de réplication (soupçon DCSync)</description>
+    <group>windows,directory_access</group>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R3 - Corrélation:DCSync (4624 + 4662) -->
+  <rule id="410003" level="12">
+    <if_matched_sid>410001</if_matched_sid>
+    <if_matched_sid>410002</if_matched_sid>
+    <description>Corrélation DCSync Active Directory (logon + DS access)</description>
+    <group>windows,correlation,dcsync</group>
+    <mitre>
+      <id>T1003.006</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R4 - Corrélation:Golden Ticket (4624 with null GUID) -->
+  <rule id="410004" level="12">
+    <field name="win.system.eventID">^4624$</field>
+    <field name="win.eventdata.LogonGuid">{00000000-0000-0000-0000-000000000000}</field>
+    <field name="win.eventdata.LogonType">^3$</field>
+    <description>Connexion avec Golden Ticket suspect (Logon GUID nul)</description>
+    <group>windows,correlation,golden_ticket</group>
+    <mitre>
+      <id>T1558.001</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R5 - Corrélation:Kerberoasting (4769 with specific options) -->
+  <rule id="410005" level="12">
+    <field name="win.system.eventID">^4769$</field>
+    <field name="win.eventdata.TicketOptions">0x40810000</field>
+    <field name="win.eventdata.TicketEncryptionType">0x17</field>
+    <description>Requête Kerberos suspecte (Kerberoasting possible)</description>
+    <group>windows,correlation,kerberoasting</group>
+    <mitre>
+      <id>T1558.003</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R6 - Mimikatz / PS obfusqué -->  <rule id="410006" level="12">
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">(Invoke-Mimikatz|sekurlsa::|lsadump::|mimikatz.exe|powershell.*-enc|FromBase64String)</field>
+    <description>Exécution suspecte liée à Mimikatz ou PowerShell obfusqué</description>
+    <group>windows,correlation,mimikatz</group>
+    <mitre>
+      <id>T1003.001</id>
+      <id>T1059.001</id>
+      <id>T1555</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R7 - Corrélation:PsExec lateral movement -->
+  <rule id="410007" level="12">
+    <if_sid>410001</if_sid>
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.Image" type="pcre2" case_sensitive="no">psexec.*\.exe</field>
+    <description>Mouvement latéral suspect via PsExec</description>
+    <group>windows,correlation,lateral_movement</group>
+    <mitre>
+      <id>T1021.002</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R8 - Corrélation:SharpHound reconnaissance -->
+  <rule id="410008" level="12">
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.Image" type="pcre2" case_sensitive="no">SharpHound.*\.exe</field>
+    <description>Reconnaissance Active Directory avec SharpHound</description>
+    <group>windows,correlation,discovery</group>
+    <mitre>
+      <id>T1482</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R9 - Corrélation:secretsdump.py execution -->
+  <rule id="410009" level="12">
+    <field name="win.system.eventID">^11$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">secretsdump\.py</field>
+    <description>Exécution suspecte de secretsdump.py (Impacket)</description>
+    <group>windows,correlation,credential_access</group>
+    <mitre>
+      <id>T1003</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R10 - Corrélation:secretsdump.py execution -->
+  <rule id="410010" level="12">
+    <field name="win.system.eventID">^1$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">secretsdump\.py</field>
+    <description>Exécution suspecte de secretsdump.py (Impacket)</description>
+    <group>windows,correlation,credential_access</group>
+    <mitre>
+      <id>T1003</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R11 - Corrélation:création de compte + ajout à un groupe admin -->
+    <rule id="411011" level="12">
+    <if_matched_sid>410001</if_matched_sid>
+    <field name="win.system.eventID">^4720$</field>
+    <description>Création ou élévation de privilège d'un compte (AdminGroup + UserAdd) (eventID 4720)</description>
+    <group>windows,correlation,privilege_escalation</group>
+    <mitre>
+      <id>T1136.001</id>
+      <id>T1078</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+  <rule id="411012" level="12">
+    <if_matched_sid>410001</if_matched_sid>
+    <field name="win.system.eventID">^4728$</field>
+    <description>Création d’utilisateur à un groupe privilégié</description>
+    <group>windows,correlation,privilege_escalation</group>
+    <mitre>
+      <id>T1136.001</id>
+      <id>T1078</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+  <rule id="411013" level="12">
+    <if_matched_sid>410001</if_matched_sid>
+    <field name="win.system.eventID">^4732$</field>
+    <description>Création de membre dans un groupe local privilégié</description>
+    <group>windows,correlation,privilege_escalation</group>
+    <mitre>
+      <id>T1136.001</id>
+      <id>T1078</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+  <rule id="411014" level="12">
+    <if_matched_sid>410001</if_matched_sid>
+    <field name="win.system.eventID">^4756$</field>
+    <description>Création ou élévation de privilège d'un compte (AdminGroup + UserAdd) (eventID 4756)</description>
+    <group>windows,correlation,privilege_escalation</group>
+    <mitre>
+      <id>T1136.001</id>
+      <id>T1078</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R12 - Corrélation:tâche planifiée ou service suspect après logon -->
+  <rule id="410012" level="12">
+    <if_sid>410001</if_sid>
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">(schtasks\.exe|sc\.exe.*create)</field>
+    <description>Persistance suspecte via tâche planifiée ou service (schtasks / sc)</description>
+    <group>windows,correlation,persistence</group>
+    <mitre>
+      <id>T1053.005</id>
+      <id>T1543.003</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R13 - Corrélation:rundll32/mshta post-auth -->
+  <rule id="410013" level="12">
+    <if_sid>410001</if_sid>
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.Image" type="pcre2" case_sensitive="no">(rundll32\.exe|mshta\.exe)</field>
+    <description>Exécution potentiellement malveillante via rundll32 ou mshta après logon</description>
+    <group>windows,correlation,execution_bypass</group>
+    <mitre>
+      <id>T1218</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R14 - Corrélation:utilisation de net user / net group -->
+  <rule id="410014" level="10">
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">net\s+(user|group|localgroup)</field>
+    <description>Usage suspect de commandes net user/group</description>
+    <group>windows,correlation,account_discovery</group>
+    <mitre>
+      <id>T1087</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R15 - Corrélation:Accès NTDS.dit ou lsass.dmp -->
+  <rule id="410015" level="12">
+    <field name="win.system.eventID">^11$</field>
+    <field name="win.eventdata.TargetFilename" type="pcre2" case_sensitive="no">(ntds\.dit|lsass\.dmp)</field>
+    <description>Tentative d'accès à NTDS.dit ou lsass.dmp</description>
+    <group>windows,correlation,credential_access</group>
+    <mitre>
+      <id>T1003</id>
+    </mitre>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+  <!-- R16 - Corrélation:Reconnaissance RDP/SMB -->
+  <rule id="410016" level="8">
+    <field name="win.system.eventID">^5145$</field>
+    <field name="win.eventdata.ShareName" type="pcre2">(\\\\ADMIN\$|\\\\C\$)</field>
+    <description>Accès à un partage administratif détecté (SMB, RDP, reconnaissance)</description>
+    <group>windows,correlation,reconnaissance</group>
+    <mitre>
+      <id>T1135</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+  <!-- R17 - Corrélation:Tâche planifiée via PowerShell -->
+  <rule id="410017" level="12">
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">Register-ScheduledTask|New-ScheduledTaskAction</field>
+    <description>Persistance via une tâche planifiée PowerShell</description>
+    <group>windows,correlation,persistence</group>
+    <mitre>
+      <id>T1053.005</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+  <!-- R18 - Corrélation:Exfiltration (création de .zip ou transfert anormal) -->
+  <rule id="410018" level="12">
+    <field name="win.system.eventID">^11$</field>
+    <field name="win.eventdata.TargetFilename" type="pcre2">.*\.zip$</field>
+    <description>Création de fichier zip suspect (potentielle exfiltration)</description>
+    <group>windows,correlation,exfiltration</group>
+    <mitre>
+      <id>T1560.001</id>
+    </mitre>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+  <!-- R19 - Corrélation:PowerShell avec IEX + DownloadString -->
+  <rule id="410019" level="12">
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">(IEX|Invoke-Expression).*(DownloadString)</field>
+    <description>Détection de payload PowerShell à distance (IEX + DownloadString)</description>
+    <group>windows,correlation,execution</group>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R20 - Corrélation:MFA bypass ou compte dormant utilisé -->
+  <rule id="410020" level="12">
+    <field name="win.system.eventID">^4624$</field>
+    <field name="win.eventdata.SubjectUserName" type="pcre2" case_sensitive="no">admin|backup|itadmin|svc.*</field>
+    <description>Connexion inhabituelle à partir de comptes sensibles ou dormants (MFA bypass possible)</description>
+    <group>windows,correlation,account_abuse</group>
+    <mitre>
+      <id>T1078</id>
+      <id>T1556.004</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R21 - Reconnaissance : whoami, nltest, dsquery, adfind -->
+  <rule id="410021" level="10">
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">(whoami|nltest|dsquery|adfind)</field>
+    <description>Reconnaissance Active Directory via commandes whoami, nltest, dsquery, adfind</description>
+    <group>windows,correlation,discovery</group>
+    <mitre>
+      <id>T1087</id>
+      <id>T1069.002</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R22 - Utilisation suspecte de certutil pour download ou decode -->
+  <rule id="410022" level="12">
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">certutil.*(-decode|-urlcache|-f|-split)</field>
+    <description>Utilisation de certutil pour décoder ou télécharger un fichier</description>
+    <group>windows,correlation,download,execution</group>
+    <mitre>
+      <id>T1140</id>
+      <id>T1105</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R23 - Reconnaissance ou persistance via WMI / WinRM -->
+  <rule id="410023" level="12">
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">(wmic|winrm|Get-WmiObject|Invoke-WmiMethod|Invoke-Command)</field>
+    <description>Reconnaissance ou persistance via WMI / WinRM</description>
+    <group>windows,correlation,remote_exec</group>
+    <mitre>
+      <id>T1047</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R24 - Détournement de GPO pour persistance -->
+  <rule id="410025" level="12">
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.CommandLine" type="pcre2" case_sensitive="no">(gpupdate|secedit)</field>
+    <description>Persistance potentielle via mise à jour de stratégie de groupe, manipulation GPO</description>
+    <group>windows,correlation,persistence</group>
+    <mitre>
+      <id>T1484.001</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R25 - Powerview Add-DomainObjectAcl DCSync AD Extend Right -->
+  <rule id="410026" level="12">
+    <field name="win.system.eventID">^5136$</field>
+    <field name="win.eventdata.AttributeLDAPDisplayName">^ntSecurityDescriptor$</field>
+    <field name="win.eventdata.AttributeValue">1131f6ad-9c07-11d1-f79f-00c04fc2dcd2|1131f6aa-9c07-11d1-f79f-00c04fc2dcd2|89e95b76-444d-4c62-991a-0facbeda640c</field>
+    <description>Modification suspecte des ACL AD pour DCSync (Add-DomainObjectAcl)</description>
+    <group>windows,correlation,privilege_escalation</group>
+    <mitre>
+      <id>T1098</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R26 - WriteDACL Active Directory sur ObjectType domainDNS -->
+  <rule id="410027" level="12">
+    <field name="win.system.eventID">^4662$</field>
+    <field name="win.eventdata.ObjectServer">^DS$</field>
+    <field name="win.eventdata.AccessMask">^0x40000$</field>
+    <field name="win.eventdata.ObjectType">19195a5b-6da0-11d0-afd3-00c04fd930c9|domainDNS</field>
+    <description>Modification DACL AD (AccessMask 0x40000 sur domainDNS)</description>
+    <group>windows,correlation,privilege_escalation</group>
+    <mitre>
+      <id>T1222</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R27 - DCSync depuis un compte utilisateur (hors machine) -->
+  <rule id="410028" level="12">
+    <field name="win.system.eventID">^4662$</field>
+    <field name="win.eventdata.AccessMask">^0x100$</field>
+    <field name="win.eventdata.Properties">1131f6aa-9c07-11d1-f79f-00c04fc2dcd2|1131f6ad-9c07-11d1-f79f-00c04fc2dcd2|89e95b76-444d-4c62-991a-0facbeda640c</field>
+    <field name="win.eventdata.SubjectUserName" negate="yes">\$$|^MSOL_</field>
+    <description>DCSync suspect effectué par un utilisateur non machine</description>
+    <group>windows,correlation,credential_access</group>
+    <mitre>
+      <id>T1003</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R28 - Tâche planifiée avec nom suspect -->
+  <rule id="410029" level="10">
+    <field name="win.system.eventID">^4698$</field>
+    <field name="win.eventdata.TaskName" type="pcre2">^(SC Scheduled Scan$|^UpdatMachine)$</field>
+    <description>Tâche planifiée au nom suspect</description>
+    <group>windows,correlation,persistence</group>
+    <mitre>
+      <id>T1112</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R29 - Création d’un service suspect lié à Turla -->
+  <rule id="410030" level="12">
+    <field name="win.system.eventID">^7045$</field>
+    <field name="win.eventdata.ServiceName">^WerFaultSvc$</field>
+    <description>Création de service suspect WerFaultSvc (possiblement Turla)</description>
+    <group>windows,correlation,persistence</group>
+    <mitre>
+      <id>T1543</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R30 - Audit CVE Event Provider -->
+  <rule id="410031" level="10">
+    <field name="win.eventdata.ProviderName">^Microsoft-Windows-Audit-CVE$</field>
+    <description>Détection d’un évènement de type Audit-CVE (tentative d'exploitation)</description>
+    <group>windows,correlation,exploit_attempt</group>
+    <mitre>
+      <id>T1203</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R31 - Snapshot des sessions utilisateur actives (LogonSession / UserName) -->
+  <rule id="410032" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="LogonSession">\.+</field>
+    <field name="UserName">\.+</field>
+    <description>Windows Logon Sessions - Snapshot de sessions actives</description>
+    <mitre>
+      <id>T1078</id>
+    </mitre>
+    <options>no_full_log</options>
+    <group>windows_logonsessions,correlation</group>
+  </rule>
+
+  <!-- R32 - Corrélation : Session interactive anormale + exécution suspecte -->
+  <rule id="410033" level="12">
+    <if_matched_sid>410030</if_matched_sid>
+    <if_matched_sid>410006</if_matched_sid>
+    <description>Corrélation : Session interactive + possible exécution de Mimikatz/payload PowerShell</description>
+    <group>windows,correlation,execution,session_hijack</group>
+    <mitre>
+      <id>T1078</id>
+      <id>T1059.001</id>
+      <id>T1003.001</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R33 - Surveillance de WMI : WmiEventFilter -->
+  <rule id="410034" level="10">
+    <field name="win.system.eventID">^19$</field>
+    <description>Surveillance WMI - Création d’un filtre WMI (WmiEventFilter)</description>
+    <group>windows,correlation,persistence</group>
+    <mitre>
+      <id>T1047</id>
+    </mitre>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R34 - Surveillance de WMI : WmiEventConsumer -->
+  <rule id="410035" level="10">
+    <field name="win.system.eventID">^20$</field>
+    <description>Surveillance WMI - Création d’un consommateur WMI (WmiEventConsumer)</description>
+    <group>windows,correlation,persistence</group>
+    <mitre>
+      <id>T1047</id>
+    </mitre>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R35 - Surveillance de WMI : Lien entre filtre et consommateur (WmiEventConsumerToFilter) -->
+  <rule id="410036" level="10">
+    <field name="win.system.eventID">^21$</field>
+    <description>Surveillance WMI - Liaison filtre-consommateur (WmiEventConsumerToFilter)</description>
+    <group>windows,correlation,persistence</group>
+    <mitre>
+      <id>T1047</id>
+    </mitre>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R36 - Requête DNS sortante par un processus (Sysmon Event 22) -->
+  <rule id="410037" level="10">
+    <field name="win.system.eventID">^22$</field>
+    <description>Requête DNS potentiellement suspecte effectuée par un processus</description>
+    <group>windows,correlation,exfiltration</group>
+    <mitre>
+      <id>T1071</id>
+    </mitre>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R37 - Communication via Pipe nommée (création) -->
+  <rule id="410038" level="8">
+    <field name="win.system.eventID">^17$</field>
+    <description>Création de pipe nommée détectée (IPC locale potentiellement utilisée par malware)</description>
+    <group>windows,correlation,ipc</group>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R38 - Communication via Pipe nommée (connexion) -->
+  <rule id="410039" level="8">
+    <field name="win.system.eventID">^18$</field>
+    <description>Connexion à une pipe nommée détectée (échange inter-processus suspect)</description>
+    <group>windows,correlation,ipc</group>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R39 - Modification ou suppression de fichiers par un processus (Sysmon Event 23) -->
+  <rule id="410040" level="10">
+    <field name="win.system.eventID">^23$</field>
+    <description>Suppression de fichiers détectée (potentiel nettoyage de traces ou sabotage)</description>
+    <group>windows,correlation,impact</group>
+    <mitre>
+      <id>T1107</id>
+      <id>T1485</id>
+    </mitre>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R40 - Contenu du presse-papiers accédé par un processus (Sysmon Event 24) -->
+  <rule id="410041" level="10">
+    <field name="win.system.eventID">^24$</field>
+    <description>Accès au presse-papiers détecté - activité d'exfiltration potentielle</description>
+    <group>windows,correlation,collection</group>
+    <mitre>
+      <id>T1115</id>
+    </mitre>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R41 - Manipulation d’image mémoire de processus (Sysmon Event 25) -->
+  <rule id="410042" level="12">
+    <field name="win.system.eventID">^25$</field>
+    <description>Altération de processus détectée - injection ou hollowing possible</description>
+    <group>windows,correlation,evasion</group>
+    <mitre>
+      <id>T1055</id>
+    </mitre>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R42 - Vidage des journaux de sécurité (event log cleared) -->
+  <rule id="410043" level="12">
+    <field name="win.system.channel">^Security$</field>
+    <description>Vidage des journaux de sécurité détecté</description>
+    <group>windows,correlation,anti_forensics</group>
+    <mitre>
+      <id>T1070</id>
+      <id>T1107</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R43 - Tentative de Pass-the-Hash (logon type 9 + seclogo) -->
+  <rule id="410044" level="12">
+    <field name="win.eventdata.logonType">^9$</field>
+    <field name="win.eventdata.logonProcessName">^seclogo$</field>
+    <field name="win.eventdata.authenticationPackageName">^Negotiate$</field>
+    <description>Authentification suspecte détectée (Pass-the-Hash possible)</description>
+    <group>windows,correlation,credential_access</group>
+    <mitre>
+      <id>T1078</id>
+    </mitre>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- R44 - Chargement d’un driver noyau (Sysmon Event 6) -->
+  <rule id="410045" level="8">
+    <field name="win.system.eventID">^6$</field>
+    <description>Chargement d’un driver noyau détecté (potentiel rootkit)</description>
+    <group>windows,correlation,evasion</group>
+    <if_sid>61600</if_sid>
+    <options>no_full_log</options>
+  </rule>
+</group>
+
+<group name="windows,impacket">
+  <rule id="110010" level="12">
+    <if_sid>92069,92052</if_sid>
+    <field name="win.eventdata.parentimage" type="pcre2">(?i)\\wmiprvse\.exe$|\\mmc\.exe$|\\explorer\.exe$|\\services\.exe$</field>
+    <field name="win.eventdata.commandline" type="pcre2">(?i)cmd\.exe \/Q \/c</field>
+    <description>Suspicious remote command execution via $(win.eventdata.parentimage).</description>
+    <mitre>
+      <id>T1047</id>
+      <id>T1021.003</id>
+    </mitre>
+  </rule>
+  <rule id="110011" level="8">
+    <if_sid>61613</if_sid>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\svchost\.exe$</field>
+    <field name="win.eventdata.targetfilename" type="pcre2">(?i)\\Windows\\\\*System32\\\\*\w{8}\.tmp$|\\Windows\\\\*temp\\\\*\w{8}\.tmp$</field>
+    <description>Possible attempt to dump credentials. svchost.exe created a temporary file $(win.eventdata.targetfilename).</description>
+    <mitre>
+      <id>T1003</id>
+    </mitre>
+  </rule>
+</group>
+
+<group name="windows,powershell">
+  <rule id="100201" level="8">
+    <if_sid>60009</if_sid>
+    <field name="win.eventdata.payload" type="pcre2">(?i)CommandInvocation</field>
+    <field name="win.system.message" type="pcre2">(?i)EncodedCommand|FromBase64String|EncodedArguments|-e\b|-enco\b|-en\b</field>
+    <description>Encoded command executed via PowerShell.</description>
+    <mitre>
+      <id>T1059.001</id>
+      <id>T1562.001</id>
+    </mitre>
+  </rule>
+  
+  <rule id="100202" level="4">
+    <if_sid>60009</if_sid>
+    <field name="win.system.message" type="pcre2">(?i)blocked by your antivirus software</field>
+    <description>Windows Security blocked malicious command executed via PowerShell.</description>
+    <mitre>
+      <id>T1059.001</id>  
+    </mitre>
+  </rule>
+  <rule id="100203" level="10">
+    <if_sid>60009</if_sid>
+    <field name="win.eventdata.payload" type="pcre2">(?i)CommandInvocation</field>    
+    <field name="win.system.message" type="pcre2">(?i)Add-Persistence|Find-AVSignature|Get-GPPAutologon|Get-GPPPassword|Get-HttpStatus|Get-Keystrokes|Get-SecurityPackages|Get-TimedScreenshot|Get-VaultCredential|Get-VolumeShadowCopy|Install-SSP|Invoke-CredentialInjection|Invoke-DllInjection|Invoke-Mimikatz|Invoke-NinjaCopy|Invoke-Portscan|Invoke-ReflectivePEInjection|Invoke-ReverseDnsLookup|Invoke-Shellcode|Invoke-TokenManipulation|Invoke-WmiCommand|Mount-VolumeShadowCopy|New-ElevatedPersistenceOption|New-UserPersistenceOption|New-VolumeShadowCopy|Out-CompressedDll|Out-EncodedCommand|Out-EncryptedScript|Out-Minidump|PowerUp|PowerView|Remove-Comments|Remove-VolumeShadowCopy|Set-CriticalProcess|Set-MasterBootRecord</field>
+    <description>Risky CMDLet executed. Possible malicious activity detected.</description>
+    <mitre>
+      <id>T1059.001</id>  
+    </mitre>
+  </rule>
+  <rule id="100204" level="8">
+    <if_sid>91802</if_sid>
+    <field name="win.eventdata.scriptBlockText" type="pcre2">(?i)mshta.*GetObject|mshta.*new ActiveXObject</field>
+    <description>Mshta used to download a file. Possible malicious activity detected.</description>
+    <mitre>
+      <id>T1059.001</id>  
+    </mitre>
+  </rule>
+  <rule id="100205" level="5">
+    <if_sid>60009</if_sid>
+    <field name="win.eventdata.contextInfo" type="pcre2">(?i)ExecutionPolicy bypass|exec bypass</field>
+    <description>PowerShell execution policy set to bypass.</description>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+  </rule>
+  <rule id="100206" level="5">
+    <if_sid>60009</if_sid>
+    <field name="win.eventdata.contextInfo" type="pcre2">(?i)Invoke-WebRequest|IWR.*-url|IWR.*-InFile</field>
+    <description>Invoke Webrequest executed, possible download cradle detected.</description>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+  </rule>
+</group>
+
+[root@wazuh-server rules]# 
+
+==================================================================================================================================
+STEP 3. Deploy and configure the Wazuh agent on the Windows and/or Linux machines that you want to monitor
+==================================================================================================================================
+
+The Wazuh (OSSEC) agent runs on the endpoint you want to monitor and communicates with the Wazuh manager, sending data in near real-time through an encrypted and authenticated channel. 
+You can deploy the Wazuh agent on Windows systems ranging from Windows XP to the latest versions, including Windows 11 and Windows Server 2022.
+
+> https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-windows.html
+> https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-linux.html
+
+-------------------------------------------------------------------------------------------
+In the Wazuh manager dashboard go to "EndPoints" > Deploy new agent on a Windows endpoint
+-------------------------------------------------------------------------------------------
+
+1. Select the package to download and install on your system:
+   > Windows - MSI 32/64 bits
+
+2. Server address:
+   > This is the address the agent uses to communicate with the server. Enter an IP address or a fully qualified domain name (FQDN).
+
+3. Optional settings:
+   > By default, the deployment uses the hostname as the agent name. Optionally, you can use a different agent name in the field below.
+
+4. Run the following commands to download and install the agent (replace the IP address of the WAZUH_MANAGER='XX.XX.XX.XX')
+   > Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.14.1-1.msi -OutFile $env:tmp\wazuh-agent 
+   > msiexec.exe /i $env:tmp\wazuh-agent /q WAZUH_MANAGER='192.168.1.53'
+
+5. Start the agent:
+   > NET START WazuhSvc
+
+
+-----------------------------------------------------------------------------------------------------------
+Agent configuration - Sysmon and Defender AV integration with the Wazuh/OSSEC agent on Windows endpoints
+-----------------------------------------------------------------------------------------------------------
+
+1. Download Sysmon from the Microsoft Sysinternals page with the configuration file sysmonconfig.xml on the Windows endpoints.
+
+   > https://wazuh.com/resources/blog/detecting-process-injection-with-wazuh/sysmonconfig.xml
+
+2. Run the following command to install Sysmon with the downloaded configuration file via PowerShell (run as administrator):
+   > sysmon.exe -accepteula -i sysmonconfig.xml
+
+3. Configure the Wazuh agents to collect Sysmon events by adding the following settings to the agent configuration file in “C:\Program Files (x86)\ossec-agent\ossec.conf“:
+
+  <ossec_config>
+    <localfile>    
+      <location>Microsoft-Windows-Sysmon/Operational</location>
+      <log_format>eventchannel</log_format>
+    </localfile>
+    <localfile>    
+      <location>Microsoft-Windows-PowerShell/Operational</location>
+      <log_format>eventchannel</log_format>
+    </localfile>
+    <localfile>
+      <location>Microsoft-Windows-Windows Defender/Operational</location>
+      <log_format>eventchannel</log_format>
+    </localfile>
+    <localfile>
+      <location>Microsoft-Windows-TerminalServices-RDPClient/Operational</location>
+      <log_format>eventchannel</log_format>
+    </localfile>
+  </ossec_config>
+
+4. Apply the changes by restarting the agents using this PowerShell command:
+   > Restart-Service -Name wazuh
+
+
+=======================================================================================================================================================================
+STEP 5. Test Wazuh’s detection capabilities against common Windows and Active Directory attacks, including password brute‑force / spray attempts, DCSync operations,
+         the use of tools such as Impacket and PsExec, and the detection of malware (Defender AV alerts collection)
+=======================================================================================================================================================================
+
+Wazuh rule severity level
+--------------------------
+Critical severity =   Rule level 15 or higher
+High severity 	  =   Rule level 12 to 14
+Medium severity	  =   Rule level 7 to 11
+Low severity	  =   Rule level 0 to 6
+
+Level 0–3	: 	Informational
+Level 4–7	: 	Low priority (suspicious but not critical)
+Level 8–12	: 	Medium to high alerts
+Level 13–15	: 	Critical — needs immediate attention
+
+
+*******************************************************************
+1. Detection of Windows password brute-force and spray attacks
+*******************************************************************
+
+┌──(kali㉿kali)-[~]
+└─$ nxc smb 192.168.1.17 -u administrator antoine clint chuck chuck.adm -p Summer2025! P@ssw0rd Welcome2026 123456789 logmein123 letmein! --continue-on-success
+<SNIP>
+
+In the WAZUH dashboard, click on "Discover" and then to display in a user-friendly way the security alerts select the fields:
+> agent.name
+> rule.level
+> rule.description
+> rule.mitre.technique
+> rule.mitre.id
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Time                          agent.name  rule.level  rule.description                                  rule.mitre.technique                  rule.mitre.id
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Aug 22, 2025 @ 01:14:05.823   DC01        9          User account locked out (multiple login errors)    Brute Force, Account Access Removal	  T1110, T1531
+Aug 22, 2025 @ 01:14:05.791   DC01        10         Multiple Windows Logon Failures                    Brute Force                           T1110
+Aug 22, 2025 @ 01:14:05.640   DC01        6          Successful Remote Logon Detected                   Pass the Hash, Domain Accounts        T1550.002, T1078.002
+Aug 22, 2025 @ 01:13:26.291   DC01        6          Successful Remote Logon Detected                   Pass the Hash, Domain Accounts        T1550.002, T1078.002													
+Aug 22, 2025 @ 01:13:26.216   DC01        6          Successful Remote Logon Detected                   Pass the Hash, Domain Accounts        T1550.002, T1078.002
+Aug 22, 2025 @ 01:11:09.401   DC01        6          Successful Remote Logon Detected                   Pass the Hash, Domain Accounts        T1550.002, T1078.002
+Aug 22, 2025 @ 01:11:09.354   DC01        6          Successful Remote Logon Detected                   Pass the Hash, Domain Accounts        T1550.002, T1078.002
+Aug 22, 2025 @ 01:11:09.338   DC01        10         Multiple Windows Logon Failures                    Brute Force                           T1110
+Aug 22, 2025 @ 01:11:09.154   DC01        10         Multiple Windows Logon Failures                    Brute Force                           T1110
+Aug 22, 2025 @ 01:11:09.036   DC01        6          Successful Remote Logon Detected                   Pass the Hash, Domain Accounts        T1550.002, T1078.002
+<SNIP>
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Time                          rule.level  agent.name  data.win.eventdata        rule.descriptionr
+-----------------------------------------------------------------------------------------------------------------------------------
+Aug 22, 2025 @ 01:14:05.823   9           DC01          antoine                  User account locked out (multiple login errors)
+Aug 22, 2025 @ 01:14:05.791   10          DC01          antoine                   Multiple Windows Logon Failures
+Aug 22, 2025 @ 01:11:09.338   10          DC01          clint                     Multiple Windows Logon Failures
+Aug 22, 2025 @ 01:11:09.154   10          DC01          chuck.adm                 Multiple Windows Logon Failures
+<SNIP>
+
+
+*******************************************************************
+2. Detection of DCsync attacks
+*******************************************************************
+
+┌──(kali㉿kali)-[~]
+└─$ nxc smb 192.168.1.17 -u administrator -p '<SNIP>' --ntds --enabled
+<SNIP>
+
+Notes
+-----
+> Detection result with the AD security Wazuh rules (Wazuh blog + Wazuh-AD-Sentinel) = OK
+> No security alerts with the defaults Wazuh rules.
+
+In the WAZUH dashboard, click on "Discover" and then to display in a user-friendly way the security alerts select the fields:
+> rule.level
+> agent.name
+> data.win.eventdata.targetUserName
+> rule.description
+
+Also to display Medium and High security alerts:
+> Add filter 
+  + Field: rule.level 
+  + Operator: is between 
+               9 -> 14
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Time                          rule.level  agent.name  data.win.eventdata        rule.descriptionr
+---------------------------------------------------------------------------------------------------------------------------------------------
+Aug 22, 2025 @ 02:45:02.258   12          DC01          -                        Directory Service Access. Possible DCSync attack
+Aug 22, 2025 @ 02:45:02.241   12          DC01          -                        Directory Service Access. Possible DCSync attack
+Aug 22, 2025 @ 02:45:02.226   12          DC01          -                        Directory Service Access. Possible DCSync attack
+Aug 22, 2025 @ 02:45:02.209   12          DC01          -                        Directory Service Access. Possible DCSync attack
+Aug 22, 2025 @ 02:45:02.194   12          DC01          -                        Directory Service Access. Possible DCSync attack
+Aug 22, 2025 @ 02:45:02.178   12          DC01          -                        Directory Service Access. Possible DCSync attack
+Aug 22, 2025 @ 02:45:02.148   12          DC01          -                        Directory Service Access. Possible DCSync attack
+Aug 22, 2025 @ 02:45:02.131   12          DC01          -                        Directory Service Access. Possible DCSync attack
+Aug 22, 2025 @ 02:45:02.115   12          DC01          -                        Directory Service Access. Possible DCSync attack
+Aug 22, 2025 @ 02:45:02.099   12          DC01          -                        Directory Service Access. Possible DCSync attack
+<SNIP>
+
+
+***********************************************************************************************************
+3. Detection of the hacking python framework "impacket" and similar python tools such as NetExec, CME, etc.
+***********************************************************************************************************
+
+┌──(kali㉿kali)-[~]
+└─$ nxc smb 192.168.1.17 -u administrator -p '<SNIP>' --shares
+<SNIP>
+
+┌──(kali㉿kali)-[~]
+└─$ nxc smb 192.168.1.17 -u administrator -p '<SNIP>' -X "whoami"
+<SNIP>
+
+┌──(kali㉿kali)-[~]
+└─$ nxc winrm 192.168.1.17 -u chuck.adm -p '<SNIP>' -X "ipconfig"
+<SNIP>
+
+Note
+======
+=> La commande "--shares" de NetExec qui permet de lister des shares+priv ne génère qu'un log d'authentification "Possible Golden Ticket attack".
+=> La commande "-X" de NetExec qui permet d'executer une commande système est détectée avec plusieurs alertes peut importe les options utilisées telles que "winrm" et "smb"
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Time                          rule.level agent.name		data.win.eventdata		rule.description                                                                 rule.mitre.technique
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Aug 22, 2025 @ 04:19:29.331		15        DC01          -                    Executable file dropped in folder commonly used by malware                        Ingress Tool Transfer
+Aug 22, 2025 @ 04:19:28.195		3         DC01          -                    Suspicious Windows cmd shell execution                                            Account Discovery, Windows Command Shells
+Aug 22, 2025 @ 04:19:27.887		12        DC01          -                    Suspicious remote command execution via C:\\Windows\\System32\\wbem\\WmiPrvSE.exe.		Windows Management Instrumentation, Distributed Component Object Model
+Aug 22, 2025 @ 04:19:23.891		12        DC01          -                    Possible Golden Ticket attack                                                     -
+Aug 22, 2025 @ 04:19:23.865		3         DC01          -                    Special privileges assigned to new logon.                                         Domain Policy Modification
+<SNIP>
+Aug 22, 2025 @ 05:12:47.320		4         DC01          -                    Detected WinRM activity from 192.168.1.147 to 192.168.1.17                        Windows Remote Management	
+Aug 22, 2025 @ 05:12:47.307		4         DC01          -                    Detected WinRM activity from 192.168.1.147 to 192.168.1.17                        Windows Remote Management		
+Aug 22, 2025 @ 05:12:47.306		4         DC01          -                    Detected WinRM activity from 192.168.1.147 to 192.168.1.17                        Windows Remote Management
+Aug 22, 2025 @ 05:12:46.476		15        DC01          -                    Executable file dropped in folder commonly used by malware                        Ingress Tool Transfer		
+Aug 22, 2025 @ 05:12:46.445		12        DC01          -                    Binary loaded PowerShell automation library                                       PowerShell - Possible unmanaged Powershell execution by suspicious process	
+Aug 22, 2025 @ 05:12:46.179		12        DC01          chuck.adm           Possible Golden Ticket attack                                                      -
+Aug 22, 2025 @ 05:12:46.179		3         DC01          -                    Special privileges assigned to new logon.                                         Domain Policy Modification
+
+
+***********************************************************************************************************
+4. Detection of the tool 'PsExec'
+***********************************************************************************************************
+
+Commands:
+---------
+C:\temp> PsExec64.exe -s cmd
+
+C:\Windows\System32> whoami
+nt authority\system
+
+C:\Windows\System32>  exit
+
+C:\temp> PsExec.exe -s notepad.exe
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Time                          rule.level  agent.name  data.win.eventdata    rule.descriptionr                                                                 rule.mitre.technique
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Aug 22, 2025 @ 06:04:31.121		12         DC01          -                    New Windows Service Created to start from windows root path.                          SMB/Windows Admin Shares, Service Execution
+                                                                                        Suspicious event as the binary may have been dropped using Windows Admin Shares.
+
+Aug 22, 2025 @ 05:58:18.012		12         DC01          -                    New Windows Service Created to start from windows root path.                          SMB/Windows Admin Shares, Service Execution
+                                                                                        Suspicious event as the binary may have been dropped using Windows Admin Shares.
+
+Details: 
+--------
+"
+A service was installed in the system.
+Service Name:  PSEXESVC
+Service File Name:  %SystemRoot%\PSEXESVC.exe
+Service Type:  user mode service
+Service Start Type:  demand start
+Service Account:  LocalSystem
+"
+
+***********************************************************************************************************
+5. Collection and display of Windows Defender AV alerts within the Wazuh SIEM
+***********************************************************************************************************
+
+Rule.id = 62123
+
+=> Example of malware detection alerts from Windows Defender AV displayed in Wazuh (e.g., Mimikatz hacking tool execution, Metasploit C2 implant execution)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Time                          rule.level  agent.name          rule.description                                                                  			rule.id
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Aug 23, 2025 @ 03:06:29.448		12        WinServerPKI01          Windows Defender: Antimalware platform detected  potentially unwanted software ()				62123
+Aug 23, 2025 @ 00:11:43.384		12        DC01                    Windows Defender: Antimalware platform detected  potentially unwanted software ()				62123								
+Aug 23, 2025 @ 00:11:43.340		10        DC01                    Risky CMDLet executed. Possible malicious activity detected.
+<SNIP>
+
+
+Details
+--------
+"Microsoft Defender Antivirus has detected malware or other potentially unwanted software.
+ For more information please see the following:
+https://go.microsoft.com/fwlink/?linkid=37020&name=Trojan:PowerShell/PSAttackTool.A&threatid=2147729106&enterprise=0
+ 	Name: Trojan:PowerShell/PSAttackTool.A
+ 	ID: 2147729106
+ 	Severity: Severe
+ 	Category: Trojan
+ 	Path: amsi:_\Device\HarddiskVolume2\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+ 	Detection Origin: Unknown
+ 	Detection Type: Concrete
+ 	Detection Source: AMSI
+ 	User: TRAINING\Administrator
+ 	Process Name: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+ 	Security intelligence Version: AV: 1.435.333.0, AS: 1.435.333.0, NIS: 1.435.333.0
+ 	Engine Version: AM: 1.1.25070.4, NIS: 1.1.25070.4"
+
+
+"Microsoft Defender Antivirus has detected malware or other potentially unwanted software.
+ For more information please see the following:
+https://go.microsoft.com/fwlink/?linkid=37020&name=Trojan:Win64/Meterpreter.AMTB&threatid=2147942297&enterprise=0
+ 	Name: Trojan:Win64/Meterpreter.AMTB
+ 	ID: 2147942297
+ 	Severity: Severe
+ 	Category: Trojan
+ 	Path: file:_C:\Temp\MSFxoor2.exe
+ 	Detection Origin: Local machine
+ 	Detection Type: Concrete
+ 	Detection Source: Real-Time Protection
+ 	User: NT Authority\System
+ 	Process Name: System
+ 	Security intelligence Version: AV: 1.435.341.0, AS: 1.435.341.0, NIS: 1.435.341.0
+ 	Engine Version: AM: 1.1.25070.4, NIS: 1.1.25070.4"
+
+
+=> Detection of Windows Defender AV tampering / configuration change
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Time                          rule.level  agent.name    rule.descriptionr
+---------------------------------------------------------------------------------------------------------------------------------------------
+Aug 23, 2025 @ 01:23:15.890   5          DC01          Windows Defender: Antimalware platform feature configuration changed
+Aug 23, 2025 @ 01:23:13.967   5          DC01          Windows Defender: Antimalware platform feature configuration changed
+Aug 23, 2025 @ 01:23:12.016   5          DC01          Windows Defender: Antimalware platform feature configuration changed
+Aug 23, 2025 @ 01:23:12.014   5          DC01          Windows Defender: Antimalware platform feature configuration changed
+
+
+Details
+--------
+"Microsoft Defender Antivirus Configuration has changed. If this is an unexpected event you should review the settings as this may be the result of malware.
+ 	Old value: HKLM\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtection = 0x5
+ 	New value: HKLM\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtection = 0x4"
+
+"Microsoft Defender Antivirus Configuration has changed. If this is an unexpected event you should review the settings as this may be the result of malware.
+ 	Old value: HKLM\SOFTWARE\Microsoft\Windows Defender\SpyNet\SubmitSamplesConsent = 0x1
+ 	New value: HKLM\SOFTWARE\Microsoft\Windows Defender\SpyNet\SubmitSamplesConsent = 0x0"
+
+"Microsoft Defender Antivirus Configuration has changed. If this is an unexpected event you should review the settings as this may be the result of malware.
+ 	Old value: HKLM\SOFTWARE\Microsoft\Windows Defender\SpyNet\LastMAPSFailureTimeString = 2025-08-21T01:15:37Z
+ 	New value: HKLM\SOFTWARE\Microsoft\Windows Defender\SpyNet\LastMAPSFailureTimeString = 2025-08-22T23:23:11Z"
+	
+"Microsoft Defender Antivirus Configuration has changed. If this is an unexpected event you should review the settings as this may be the result of malware.
+ 	Old value: HKLM\SOFTWARE\Microsoft\Windows Defender\SpyNet\SpyNetReporting = 0x2
+ 	New value: HKLM\SOFTWARE\Microsoft\Windows Defender\SpyNet\SpyNetReporting = 0x0"
+
+
+
