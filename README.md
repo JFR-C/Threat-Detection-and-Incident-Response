@@ -36,6 +36,7 @@
 + GitHub - [Sigma rules](https://github.com/SigmaHQ/sigma) - SIGMA rule repository (more than 3000 detection rules).
 + GitHub - [Sigma rules](https://github.com/The-DFIR-Report/Sigma-Rules/) - A collection of SIGMA rules from the 'The-DFIR-Report'.
 + GitHub - [Yara rules](https://github.com/The-DFIR-Report/Yara-Rules) - A collection of YARA rules from the 'The-DFIR-Report'.
++ Github - [Yara rules](https://github.com/malpedia/signator-rules) - A collection of YARA rules from 'Malpedia'.
 + Website - [Sigma rule convertor (Detection Studio)](https://detection.studio/) - Convert SIGMA rules to other detection rule syntaxes.
 + Website - [Splunk Detection Rules](https://research.splunk.com/detections/) - A collection of detection rules for Splunk.
 + Github - [Elastic Detection Rules](https://github.com/elastic/detection-rules/) - A collection of detection rules for Elastic.
@@ -55,7 +56,7 @@
 + Threat Research & Intelligence - [Sekoia Threat Research Blog](https://blog.sekoia.io/category/threat-research/) - Threat research blog.
 + Threat Analysis - [Google Threat Analysis Group Blog](https://blog.google/threat-analysis-group/) - The latest on Google efforts to counter government-backed attacks.
 + Ransomware watch websites - [Ransomware.Live](https://www.ransomware.live) - [RansomWatch](https://ransomwatch.telemetry.ltd) 
-
++ Malpedia - [Malpedia website](https://malpedia.caad.fkie.fraunhofer.de/library) - Free online service created to help cybersecurity professionals quickly identify and analyze malware families by providing structured, curated information.
 
 --------
 ### II. TDIR and DFIR TOOLS
@@ -774,16 +775,29 @@ Countries		WCI score
      + Europol’s European Cybercrime Centre (EC3).
 
   + Over the past decade, the J-CAT has been instrumental in numerous high-profile operations, such as:
-     + Operation Cronos (2024)
-       + The global law enforcement operation that took down LockBit, one of the world’s most harmful ransomware groups. 
+     + Operation TALENT (2025)
+       + A Europol-supported operation, led by German authorities took down 2 largest cybercrime forums in the world.
+       + The two platforms, 'Cracked' and 'Nulled', had more than 10 million users in total.
+       + These sites worked as one-stop shops and were used not only for discussions on cybercrime but also as marketplaces for illegal goods and cybercrime-as-a-service, such as stolen data, malware or hacking tools.
+       + Investigators estimate that suspects earned EUR 1 million in criminal profits.
+     + Operation PHISHOFF (2025)
+       + International investigation disrupted phishing-as-a-service platform LabHost.
+       + LabHost facilitated the phishing of users of hundreds of financial institutions worldwide. For a monthly subscription, the platform provided phishing kits, infrastructure for hosting pages, interactive functionality for directly engaging with victims, and campaign overview services.
+       + The investigation uncovered at least 40 000 phishing domains linked to LabHost, which had some 10 000 users worldwide.
+     + Operation CRONOS (2024)
+       + A global law‑enforcement operation that dismantled LockBit, widely considered the most prolific and destructive ransomware group, linked to billions of euros in damages worldwide.
        + The results of the operation were unprecedented: on top of seizing LockBit’s data leak site and affiliate panel, law enforcement agencies seized 34 servers operated by LockBit, closed 14,000 “rogue accounts” involved with data exfiltration or the group’s infrastructure” and froze 200 cryptocurrency accounts linked to LockBit and its affiliates.
-     + Operation EndGame (2024)
+     + Operation ENDGAME (2024-2025)
        + Largest ever operation against botnets. This operation adopted an international and comprehensive approach to address the growing threat of botnets being used as initial access points for ransomware and other malware.
-       + This international operation shut down droppers including IcedID, SystemBC, Pikabot, Smokeloader and Bumblebee leading to four arrests and takedown of over 100 servers worldwide
-     + Operation PowerOFF (2022)
+       + This international operation shut down droppers including IcedID, SystemBC, Pikabot, Smokeloader and Bumblebee leading to four arrests and takedown of over 100 servers worldwide.
+     + Operation AETHER (2023-2024)
+       + A coordinated international law‑enforcement operation has resulted in the arrests of individuals linked to the Phobos and 8Base ransomware groups.
+       + Threat intelligence identifies Phobos and 8Base as among the most active ransomware groups of 2024.
+       + This complex international operation, supported by Europol and Eurojust, involved law enforcement agencies from 14 countries. While some countries focused on the investigation into Phobos, others targeted 8Base, with several participating in both.
+     + Operation POWEROFF (2022)
        + Some fifty of the world’s biggest booter services, designed to enable users to launch crippling distributed denial-of-service (DDoS) against critical online infrastructure, have been taken down as part of an international crackdown against DDoS service providers.
        + Known as Operation Power Off, this operation saw law enforcement in the United States, the United Kingdom, the Netherlands, Poland and Germany take action against these types of attacks which can paralyse the internet.  
-     + Operation Fifth Element (2021)
+     + Operation Fifth-Element (2021)
        + A total of 12 individuals wreaking havoc across the world with ransomware attacks against critical infrastructure were targeted as the result of a law enforcement and judicial operation involving eight countries. More than 50 foreign investigators, including six Europol specialists, were deployed to Ukraine for the action day to assist the National Police with conducting jointly investigative measures.
        + These attacks are believed to have affected over 1800 victims in 71 countries. These cyber actors were known for specifically targeting large corporations, effectively bringing their business to a standstill.
 
@@ -872,8 +886,27 @@ Countries		WCI score
       + Viceroy Tiger
     + Egypt
       + Watchful Sphinx
+     
+#### 6. List of Threat Actors, Malware family profiles and DIR research library (Source: Malpedia)
 
-#### 6. Ransomware Watch
+Malpedia is a free online service created and maintained by Fraunhofer FKIE, a German research institute. Its purpose is to help cybersecurity professionals quickly identify and analyze malware families by providing structured, curated information.
+
++ Inventory of Threat Actors - https://malpedia.caad.fkie.fraunhofer.de/actors
+  + The Malpedia website provides a mapping of the threat actor groups tracked by the MISP Galaxy Project (https://misp-galaxy.org), augmented with the families covered in Malpedia.
+
++ Malware Family Profiles - https://malpedia.caad.fkie.fraunhofer.de/families  
+  + Detailed descriptions of malware families
+  + Associated threat actors
+  + Aliases and naming variations
+  + Indicators and context for investigations
+    
++ Research Library - https://malpedia.caad.fkie.fraunhofer.de/library
+  + A large, continuously updated library of malware‑related research articles
+  + Entries from security companies, researchers, and blogs
+  + Searchable by keyword, malware family, or actor
+
+
+#### 7. Ransomware Watch
 
 + 'Ransomware.Live'
   + URL/Link - https://www.ransomware.live/about
@@ -889,4 +922,4 @@ Countries		WCI score
   + The website trails the extortion sites used by ransomware groups and surfaces an aggregated feed of claims
   + It is currently crawling 492 sites belonging to 216 unique groups.
   + It has been running for 3 years, 4 months and 21 days and indexed 14877 posts.
- 
+
