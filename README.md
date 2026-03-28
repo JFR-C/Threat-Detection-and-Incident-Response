@@ -15,12 +15,12 @@
 
 --------
 ### I. USEFUL RESOURCES
-+ ENISA Publication  - [Good Practice Guide for Incident Management](https://www.enisa.europa.eu/publications/good-practice-guide-for-incident-management/@@download/fullReport)
-+ ENISA Publication - [Cyber Crisis Communication Guide](https://www.enisa.europa.eu/topics/cybersecurity-education/2023-ar-in-a-box-material/cyber_crisis_comm_guide_03-online.pdf)
++ ENISA Publication  - [Good Practice Guide for Incident Management](https://www.enisa.europa.eu/sites/default/files/publications/Incident_Management_guide.pdf)
++ ENISA Publication - [Best Practices for Cyber Crisis Management](https://www.enisa.europa.eu/sites/default/files/2024-11/ENISA%20Study%20Best%20Practices%20Cyber%20Crisis%20Management.pdf)
 + NIST Publication - [Digital Forensics & Incident Response framework dedicated to Operational Technology](https://nvlpubs.nist.gov/nistpubs/ir/2022/NIST.IR.8428.pdf)
 + NIST Publication - [Computer Security Incident Handling Guide](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf)
 + NIST Publication - [Guide for Cybersecurity Event Recovery](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-184.pdf)
-+ ISO/IEC 27035 (2020-2023+) - [Information Security Incident Management](https://www.iso27001security.com/html/27035.html)
++ ISO/IEC 27035 (2020-2023+) - [Information Security Incident Management](https://www.iso27001security.com/html/27035)
 + MITRE - [ATT&CK® Framework](https://attack.mitre.org) - Globally-accessible knowledge base of adversary tactics and techniques based on real-world observations.
 + MITRE - [Enterprise Attack Excel matrix](https://attack.mitre.org/docs/enterprise-attack-v14.1/enterprise-attack-v14.1.xlsx) - This matrix covers the stages of a cyberattack lifecycle that occur after an exploit is initiated.
 + MITRE - [D3fend Matrix](https://d3fend.mitre.org) - A knowledge graph of cybersecurity countermeasures.
