@@ -26,7 +26,7 @@ PS C:\Temp> .\Invoke-VirusTotal-Scanner.ps1 -FilePath "C:\path\Samples\test.exe"
 
 🔹 Scan all files inside a folder
 ----------------------------------
-PS C:\Temp> .\Invoke-VirusTotal-Scanner.ps1 -FolderPath "C:\path\Samples" -ApiKey "YOUR_API_KEY"
+PS C:\Temp> .\Invoke-VirusTotal-Scanner.ps1 -FolderPath "C:\path\Samples\" -ApiKey "YOUR_API_KEY"
 ```
 
 #### LICENSE
