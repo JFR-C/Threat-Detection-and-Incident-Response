@@ -1,4 +1,4 @@
-### VirusTotal Scanner (PowerShell script)
+### Invoke-VirusTotal-Scanner.ps1
 -----------------------------------------
 
 #### DESCRIPTION
