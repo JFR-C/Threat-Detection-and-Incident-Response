@@ -75,6 +75,7 @@
 + Threat Hunting & Logs search
   + GitHub - [Velociraptor](https://github.com/Velocidex/velociraptor) - Actively search for suspicious activities using Velociraptor's library of forensic artifacts.
   + GitHub - [GRR Rapid Response](https://github.com/google/grr) - Actively search for suspicious activities using the GRR Rapid Response framework.
+  + GitHub - [Hayabusa](https://github.com/Yamato-Security/hayabusa)) - It is a sigma-based threat hunting and fast forensics timeline generator for Windows event logs.
   + GitHub - [Chainsaw](https://github.com/WithSecureLabs/chainsaw) - Rapidly Search and Hunt through Windows Forensic Artefacts.
   + GitHub - [DeepBlueCLI](https://github.com/sans-blue-team/DeepBlueCLI) - DeepBlueCLI is a PowerShell module for threat hunting via Windows event logs.
   + GitHub - [FastFinder](https://github.com/codeyourweb/fastfinder) - A lightweight tool made for threat hunting, live forensics and triage on both Windows and Linux Platforms.
