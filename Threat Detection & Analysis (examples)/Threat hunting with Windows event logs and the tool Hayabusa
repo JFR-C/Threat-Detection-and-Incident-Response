@@ -337,11 +337,6 @@ Elapsed time: 00:00:01.843
 > Search in the log files for multiple suspicious keywords and ignore case.
 *****************************************************************************
 
-Save the results as a CSV file
--------------------------------
-PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe log-metrics -d path -o .\suspicious-keyword-search.csv
-
-
 PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe search -d C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\ 
                                                                   -k "nanodump" -k "mimikatz" -k "rubeus" -k "winpeas" -k "seatbelt" -k "potato" -k "certify" -i
 
@@ -430,10 +425,10 @@ Elapsed time: 00:00:01.455
 
 
 
-********************************************************************************************************************************
-> Run Hayabusa to scan a log directory containing multiple Windows event log files with the "csv-timeline" command and the 
-  verbose profile. The "csv-timeline" command can be used to create a forensics timeline of events in CSV format.
-********************************************************************************************************************************
+**************************************************************************************************************************************
+> Use the tool "Hayabusa" with the csv-timeline command to scan the Windows event log files using a large set of detection rules.
+  The "csv-timeline" command will generate a forensic timeline of suspicious activities & potential security incidents in CSV format.
+**************************************************************************************************************************************
 
 You can choose between several set of detection rules when scanning the event log files with Hayabusa
 ------------------------------------------------------------------------------------------------------
