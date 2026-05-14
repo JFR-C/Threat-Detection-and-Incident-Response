@@ -334,7 +334,7 @@ Elapsed time: 00:00:01.843
 
 
 *****************************************************************************
-> Search in the log files for multiple suspicious keywords and ignore case.
+> Search in the log files for multiple suspicious keywords.
 *****************************************************************************
 
 PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe search -d C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\ 
