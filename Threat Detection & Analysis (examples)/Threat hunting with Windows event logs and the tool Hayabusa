@@ -1,0 +1,605 @@
+===============================================================================================================================================
+Threat hunting with Windows event logs and the tool Hayabusa
+===============================================================================================================================================
+
+> Hayabusa (隼) is a sigma-based threat hunting and fast forensics timeline generator for Windows event logs.
+
+GitHub Link - https://github.com/Yamato-Security/hayabusa
+
+==========
+Features
+==========
+- Cross-platform support: Windows, Linux, macOS.
+- Developed in Rust to be memory safe and fast.
+- Multi-thread support delivering up to a 5x speed improvement.
+- Creates single easy-to-analyze timelines for forensic investigations and incident response.
+- Threat hunting based on IoC signatures written in easy to read/create/edit YML based hayabusa rules.
+- Sigma rule support to convert sigma rules to hayabusa rules.
+- Currently it supports the most sigma rules compared to other similar tools and even supports count rules and new aggregators 
+  such as |equalsfield and |endswithfield.
+- Computer metrics. (Useful for filtering on/out certain computers with a large amount of events.)
+- Event ID metrics. (Useful for getting a picture of what types of events there are and for tuning your log settings.)
+- Rule tuning configuration by excluding unneeded or noisy rules.
+- MITRE ATT&CK mapping of tactics.
+- Rule level tuning.
+- Create a list of unique pivot keywords to quickly identify abnormal users, hostnames, processes, etc... as well as correlate events.
+- Output all fields for more thorough investigations.
+- Successful and failed logon summary.
+- Enterprise-wide threat hunting and DFIR on all endpoints with Velociraptor.
+- Output to CSV, JSON/JSONL and HTML Summary Reports.
+- Daily Sigma rule updates.
+- Support for JSON-formatted log input.
+- Log field normalization. (Converting multiple fields with different naming conventions into the same field name.)
+- Log enrichment by adding GeoIP (ASN, city, country) information to IP addresses.
+- Search all events for keywords or regular expressions.
+- Field data mapping. (Ex: 0xc0000234 -> ACCOUNT LOCKED)
+- Evtx record carving from evtx slack space.
+- Event de-duplication when outputting. (Useful when recovery records is enabled or when you include backed up evtx files, evtx files 
+  from VSS, etc...)
+- PowerShell classic log field parsing and extraction.
+- Low memory usage. (Note: this is possible by not sorting results. Best for running on agents or big data.)
+- Filtering on Channels and Rules for the most efficient performance.
+- Detect, extract and decode Base64 strings found in logs.
+- Alert level adjustment based on critical systems.
+
+
+
+===============================================================================================================================================
+PoC / Test - Threat Hunting using the tool 'Hayabusa'
+===============================================================================================================================================
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+Step 1 - Extract the event logs of the Windows machine that you want to audit and analyze 
+----------------------------------------------------------------------------------------------------------------------------------
+
+> The audited machine for this PoC is a Windows server 2022 part of my offensive security training lab environment.
+
+PS C:\Temp> hostname
+PROD01
+
+PS C:\Temp> .\windows-log-collector-full-v3-EVTX.ps1
+
+    Directory: C:\Temp
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        12/18/2025   8:45 PM                wineventlog
+
+
+PS C:\Temp> ls
+
+    Directory: C:\Temp
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        12/18/2025   8:45 PM                wineventlog
+-a----          2/6/2024   7:29 PM           1784 windows-log-collector-full-v3-EVTX.ps1
+-a----        12/18/2025   8:47 PM        9686074 logs.zip
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+Step 2: Copy the Windows event logs on your DFIR workstation//VM
+----------------------------------------------------------------------------------------------------------------------------------
+
+PS C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01> ls
+
+    Directory: C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        12/18/2025   8:45 PM        2166784 Application.evtx
+-a----        12/18/2025   8:45 PM        1118208 LocalSessionManager.evtx
+-a----        12/18/2025   8:46 PM        1118208 Powershell_Operational.evtx
+-a----        12/18/2025   8:45 PM       21041152 Security.evtx
+-a----        12/18/2025   8:46 PM       66129920 Sysmon.evtx
+-a----        12/18/2025   8:45 PM        8458240 System.evtx
+-a----        12/18/2025   8:45 PM        8458240 TaskScheduler.evtx
+-a----        12/18/2025   8:45 PM        2166784 Windows_Defender.evtx
+-a----        12/18/2025   8:45 PM        1118208 Windows_PowerShell.evtx
+-a----        12/18/2025   8:45 PM        1118208 WinRM.evt
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Step 3: Run Hayabusa on your DFIR workstation/VM to analyze the audited Windows machine’s event logs for suspicious activities and potential threats
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> hayabusa.exe
+
+┏┓ ┏┳━━━┳┓  ┏┳━━━┳━━┓┏┓ ┏┳━━━┳━━━┓
+┃┃ ┃┃┏━┓┃┗┓┏┛┃┏━┓┃┏┓┃┃┃ ┃┃┏━┓┃┏━┓┃
+┃┗━┛┃┃ ┃┣┓┗┛┏┫┃ ┃┃┗┛┗┫┃ ┃┃┗━━┫┃ ┃┃
+┃┏━┓┃┗━┛┃┗┓┏┛┃┗━┛┃┏━┓┃┃ ┃┣━━┓┃┗━┛┃
+┃┃ ┃┃┏━┓┃ ┃┃ ┃┏━┓┃┗━┛┃┗━┛┃┗━┛┃┏━┓┃
+┗┛ ┗┻┛ ┗┛ ┗┛ ┗┛ ┗┻━━━┻━━━┻━━━┻┛ ┗┛
+   by Yamato Security
+
+Hayabusa v3.9.0 - Showa Day Release
+Yamato Security (https://github.com/Yamato-Security/hayabusa - @SecurityYamato)
+
+Usage:
+  hayabusa.exe <COMMAND> [OPTIONS]
+  hayabusa.exe help <COMMAND> or hayabusa.exe <COMMAND> -h
+
+Commands:
+  computer-metrics         Output the total number of events according to computer names
+  config-critical-systems  Find critical systems like domain controllers and file servers
+  csv-timeline             Create a DFIR timeline and save it in CSV format
+  eid-metrics              Output event ID metrics
+  expand-list              Extract expand placeholders from the rules folder
+  extract-base64           Extract and decode base64 strings from events
+  json-timeline            Create a DFIR timeline and save it in JSON/JSONL format
+  level-tuning             Tune alert levels for the DFIR timeline
+  list-contributors        Print the list of contributors
+  list-profiles            List the output profiles for the DFIR timeline
+  log-metrics              Output evtx file metadata
+  logon-summary            Output a summary of successful and failed logons
+  pivot-keywords-list      Create a list of pivot keywords
+  search                   Search all events by keyword(s) or regular expression
+  set-default-profile      Set default output profile for the DFIR timeline
+  update-rules             Update to the latest rules in the hayabusa-rules github repository
+  help                     Print this message or the help of the given subcommand(s)
+
+
+********************************************************************************************
+> Print computer metrics from a directory: "hayabusa.exe computer-metrics -d ../logs"
+********************************************************************************************
+
+Save the results as a CSV file
+-------------------------------
+PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe computer-metrics -d path -o .\computer-metrics.csv
+
+
+PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe computer-metrics -d C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\
+
+┏┓ ┏┳━━━┳┓  ┏┳━━━┳━━┓┏┓ ┏┳━━━┳━━━┓
+┃┃ ┃┃┏━┓┃┗┓┏┛┃┏━┓┃┏┓┃┃┃ ┃┃┏━┓┃┏━┓┃
+┃┗━┛┃┃ ┃┣┓┗┛┏┫┃ ┃┃┗┛┗┫┃ ┃┃┗━━┫┃ ┃┃
+┃┏━┓┃┗━┛┃┗┓┏┛┃┗━┛┃┏━┓┃┃ ┃┣━━┓┃┗━┛┃
+┃┃ ┃┃┏━┓┃ ┃┃ ┃┏━┓┃┗━┛┃┗━┛┃┗━┛┃┏━┓┃
+┗┛ ┗┻┛ ┗┛ ┗┛ ┗┛ ┗┻━━━┻━━━┻━━━┻┛ ┗┛
+   by Yamato Security
+
+Elevating Windows DFIR to new heights~
+
+Start time: 2026/05/14 15:44
+Total event log files: 10
+Total file size: 107.7 MiB
+
+Currently scanning for computer metrics. Please wait.
+
+[00:00:02] 10 / 10   [========================================] 100%
+
+Scanning finished.
+
+╭───────────────────────────────┬──────────────────────────────────┬─────────────────────┬───────────────────────┬─────────╮
+│ Computer                      ┆ OS information                   ┆ UpTime              ┆ Timezone              ┆ Events  │
+╞═══════════════════════════════╪══════════════════════════════════╪═════════════════════╪═══════════════════════╪═════════╡
+│ WinServerProd01.training.corp ┆ Windows Server 2022 (2021/08/18) ┆ 0Y 0M 0d 1h 17m 0s  ┆ Romance Standard Time ┆ 106,228 │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+
+<SNIP>
+
+
+*******************************************************************************
+> Use the "log-metrics" command to print out the metadata inside event logs. 
+  This command does not use any detection rules so will scan all events.
+*******************************************************************************
+
+Save the results as a CSV file
+-------------------------------
+PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe log-metrics -d path -o .\log-metrics.csv
+
+
+PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe log-metrics -d C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\
+
+┏┓ ┏┳━━━┳┓  ┏┳━━━┳━━┓┏┓ ┏┳━━━┳━━━┓
+┃┃ ┃┃┏━┓┃┗┓┏┛┃┏━┓┃┏┓┃┃┃ ┃┃┏━┓┃┏━┓┃
+┃┗━┛┃┃ ┃┣┓┗┛┏┫┃ ┃┃┗┛┗┫┃ ┃┃┗━━┫┃ ┃┃
+┃┏━┓┃┗━┛┃┗┓┏┛┃┗━┛┃┏━┓┃┃ ┃┣━━┓┃┗━┛┃
+┃┃ ┃┃┏━┓┃ ┃┃ ┃┏━┓┃┗━┛┃┗━┛┃┗━┛┃┏━┓┃
+┗┛ ┗┻┛ ┗┛ ┗┛ ┗┛ ┗┻━━━┻━━━┻━━━┻┛ ┗┛
+   by Yamato Security
+
+Forged for the modern-day digital detective~
+
+Start time: 2026/05/14 15:51
+Total event log files: 10
+Total file size: 107.7 MiB
+
+Currently scanning for log metrics. Please wait.
+
+[00:00:01] 10 / 10   [========================================] 100%
+
+Scanning finished.
+╭───────────────────┬───────────────────┬────────┬───────────────────┬──────────────────┬─────────────┬──────────────────┬──────────╮
+│ Filename          ┆ Computers         ┆ Events ┆ First Timestamp   ┆ Last Timestamp   ┆ Channels    ┆ Providers        ┆ Size     │
+╞═══════════════════╪═══════════════════╪════════╪═══════════════════╪══════════════════╪═════════════╪══════════════════╪══════════╡
+│ Sysmon.evtx       ┆ WinServerProd01.t ┆ 55,429 ┆ 2025-10-31        ┆ 2025-12-18       ┆ Sysmon      ┆ Sysmon           ┆ 63.1 MiB │
+│                   ┆ raining.corp      ┆        ┆ 17:58:52.923      ┆ 20:45:55.320     ┆             ┆                  ┆          │
+│                   ┆                   ┆        ┆ +01:00            ┆ +01:00           ┆             ┆                  ┆          │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ Security.evtx     ┆ WinServerProd01.t ┆ 25,092 ┆ 2025-08-04        ┆ 2025-12-18       ┆ Sec         ┆ MS-Win-Eventlog  ┆ 20.1 MiB │
+│                   ┆ raining.corp      ┆        ┆ 19:24:24.835      ┆ 20:41:05.159     ┆             ┆ Sec              ┆          │
+│                   ┆                   ┆        ┆ +02:00            ┆ +01:00           ┆             ┆                  ┆          │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ System.evtx       ┆ WinServerProd01.t ┆ 16,149 ┆ 2025-07-28        ┆ 2025-12-18       ┆ Sys         ┆ App Popup        ┆ 8.1 MiB  │
+│                   ┆ raining.corp      ┆        ┆ 16:23:51.372      ┆ 20:45:16.045     ┆             ┆ EventLog         ┆          │
+│                   ┆                   ┆        ┆ +02:00            ┆ +01:00           ┆             ┆ LsaSrv           ┆          │
+│                   ┆ WinServerProd01   ┆        ┆                   ┆                  ┆             ┆ MS-Win-DHCPv6-Cl ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ i                ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-DNS-Cli   ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Dhcp-Cli  ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Dir-Svcs- ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ SAM              ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Distribut ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ edCOM            ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-FilterMgr ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-GrpPolicy ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-HAL       ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-HttpEvent ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Kern-Boot ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Kern-Gene ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ ral              ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Kern-Proc ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ essor-Pwr        ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Kern-Pwr  ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Ntfs      ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Sec-Kerbe ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ ros              ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Setup     ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-TPM-WMI   ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Time-Svc  ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-UserModeP ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ wrSvc            ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-WAS       ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Wininit   ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Winlogon  ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ NETLOGON         ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ NetJoin          ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ RDS-RCM          ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ SCM              ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ User32           ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Virtual Disk Svc ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ WinRM            ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ WinUpdate        ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Workstation      ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ volmgr           ┆          │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ TaskScheduler.evt ┆ WinServerProd01.t ┆ 13,151 ┆ 2025-08-04        ┆ 2025-12-18       ┆ TaskSch     ┆ TaskScheduler    ┆ 8.1 MiB  │
+│ x                 ┆ raining.corp      ┆        ┆ 19:24:24.838      ┆ 20:44:35.148     ┆             ┆                  ┆          │
+│                   ┆                   ┆        ┆ +02:00            ┆ +01:00           ┆             ┆                  ┆          │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ Application.evtx  ┆ WinServerProd01.t ┆ 2,250  ┆ 2025-07-28        ┆ 2025-12-18       ┆ App         ┆ .NET Runtime     ┆ 2.1 MiB  │
+│                   ┆ raining.corp      ┆        ┆ 16:23:53.023      ┆ 20:41:35.282     ┆             ┆ .NET Runtime     ┆          │
+│                   ┆                   ┆        ┆ +02:00            ┆ +01:00           ┆             ┆ Optimization Svc ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ ASP.NET          ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ 4.0.30319.0      ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ App Error        ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ App Hang         ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Desktop Window   ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Mgr              ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ ESENT            ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Edge             ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ HHCTRL           ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-CAPI2     ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Defrag    ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-EventSyst ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ em               ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-LoadPerf  ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-MSDTC     ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-MSDTC 2   ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-RestartMg ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ r                ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Search-Pr ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ ofNotify         ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Sec-SPP   ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-User      ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Profs Svc        ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-WMI       ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MS-Win-Winlogon  ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ MsiInstaller     ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ SceCli           ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ VSS              ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Win Error        ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Reporting        ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Wow64 Emulation  ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ Layer            ┆          │
+│                   ┆                   ┆        ┆                   ┆                  ┆             ┆ edgeupdate       ┆          │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ Windows_Defender. ┆ WinServerProd01.t ┆ 1,278  ┆ 2025-07-28        ┆ 2025-12-18       ┆ Defender    ┆ Defender         ┆ 2.1 MiB  │
+│ evtx              ┆ raining.corp      ┆        ┆ 16:23:51.994      ┆ 20:45:19.908     ┆             ┆                  ┆          │
+│                   ┆                   ┆        ┆ +02:00            ┆ +01:00           ┆             ┆                  ┆          │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ Windows_PowerShel ┆ WinServerProd01.t ┆ 839    ┆ 2025-07-31        ┆ 2025-12-18       ┆ PwShClassic ┆ PwrShell         ┆ 1.1 MiB  │
+│ l.evtx            ┆ raining.corp      ┆        ┆ 17:53:02.395      ┆ 20:45:18.725     ┆             ┆                  ┆          │
+│                   ┆                   ┆        ┆ +02:00            ┆ +01:00           ┆             ┆                  ┆          │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ LocalSessionManag ┆ WinServerProd01.t ┆ 677    ┆ 2025-07-28        ┆ 2025-12-18       ┆ RDS-LSM     ┆ RDS-LSM          ┆ 1.1 MiB  │
+│ er.evtx           ┆ raining.corp      ┆        ┆ 16:24:53.188      ┆ 20:40:53.702     ┆             ┆                  ┆          │
+│                   ┆                   ┆        ┆ +02:00            ┆ +01:00           ┆             ┆                  ┆          │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ WinRM.evtx        ┆ WinServerProd01.t ┆ 396    ┆ 2025-07-29        ┆ 2025-12-18       ┆ WinRM       ┆ WinRM            ┆ 1.1 MiB  │
+│                   ┆ raining.corp      ┆        ┆ 01:21:32.084      ┆ 19:28:23.910     ┆             ┆                  ┆          │
+│                   ┆                   ┆        ┆ +02:00            ┆ +01:00           ┆             ┆                  ┆          │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ Powershell_Operat ┆ WinServerProd01.t ┆ 382    ┆ 2025-07-31        ┆ 2025-12-18       ┆ PwSh        ┆ MS-Win-PwrShell  ┆ 1.1 MiB  │
+│ ional.evtx        ┆ raining.corp      ┆        ┆ 17:53:00.767      ┆ 20:45:18.874     ┆             ┆                  ┆          │
+│                   ┆                   ┆        ┆ +02:00            ┆ +01:00           ┆             ┆                  ┆          │
+╰╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌─────╯
+Elapsed time: 00:00:01.843
+
+無為自然 - Mui Shizen - Effortless and natural.
+
+
+*****************************************************************************
+> Search in the log files for multiple suspicious keywords and ignore case.
+*****************************************************************************
+
+Save the results as a CSV file
+-------------------------------
+PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe log-metrics -d path -o .\suspicious-keyword-search.csv
+
+
+PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe search -d C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\ 
+                                                                  -k "nanodump" -k "mimikatz" -k "rubeus" -k "winpeas" -k "seatbelt" -k "potato" -k "certify" -i
+
+┏┓ ┏┳━━━┳┓  ┏┳━━━┳━━┓┏┓ ┏┳━━━┳━━━┓
+┃┃ ┃┃┏━┓┃┗┓┏┛┃┏━┓┃┏┓┃┃┃ ┃┃┏━┓┃┏━┓┃
+┃┗━┛┃┃ ┃┣┓┗┛┏┫┃ ┃┃┗┛┗┫┃ ┃┃┗━━┫┃ ┃┃
+┃┏━┓┃┗━┛┃┗┓┏┛┃┗━┛┃┏━┓┃┃ ┃┣━━┓┃┗━┛┃
+┃┃ ┃┃┏━┓┃ ┃┃ ┃┏━┓┃┗━┛┃┗━┛┃┗━┛┃┏━┓┃
+┗┛ ┗┻┛ ┗┛ ┗┛ ┗┛ ┗┻━━━┻━━━┻━━━┻┛ ┗┛
+   by Yamato Security
+
+Striving for perfection~
+
+Searching...
+
+Start time: 2026/05/14 16:08
+Total event log files: 10
+Total file size: 107.7 MiB
+
+Currently searching. Please wait.
+
+Timestamp · EventTitle · Hostname · Channel · Event ID · Record ID · AllFieldInfo · EvtxFile
+
+2025-11-28 17:14:23.114 +01:00 · Process Creation · WinServerProd01.training.corp · Sysmon · 1 · 57149 
+· Cmdline: "C:\inetpub\wwwroot\pdt.exe" net localgroup Administrators training.corp\jeff /add ¦ Company: - 
+¦ CurrentDirectory: c:\windows\system32\inetsrv\ ¦ Description:  ¦ FileVersion: 0.0.0.0 ¦ 
+Hashes: SHA1=0BA6487C6DCCA59DB8B5DC186E36440E05C74ED6,MD5=78CB87CFF5EEA8DB1F17BB6D52CF4748,SHA256=5247C95FA6991D68954A3814E18A9642F5D01675075202BF39DE46AA8F111DA3,
+IMPHASH=F34D5F2D4577ED6D9CEEC516C1F5A744 ¦ Proc: C:\inetpub\wwwroot\pdt.exe ¦ IntegrityLevel: High ¦ LGUID: 51F0B461-9892-6929-3AC3-190100000000 ¦ LID: 0x119c33a ¦ 
+OriginalFileName: EfsPotato.exe ¦ ParentCmdline: c:\windows\system32\inetsrv\w3wp.exe -ap "DefaultAppPool" -v "v4.0" -l "webengine4.dll" -a \\.\pipe\iisipma4a8c9e4-0763-46b7-b63d-15c719373884 
+-h "C:\inetpub\temp\apppools\DefaultAppPool\DefaultAppPool.config" -w "" -m 0 -t 20 -ta 0 ¦ ParentProc: C:\Windows\System32\inetsrv\w3wp.exe ¦ 
+ParentPGUID: 51F0B461-BFA9-6929-030C-000000002300 ¦ ParentPID: 12036 ¦ ParentUser: IIS APPPOOL\DefaultAppPool ¦ PGUID: 51F0B461-CA5E-6929-820F-000000002300 ¦ 
+PID: 12620 ¦ Product: - ¦ RuleName: technique_id=T1036,technique_name=Masquerading ¦ TerminalSessionId: 0 ¦ User: IIS APPPOOL\DefaultAppPool ¦ UtcTime: 2025-11-28 16:14:22.930
+· C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\Sysmon.evtx
+
+<SNIP>
+
+2025-12-18 15:36:23.786 +01:00 · Process Creation · WinServerProd01.training.corp · Sysmon · 1 · 83515 · Cmdline: "C:\inetpub\wwwroot\ave\pdt64.exe" C:\inetpub\wwwroot\ave\NativeTokenImpersonate.exe 
+-proc ¦ Company: - ¦ CurrentDirectory: c:\windows\system32\inetsrv\ ¦ Description:  ¦ FileVersion: 0.0.0.0 ¦ Hashes: SHA1=AA8D7658D53DD9FBA07112236EB01250AF525247,
+MD5=BB3CC1CCF789E68B9173EEB3220B203F,SHA256=895B35E1A8FCA22C43F9C32502C075D825F8CDD455A4C9BE5D7FB8181F8A06B4,IMPHASH=F34D5F2D4577ED6D9CEEC516C1F5A744 ¦ 
+Proc: C:\inetpub\wwwroot\ave\pdt64.exe ¦ IntegrityLevel: High ¦ LGUID: 51F0B461-0CFA-6944-A603-DD0000000000 ¦ LID: 0xdd03a6 ¦ OriginalFileName: EfsPotato.exe ¦ 
+ParentCmdline: c:\windows\system32\inetsrv\w3wp.exe -ap "DefaultAppPool" -v "v4.0" -l "webengine4.dll" -a \\.\pipe\iisipm35d87ea6-4ef5-4639-9b0f-960ee2d1d923 
+-h "C:\inetpub\temp\apppools\DefaultAppPool\DefaultAppPool.config" -w "" -m 0 -t 20 -ta 0 ¦ ParentProc: C:\Windows\System32\inetsrv\w3wp.exe ¦ 
+ParentPGUID: 51F0B461-0CFA-6944-A514-000000002600 ¦ ParentPID: 6300 ¦ ParentUser: IIS APPPOOL\DefaultAppPool ¦ PGUID: 51F0B461-1167-6944-4F15-000000002600 ¦ 
+PID: 2176 ¦ Product: - ¦ RuleName: technique_id=T1036,technique_name=Masquerading ¦ TerminalSessionId: 0 ¦ User: IIS APPPOOL\DefaultAppPool ¦ UtcTime: 2025-12-18 14:36:23.779 
+· C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\Sysmon.evtx
+
+<SNIP>
+
+2025-12-18 15:41:01.035 +01:00 · Process Creation · WinServerProd01.training.corp · Sysmon · 1 · 83639 · Cmdline: C:\inetpub\wwwroot\ave\pdt64.exe whoami ¦ Company: - ¦ 
+CurrentDirectory: c:\windows\system32\inetsrv\ ¦ Description:  ¦ FileVersion: 0.0.0.0 ¦ Hashes: SHA1=AA8D7658D53DD9FBA07112236EB01250AF525247,MD5=BB3CC1CCF789E68B9173EEB3220B203F,
+SHA256=895B35E1A8FCA22C43F9C32502C075D825F8CDD455A4C9BE5D7FB8181F8A06B4,IMPHASH=F34D5F2D4577ED6D9CEEC516C1F5A744 ¦ Proc: C:\inetpub\wwwroot\ave\pdt64.exe ¦ IntegrityLevel: High ¦ 
+LGUID: 51F0B461-0CFA-6944-A603-DD0000000000 ¦ LID: 0xdd03a6 ¦ OriginalFileName: EfsPotato.exe ¦ ParentCmdline: "c:\windows\system32\cmd.exe" /c "C:\inetpub\wwwroot\ave\pdt64.exe whoami" 
+¦ ParentProc: C:\Windows\System32\cmd.exe ¦ ParentPGUID: 51F0B461-127C-6944-8615-000000002600 ¦ ParentPID: 5024 ¦ ParentUser: IIS APPPOOL\DefaultAppPool ¦ 
+PGUID: 51F0B461-127D-6944-8815-000000002600 ¦ PID: 8860 ¦ Product: - ¦ RuleName: technique_id=T1059,technique_name=Command-Line Interface ¦ TerminalSessionId: 0 ¦ 
+User: IIS APPPOOL\DefaultAppPool ¦ UtcTime: 2025-12-18 14:41:01.032 · C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\Sysmon.evtx
+
+<SNIP>
+
+2025-12-18 16:47:31.228 +01:00 · Process Creation · WinServerProd01.training.corp · Sysmon · 1 · 86904 · Cmdline: C:\inetpub\wwwroot\testefs.exe "C:/Windows/Temp/Kerrub.exe dump 
+krbtgt/TRAINING.CORP elevate 3404 0x337482" lsarpc ¦ Company: - ¦ CurrentDirectory: C:\inetpub\wwwroot\ ¦ Description:  ¦ FileVersion: 0.0.0.0 ¦ Hashes: SHA1=FB1538764568031FBD9BCD3418575129988293A9,
+MD5=E21F9D63A1D9CE227ECDE60F9CEB6BDC,SHA256=B0B1FC30B2FDF44BDDC67F8C07F87767293C5B23F4487EB364B033647ED64905,IMPHASH=F34D5F2D4577ED6D9CEEC516C1F5A744 ¦ Proc: C:\inetpub\wwwroot\testefs.exe 
+¦ IntegrityLevel: High ¦ LGUID: 51F0B461-0CFA-6944-A603-DD0000000000 ¦ LID: 0xdd03a6 ¦ OriginalFileName: EfsPotato.exe ¦ ParentCmdline: "cmd.exe" /c C:\inetpub\wwwroot\testefs.exe 
+"C:/Windows/Temp/Kerrub.exe dump krbtgt/TRAINING.CORP elevate 3404 0x337482" lsarpc ¦ ParentProc: C:\Windows\System32\cmd.exe ¦ ParentPGUID: 51F0B461-2213-6944-2718-000000002600 ¦ 
+ParentPID: 988 ¦ ParentUser: IIS APPPOOL\DefaultAppPool ¦ PGUID: 51F0B461-2213-6944-2918-000000002600 ¦ PID: 6364 ¦ Product: - ¦ 
+RuleName: technique_id=T1059,technique_name=Command-Line Interface ¦ TerminalSessionId: 0 ¦ User: IIS APPPOOL\DefaultAppPool ¦ UtcTime: 2025-12-18 15:47:31.225 
+· C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\Sysmon.evtx
+
+<SNIP>
+
+2025-10-31 11:03:46.145 +01:00 · - · WinServerProd01.training.corp · Defender · 1011 · 924 · Category ID: 34 ¦ Category Name: Tool ¦ Domain: NT AUTHORITY ¦ Engine Version: 1.1.25080.5 
+¦ FWLink: https://go.microsoft.com/fwlink/?linkid=37020&name=VirTool:Win32/Kekeo.A!MTB&threatid=2147756241&enterprise=0 ¦ Path: file:_C:\Temp\IronPython3\IronPythonPortable\net462\Rubeus.py 
+¦ Product Name: Microsoft Defender Antivirus ¦ Product Version: 4.18.25080.5 ¦ SID: S-1-5-18 ¦ Security intelligence Version: AV:1.437.174.0, AS:1.437.174.0 ¦ Severity ID: 5 ¦ 
+Severity Name: Severe ¦ Threat ID: 2147756241 ¦ Threat Name: VirTool:Win32/Kekeo.A!MTB ¦ Unused:  ¦ Unused10:  ¦ Unused11:  ¦ Unused12:  ¦ Unused13:  ¦ Unused2:  ¦ Unused3:  ¦ 
+Unused4:  ¦ Unused5:  ¦ Unused6:  ¦ Unused7:  ¦ Unused8:  ¦ Unused9:  ¦ User: SYSTEM · C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\Windows_Defender.evtx
+
+<SNIP>
+
+[00:00:01] 10 / 10   [========================================] 100%
+
+Scanning finished.
+                                                                                                                                     
+Total findings: 44
+Elapsed time: 00:00:01.455
+
+急がば回れ - Isogaba Maware - If you are in a hurry, take the long way.
+
+
+
+********************************************************************************************************************************
+> Run Hayabusa to scan a log directory containing multiple Windows event log files with the "csv-timeline" command and the 
+  verbose profile. The "csv-timeline" command can be used to create a forensics timeline of events in CSV format.
+********************************************************************************************************************************
+
+You can choose between several set of detection rules when scanning the event log files with Hayabusa
+------------------------------------------------------------------------------------------------------
+ 1. Core (2,210 rules) ( status: test, stable | level: high, critical )
+ 2. Core+ (3,906 rules) ( status: test, stable | level: medium, high, critical )
+ 3. Core++ (4,216 rules) ( status: experimental, test, stable | level: medium, high, critical )
+ 4. All alert rules (4,805 rules) ( status: * | level: low+ )
+ 5. All event and alert rules (4,923 rules) ( status: * | level: informational+ )
+
+
+PS C:\Users\dfir-analyst\Documents\DFIR\Hayabusa\hayabusa-3.9.0> .\hayabusa.exe csv-timeline -d C:\Users\dfir-analyst\Documents\DFIR\Logs\2026\PROD01\ -p verbose -o prod01-csv-timeline.csv
+
+┏┓ ┏┳━━━┳┓  ┏┳━━━┳━━┓┏┓ ┏┳━━━┳━━━┓
+┃┃ ┃┃┏━┓┃┗┓┏┛┃┏━┓┃┏┓┃┃┃ ┃┃┏━┓┃┏━┓┃
+┃┗━┛┃┃ ┃┣┓┗┛┏┫┃ ┃┃┗┛┗┫┃ ┃┃┗━━┫┃ ┃┃
+┃┏━┓┃┗━┛┃┗┓┏┛┃┗━┛┃┏━┓┃┃ ┃┣━━┓┃┗━┛┃
+┃┃ ┃┃┏━┓┃ ┃┃ ┃┏━┓┃┗━┛┃┗━┛┃┗━┛┃┏━┓┃
+┗┛ ┗┻┛ ┗┛ ┗┛ ┗┛ ┗┻━━━┻━━━┻━━━┻┛ ┗┛
+   by Yamato Security
+
+Streamlining DFIR for the modern analyst~
+
+Start time: 2026/05/14 16:51
+Total event log files: 10
+Total file size: 107.7 MiB
+
+Scan wizard:
+
+✔ Which set of detection rules would you like to load? 
+	
+  · 2. Core+ (3,906 rules) ( status: test, stable | level: medium, high, critical )
+
+✔ Include sysmon rules? (1,948 rules) 
+  
+  · yes
+
+Loading detection rules. Please wait.
+
+Excluded rules: 1,025
+Noisy rules: 12 (Disabled)
+
+Stable rules: 147 (3.77%)
+Test rules: 3,753 (96.23%)
+
+Correlation rules: 3 (0.08%)
+Correlation referenced rules: 3 (0.08%)
+
+Expand rules: 12 (0.31%)
+Enabled expand rules: 0 (0.00%)
+
+Hayabusa rules: 67
+Sigma rules: 3,833
+Total detection rules: 3,900
+
+Creating the channel filter. Please wait.
+
+Evtx files loaded after channel filter: 9
+Detection rules enabled after channel filter: 3,832
+
+Output profile: verbose
+
+Scanning in progress. Please wait.
+
+[00:00:22] 9 / 9   [========================================] 100%
+
+Scanning finished. Please wait while the results are being saved.
+                                                                                                                                     
+Rule Authors:
+
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Florian Roth (38)                 Nasreddine Bencherchali (21)   Zach Mathis (21)                │
+│ Tim Shelton (10)                  oscd.community (10)            frack113 (8)                    │
+│ Roberto Rodriguez @Cyb3r... (5)   Arnim Rupp (5)                 Roberto Rodriguez (5)           │
+│ OTR (3)                           Teymur Kheirkhabarov (3)       Michael Haag (3)                │
+│ James Pemberton@4A616D6573 (2)    Markus Neis (2)                Zach Stanford @svch0st (2)      │
+│ Thomas Patzke (2)                 JHasenbusch (2)                Andreas Hunkeler (2)            │
+│ Bhabesh Raj (2)                   Endgame (2)                    Sai Prashanth Pulisetti ... (1) │
+│ Dave Kennedy (1)                  Dimitrios Slamaris (1)         Joseliyo Sanchez (1)            │
+│ Michaela Adams (1)                Tom Kern (1)                   Natalia Shornikova (1)          │
+│ Matthew Green - @mgreen27 (1)     Anton Kutepov (1)              Fukusuke Takahashi (1)          │
+│ Sherif Eldeeb (1)                 Ecco (1)                       Elastic (1)                     │
+│ @juju4 (1)                        Patrick Bareiss (1)            Swachchhanda Shrawan Poudel (1) │
+│ CD_ROM_ (1)                       Darkrael (1)                   Sander Wiebing (1)              │
+│ Matthew Green @mgreen27 (1)       Mark Russinovich (1)           David ANDRE (1)                 │
+│ Austin Songer @austinsonger (1)   @Joseliyo_Jstnk (1)            Gleb Sukhodolskiy (1)           │
+│ Aleksey Potapov (1)               Victor Sergeev (1)             Christian Burkard (1)           │
+│ Beyu Denis (1)                    Endgame) (1)                   Harish Segar (1)                │
+│ omkar72 (1)                       Thurein Oo (1)                 Jonhnathan Ribeiro (1)          │
+│ Maxim Pavlunin (1)                Daniil Yugoslavskiy (1)        James Dickenson (1)             │
+│ juju4 (1)                         Daniel Bohannon (1)            Samir Bousseaden (1)            │
+│ Yassine Oukessou (1)              Jeff Warren (1)                X__Junior (1)                   │
+│ Timur Zinniatullin (1)            Tim Rauch (1)                  E.M. Anhaus (1)                 │
+│ Tim Burrell (1)                   @svch0st (1)                   James Pemberton @4A616D6573 (1) │
+│ @0xrawsec (1)                     Janantha Marasinghe (1)                                        │
+╰─────────────────────────────────╌────────────────────────────────────────────────────────────────╯
+
+Results Summary:
+
+Events with hits / Total events: 44,456 / 115,247 (Data reduction: 70,791 events (61.43%))
+
+Total | Unique detections: 45,558 | 107
+Total | Unique emergency detections: 0 (0.00%) | 0 (0.00%)
+Total | Unique critical detections: 76 (0.17%) | 4 (0.00%)
+Total | Unique high detections: 6,093 (13.37%) | 36 (0.00%)
+Total | Unique medium detections: 39,389 (86.46%) | 67 (62.62%)
+Total | Unique low detections: 0 (0.00%) | 0 (33.64%)
+Total | Unique informational detections: 0 (0.00%) | 0 (3.74%)
+
+First timestamp: 2025-07-29 01:21:24.951 +02:00
+Last timestamp: 2025-12-18 20:45:55.320 +01:00
+
+First detection: 2025-07-31 18:28:50.377 +02:00
+Last detection: 2025-12-18 20:45:55.320 +01:00
+
+Dates with most total detections:
+emergency: n/a, critical: 2025-11-28 (24), high: 2025-11-28 (2,914), medium: 2025-11-28 (20,453), low: n/a, informational: n/a
+
+Top computers with most unique detections:
+emergency: n/a
+critical: WinServerProd01.training.corp (4)
+high: WinServerProd01.training.corp (35), WinServerProd01 (1)
+medium: WinServerProd01.training.corp (65)
+low: n/a
+informational: n/a
+
+╭────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Top emergency alerts:                           Top critical alerts:                           │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ n/a                                             Defender Alert (Severe) (49)                   │
+│ n/a                                             Antivirus Password Dumper Detection (24)       │
+│ n/a                                             Antivirus Exploitation Framework Detection (2) │
+│ n/a                                             HackTool - Rubeus Execution (1)                │
+│ n/a                                             n/a                                            │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ Top high alerts:                                Top medium alerts:                             │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ Proc Exec (Sysmon Alert) (4,523)                File Created (Sysmon Alert) (19,463)           │
+│ Proc Access (Sysmon Alert) (1,096)              Reg Key Create/Delete (Sysmon Alert) (9,923)   │
+│ Suspicious Svchost Process Access (207)         Reg Key Value Set (Sysmon Alert) (7,798)       │
+│ Suspicious Process By Web Server Process (84)   Net Conn (Sysmon Alert) (1,257)                │
+│ Antivirus Relevant File Paths Alerts (46)       Potential Shellcode Injection (416)            │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ Top low alerts:                                 Top informational alerts:                      │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ n/a                                             n/a                                            │
+│ n/a                                             n/a                                            │
+│ n/a                                             n/a                                            │
+│ n/a                                             n/a                                            │
+│ n/a                                             n/a                                            │
+╰────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+Saved file: prod01-csv-timeline.csv (36.1 MiB)
+
+Elapsed time: 00:00:31.1058
+
+Please report any issues with Hayabusa rules to: https://github.com/Yamato-Security/hayabusa-rules/issues
+Please report any false positives with Sigma rules to: https://github.com/SigmaHQ/sigma/issues
+Please submit new Sigma rules with pull requests to: https://github.com/SigmaHQ/sigma/pulls
+
+困難に道あり - Konnan Ni Michi Ari - The obstacle is the way.
+
+
+------------------------
+Conclusion
+------------------------
+> Numerous security incidents and suspicious activities have been detected in the Windows event logs.
+> All the details are in the report file "prod01-csv-timeline.csv".
+
+
