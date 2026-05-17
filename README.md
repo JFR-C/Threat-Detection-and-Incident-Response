@@ -7,11 +7,12 @@
 - [III. MITRE ATTACK & DEFEND Frameworks](#III-MITRE-ATTACK--DEFEND-FRAMEWORKS)
 - [IV. The Cyber Attack Kill Chain Model & Defense](#IV-The-Cyber-Attack-Kill-Chain-Model--Defense)
 - [V. Threat Detection & Incident Response (TDIR) Methodology](#V-Threat-Detection--Incident-Response-TDIR)
-- [VI. Security Operation Center (SOC)](#VI-SOC---Security-Operation-Center)
-- [VII. ISO/IEC 27035 — Information Security Incident Management](#VII-ISOIEC-27035--Information-security-incident-management)
-- [VIII. Glossary of TDIR and DFIR terms and definitions](#VIII-Glossary-of-TDIR-and-DFIR-terms-and-definitions)
-- [IX. Cybercrime Legislation Worldwide](#IX-Cybercrime-Legislation-Worldwide)
-- [X. Cybercrime and Threat Actors](#X-Cybercrime-and-Threat-Actors)
+- [VI. Cyber Crisis Management](#VI-Cyber-Crisis-Management)
+- [VII. Security Operation Center (SOC)](#VII-SOC---Security-Operation-Center)
+- [VIII. ISO/IEC 27035 — Information Security Incident Management](#VIII-ISOIEC-27035--Information-security-incident-management)
+- [IX. Glossary of TDIR and DFIR terms and definitions](#IX-Glossary-of-TDIR-and-DFIR-terms-and-definitions)
+- [X. Cybercrime Legislation Worldwide](#X-Cybercrime-Legislation-Worldwide)
+- [XI. Cybercrime and Threat Actors](#XI-Cybercrime-and-Threat-Actors)
 
 --------
 ### I. USEFUL RESOURCES
@@ -244,56 +245,56 @@ to expansion and one or more command and control phases, until the target is ide
 + The 7 "Kill Chain" phases
   + The intrusion kill chain breaks intrusions down into distinct phases, which are defined quite well in the Lockheed Martin paper:
 ```
-➤ Phase 1 - Reconnaissance
-  ------------------------
-  + The reconnaissance phase of a cyberattack is focused on learning as much as possible about the target.  
-    This can include the use of open-source intelligence (websites, social media, etc.) and active investigation of the target environment.  
-  + Research, identification and selection of targets, often represented as crawling Internet websites such as conference proceedings and mailing lists
-    for email addresses, social relationships, or information on specific technologies. 
+🔹 Phase 1 - RECONNAISSANCE
+   ------------------------
+   ➤ The reconnaissance phase of a cyberattack is focused on learning as much as possible about the target.  
+     This can include the use of open-source intelligence (websites, social media, etc.) and active investigation of the target environment.  
+   ➤ Research, identification and selection of targets, often represented as crawling Internet websites such as conference proceedings and mailing lists
+     for email addresses, social relationships, or information on specific technologies. 
     
-➤ Phase 2 - Weaponization
-  -----------------------
-  + The goal of the reconnaissance phase is to discover a potential attack vector, and weaponization is intended to develop a method of exploiting a 
-    discovered weakness. This may include development of custom malware, crafting a phishing email, etc.
-  + Coupling a remote access trojan with an exploit into a deliverable payload, typically by means of an automated tool (weaponizer). 
-    Increasingly, client application data files such as Adobe Portable Document Format (PDF) or Microsoft Office documents serve as the weaponized deliverable. 
+🔹 Phase 2 - WEAPONIZATION
+   -----------------------
+   ➤ The goal of the reconnaissance phase is to discover a potential attack vector, and weaponization is intended to develop a method of exploiting a 
+     discovered weakness. This may include development of custom malware, crafting a phishing email, etc.
+   ➤ Coupling a remote access trojan with an exploit into a deliverable payload, typically by means of an automated tool (weaponizer). 
+     Increasingly, client application data files such as Adobe Portable Document Format (PDF) or Microsoft Office documents serve as the weaponized deliverable. 
 
-➤ Phase 3 - Delivery
-  ------------------
-  + Transmission of the weapon to the targeted environment. 
-    The three most prevalent delivery vectors for weaponized payloads by APT actors, as observed by the Lockheed Martin Computer Incident Response Team (LM-CIRT)
-    for the years 2004-2010, are email attachments (phishing), websites, and USB removable media. 
-  + The delivery stage involves setting up the target for exploitation. This could be as simple as clicking send on a phishing email or may involve 
-    a complicated process of getting the right person at the right place at the right time.  
+🔹 Phase 3 - DELIVERY
+   ------------------
+   ➤ Transmission of the weapon to the targeted environment. 
+     The three most prevalent delivery vectors for weaponized payloads by APT actors, as observed by the Lockheed Martin Computer Incident Response Team (LM-CIRT)
+     for the years 2004-2010, are email attachments (phishing), websites, and USB removable media. 
+   ➤ The delivery stage involves setting up the target for exploitation. This could be as simple as clicking send on a phishing email or may involve 
+     a complicated process of getting the right person at the right place at the right time.  
     
-➤ Phase 4 - Exploitation
-  ----------------------
-  + The exploitation phase is when the attacker takes advantage of the discovered weakness to gain access to the target environment.  
-    This may involve exploiting a vulnerability in a webserver, a user enabling macros on a malicious document, etc.
-  + After the weapon is delivered to victim host, exploitation triggers intruders’ code. Most often, exploitation targets an application or operating system
-    vulnerability, but it could also more simply exploit the users themselves or leverage an operating system feature that auto-executes code.
+🔹 Phase 4 - EXPLOITATION
+   ----------------------
+   ➤ The exploitation phase is when the attacker takes advantage of the discovered weakness to gain access to the target environment.  
+     This may involve exploiting a vulnerability in a webserver, a user enabling macros on a malicious document, etc.
+   ➤ After the weapon is delivered to victim host, exploitation triggers intruders’ code. Most often, exploitation targets an application or operating system
+     vulnerability, but it could also more simply exploit the users themselves or leverage an operating system feature that auto-executes code.
 
-➤ Phase 5 - Installation
-  ----------------------
-  + Installation of a remote access trojan or backdoor on the victim system allows the adversary to maintain persistence inside the environment.
-  + One of the goals of a cyberattack is to gain a foothold on the target network. Once the identified vulnerability has been exploited, 
-    an attacker should be able to install and execute malware on the target system.
+🔹 Phase 5 - INSTALLATION
+   ----------------------
+   ➤ Installation of a remote access trojan or backdoor on the victim system allows the adversary to maintain persistence inside the environment.
+   ➤ One of the goals of a cyberattack is to gain a foothold on the target network. Once the identified vulnerability has been exploited, 
+     an attacker should be able to install and execute malware on the target system.
   
-➤ Phase 6 - Command and Control (C2)
-  ----------------------------------
-  + Typically, compromised hosts must beacon outbound to an Internet controller server to establish a C2 channel. 
-    APT malware especially requires manual interaction rather than conduct activity automatically. 
-    Once the C2 channel establishes, intruders have “hands on the keyboard” access inside the target environment.
-  + A great deal of malware is designed to be interactive, receiving instructions from its creator and/or sending data to them.  
-    Establishing a channel for these communications is the next stage in the process.  
+🔹 Phase 6 - COMMAND & CONTROL (C2)
+   --------------------------------
+   ➤ Typically, compromised hosts must beacon outbound to an Internet controller server to establish a C2 channel. 
+     APT malware especially requires manual interaction rather than conduct activity automatically. 
+     Once the C2 channel establishes, intruders have “hands on the keyboard” access inside the target environment.
+   ➤ A great deal of malware is designed to be interactive, receiving instructions from its creator and/or sending data to them.  
+     Establishing a channel for these communications is the next stage in the process.  
   
-➤ Phase 7 - Actions on Objectives
-  -------------------------------
-  + Only now, after progressing through the first six phases, can intruders take actions to achieve their original objectives. 
-    Typically, this objective is data exfiltration which involves collecting, encrypting and extracting information from the victim environment; 
-    violations of data integrity or availability are potential objectives as well. 
-    Alternatively, the intruders may only desire access to the initial victim box for use as a hop point to compromise additional systems
-    and move laterally inside the network.
+🔹 Phase 7 - Actions on Objectives
+   --------------------------------
+   ➤ Only now, after progressing through the first six phases, can intruders take actions to achieve their original objectives. 
+     Typically, this objective is data exfiltration which involves collecting, encrypting and extracting information from the victim environment; 
+     violations of data integrity or availability are potential objectives as well. 
+     Alternatively, the intruders may only desire access to the initial victim box for use as a hop point to compromise additional systems
+     and move laterally inside the network.
 ```
 
 --------
@@ -445,7 +446,91 @@ to expansion and one or more command and control phases, until the target is ide
   - Use network segmentation to limit the spread of threats and contain incidents.
 
 --------
-### VI. SOC - Security Operation Center 
+### VI. Cyber Crisis Management
+
+#### 1. Key Definitions
+  + Cyber Crisis
+    + A severe cyber incident that threatens business continuity, reputation, financial stability, or security. It requires extraordinary, coordinated measures beyond routine incident response. 
+  + Cyber Crisis Management
+    + The preparation and execution of strategies to address unexpected cyber events, minimize impact, maintain operations, and ensure clear communication. 
+  + Crisis Unit
+    + The strategic leadership team activated during a major cyber crisis. It includes the crisis leader, coordinator, and senior functional leads. Its purpose is to make decisions, set priorities, and provide governance.
+  + Crisis Response Team
+    + The operational execution team composed of technical, business, and support specialists who investigate, contain, and remediate the incident. They execute the strategy defined by the crisis unit.   
+ + Crisis Center
+   + The physical or virtual environment (war room, bridge, secure chat, dashboard) where the crisis unit and crisis response team coordinate actions, share information, and maintain a single source of truth.
+  + Readiness–Response–Recovery Lifecycle
+    + A holistic approach covering preparation, coordinated response, and post‑incident recovery and lessons learned.
+
+
+#### 2. Roles & Responsibilities in Cyber Crisis Management
+
+##### 2.1 CRISIS UNIT — Strategic Leadership Roles
+  + Crisis Leader
+    + Holds ultimate authority during the crisis; makes strategic decisions, sets priorities, approves major actions, and ensures alignment across all functions.
+  + Crisis Coordinator
+    + Manages the crisis process: opens the crisis center, organizes cadence, tracks actions, maintains documentation, and ensures information flow.
+  + Executive Sponsor
+    + Provides top‑level support, validates strategic decisions, and ensures resources and executive alignment.
+  + Legal & Compliance Lead
+    + Advises on regulatory obligations, breach notifications, evidence handling, and legal exposure.
+  + Communications Lead
+    + Manages internal and external messaging, stakeholder updates, and media handling.
+  + Business Continuity Lead
+    + Ensures continuity of critical operations and coordinates fallback procedures.
+  + Risk & Audit Lead
+    + Evaluates risk impact, validates control effectiveness, and supports post‑incident review.
+
+##### 2.2 CRISIS RESPONSE TEAM — Operational Execution Roles
+  + Technical Lead
+    + Directs technical investigation, containment, eradication, and recovery.
+  + SOC / Detection Analysts
+    + Monitor, detect, and analyze malicious activity.
+  + Forensics Specialists
+    + Perform evidence collection, root‑cause analysis, and attack reconstruction.
+  + IT Operations Lead
+    + Manages infrastructure, system restoration, and operational recovery.
+  + Cloud / Network Security Engineers
+    + Implement containment, segmentation, and security controls.
+  + Business Representatives
+    + Provide operational impact insights and support prioritization.
+
+##### 2.3 CRISIS CENTER — Coordination Environment Roles
+  + Crisis Center Facilitator
+    + Ensures the war room (physical or virtual) runs smoothly, manages tools, dashboards, and communication channels.
+  + Scribe / Documentation Lead
+    + Maintains the single source of truth, logs decisions, tracks actions, and timestamps events.
+  + Information Manager
+    + Validates incoming information, filters noise, and ensures accuracy before escalation.
+
+
+#### 3. Cyber Crisis Team Methodology
+
+  + Step 1. Preparation and Readiness  
+     + Maintain crisis playbooks, train teams, validate contact lists, and ensure the crisis unit and response team understand their roles.
+  + Step 2. Incident Detection & Escalation  
+     + Monitor for anomalies, classify severity, and trigger escalation thresholds that determine whether the crisis unit must be activated.
+  + Step 3. Activation of the Crisis Unit  
+     + The crisis leader formally declares a crisis; the crisis coordinator initiates the activation protocol and mobilizes strategic leadership.
+  + Step 4. Opening the Crisis Center  
+     + Establish the operational environment (war room, virtual bridge, secure chat), confirm roles, set meeting cadence, and create the single source of truth.
+  + Step 5. Initial Situation Assessment  
+     + Determine scope, impact, affected systems, business implications, regulatory exposure, and potential escalation paths.
+  + Step 6. Operational Response Execution  
+     + The crisis response team investigates, contains, mitigates, and begins recovery actions under the strategic direction of the crisis unit.
+  + Step 7. Cross‑Functional Coordination  
+     + Align technical, legal, communications, HR, and business continuity actions; ensure decisions are logged and responsibilities are clear.
+  + Step 8. Communication & Stakeholder Management  
+     + Deliver validated updates to executives, employees, customers, regulators, and partners; maintain message discipline and avoid speculation.
+  + Step 9. Recovery & Stabilization  
+     + Restore systems safely, validate integrity, re‑enable services, and progressively return to normal operations while monitoring for reinfection.
+  + Step 10. Closure of the Crisis Center  
+     + Once stability is confirmed, the crisis leader declares the crisis over; the coordinator dissolves the crisis center, finalizes documentation, and transitions remaining tasks to BAU.
+  + Step 11. Post‑Incident Review & Improvement  
+     + Conduct a structured lessons‑learned session, analyze root causes, evaluate response effectiveness, and update crisis plans, controls, and training.
+
+--------
+### VII. SOC - Security Operation Center 
 
 #### SOC Definition
   + A Security Operations Center (SOC) is a centralized unit within an organization responsible for monitoring, detecting, analyzing, and responding to cybersecurity incidents and threats.
@@ -523,7 +608,7 @@ to expansion and one or more command and control phases, until the target is ide
       + CFCs emphasize data-driven decision-making processes, leveraging analytics and metrics to measure the effectiveness of security operations and incident response efforts.
 
 --------
-### VII. ISO/IEC 27035 — Information Security Incident Management
+### VIII. ISO/IEC 27035 — Information Security Incident Management
 
 > The standard covers the processes for managing information security events, incidents and vulnerabilities.
 Managing incidents effectively involves detective and corrective controls designed to recognize and respond to events and incidents, minimize adverse impacts,
@@ -542,7 +627,7 @@ typically by improving the preventive controls or other risk treatments.
 + Step 5 - Learn and document key takeaways from every incident (more than simply identifying the things that might have been done better, this stage involves actually making changes that improve the processes)
 
 --------
-### VIII. Glossary of TDIR and DFIR terms and definitions
+### IX. Glossary of TDIR and DFIR terms and definitions
 
 + DFIR - Digital Forensics & Incident Response
   + Digital Forensics and Incident Response (DFIR) teams are groups of people in an organization responsible for managing the response to a security incident, including gathering evidence of the incident, remediating its effects, and implementing controls to prevent the incident from recurring in the future.
@@ -642,7 +727,7 @@ typically by improving the preventive controls or other risk treatments.
   + Much like YARA, or Snort Rules, SIGMA is another tool for the open sharing of detection, except focused on SIEM instead of files or network traffic.
 
 --------
-### IX. Cybercrime Legislation Worldwide
+### X. Cybercrime Legislation Worldwide
 
 #### 1. Cybercrime Legislation
   + Source/Website: https://unctad.org/page/cybercrime-legislation-worldwide
@@ -709,7 +794,7 @@ typically by improving the preventive controls or other risk treatments.
         
 
 --------
-### X. Cybercrime and Threat Actors
+### XI. Cybercrime and Threat Actors
 
 #### 1. World Cybercrime Index
   + Sources/Websites: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0297312 and https://www.ox.ac.uk/news/2024-04-10-world-first-cybercrime-index-ranks-countries-cybercrime-threat-level
