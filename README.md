@@ -810,32 +810,32 @@ typically by improving the preventive controls or other risk treatments.
      + Scams (e.g. advance fee fraud, business email compromise, online auction fraud).
      + Cashing out/money laundering (e.g. credit card fraud, money mules, illicit virtual currency platforms).
        
-```
-Top 20 countries ranked by their World Cybercrime Index (WCI) score
+	```
+	Top 20 countries ranked by their World Cybercrime Index (WCI) score
 
-Countries		WCI score
----------------------------------
-1. Russia 		- 58.39
-2. Ukraine 		- 36.44
-3. China 		- 27.86
-4. United States 	- 25.01
-5. Nigeria 		- 21.28
-6. Romania 		- 14.83
-7. North Korea 		- 10.61
-8. United Kingdom 	- 9.01
-9. Brazil		- 8.93
-10. India		- 6.13
-11. Iran		- 4.78
-12. Belarus		- 3.874
-13. Ghana		- 3.58
-14. South Africa	- 2.58
-15. Moldova		- 2.57
-16. Israel 		- 2.51
-17. Poland		- 2.22
-18. Germany 		- 2.17
-19. Netherlands		- 1.92
-20. Latvia		- 1.68
-```
+	Countries		WCI score
+	---------------------------------
+	1. Russia 		- 58.39
+	2. Ukraine 		- 36.44
+	3. China 		- 27.86
+	4. United States 	- 25.01
+	5. Nigeria 		- 21.28
+	6. Romania 		- 14.83
+	7. North Korea 		- 10.61
+	8. United Kingdom 	- 9.01
+	9. Brazil		- 8.93
+	10. India		- 6.13
+	11. Iran		- 4.78
+	12. Belarus		- 3.874
+	13. Ghana		- 3.58
+	14. South Africa	- 2.58
+	15. Moldova		- 2.57
+	16. Israel 		- 2.51
+	17. Poland		- 2.22
+	18. Germany 		- 2.17
+	19. Netherlands		- 1.92
+	20. Latvia		- 1.68
+	```
 
 #### 2. Fighting cybercrime around the world 
 
@@ -861,6 +861,12 @@ Countries		WCI score
      + Europol’s European Cybercrime Centre (EC3).
 
   + Over the past decade, the J-CAT has been instrumental in numerous high-profile operations, such as:
+     + Operation ALICE (2026)
+       + A global operation led by German authorities and supported by Europol was launched against one of the largest networks of fraudulent platforms in the dark web named “Alice with Violence CP”.
+       + 23 countries joined forces in 'Operation Alice,' which targeted the dark web platform operator who was running more than 373 000 fraudulent websites advertising child sexual abuse material (CSAM) and cybercrime-as-a-service (CaaS) offerings).
+     + Operation LIGHTNING (2026)
+       + Europol in collaboration with law enforcement agencies from Austria, France, the Netherlands, and the USA, alongside Eurojust, targeted the malicious proxy service ‘SocksEscort’, which allegedly compromised over 369 000 routers and Internet of Things devices in 163 countries, and offered ‘SocksEscort’ customers over 35 000 proxies in recent years.
+       + Law enforcement agencies successfully took down and seized 34 domains as well as 23 servers located in seven countries. In addition, the United States froze a total of USD 3.5 million in cryptocurrency.
      + Operation TALENT (2025)
        + A Europol-supported operation, led by German authorities took down 2 largest cybercrime forums in the world.
        + The two platforms, 'Cracked' and 'Nulled', had more than 10 million users in total.
@@ -887,8 +893,45 @@ Countries		WCI score
        + A total of 12 individuals wreaking havoc across the world with ransomware attacks against critical infrastructure were targeted as the result of a law enforcement and judicial operation involving eight countries. More than 50 foreign investigators, including six Europol specialists, were deployed to Ukraine for the action day to assist the National Police with conducting jointly investigative measures.
        + These attacks are believed to have affected over 1800 victims in 71 countries. These cyber actors were known for specifically targeting large corporations, effectively bringing their business to a standstill.
 
-	    
-#### 3. ENISA Threat Landscape 2024
+
+#### 3.1. ENISA Threat Landscape 2025
+
+  + Source (2025) - https://www.enisa.europa.eu/publications/enisa-threat-landscape-2025
+    
+  + Threat Overview
+    + Top 5 targeted sectors in the EU
+      + Public administration
+      + Transport
+      + Digital infrastructure and services
+      + Finance
+      + Manufacturing
+    + Hacktivism dominates incident volume in the EU
+      + It was mainly driven by low-impact DDoS campaigns targeting EU Member States’ organisations’websites, with only 2% of incidents leading to service disruption.
+    + State-aligned operations against EU Member States organisations persist
+      + State-aligned activities against EU Member States continued at a steady tempo, with state-nexus cyberespionage activities notably targeting the public administration sector, and Foreign Information Manipulation and Interference (FIMI) increasingly targeting EU audiences.
+    + Ransomware remains the most impactful threat in the EU
+      + The strains Akira and SafePay were among the most deployed, with a few incidents resulting in service disruptions.
+
+  + Sectorial overview
+  	+ 38.2% Public Administration Public Administration was identified as the most targeted sector in the EU (38.5%), dominated by low-impact DDoS (94.8%), with ransomware particularly aﬀecting municipalities.
+    + The transport sector came in second (7.5%), with most reported incidents pertaining to air and logistics, with a particular focus on targeting the maritime sector displayed by state-nexus intrusion sets.
+    + While reportedly less targeted (2.2%), digital infra- structure and services in the EU, including Digital Services Providers remain high-value targets, particularly in the frame of incidents leveraging cyber dependencies used as launchpads for follow-up attacks.
+
+  + Tactics, Techniques and Procedures overview
+  	+ Initial access vector - 60% Phishing
+      + Phishing was the dominant intrusion applications vector, accounting for approx. 60% of cases, including malspam, vishing, and malvertising.
+  	+ Initial access vector - 21.3% Vulnerability exploitation
+      + Vulnerability exploitation represented 21.3% of initial access vectors, with 68% leading to malware deployment as a follow-up activity.
+  	+ Mobile devices and Internet- exposed services and devices, particularly Operational Technology (OT) systems remain high value targets across all types of threats.
+  	+ State-aligned intrusion sets and cybercriminal operators increasingly leverage AI for productivity and optimisation of their malicious activities.
+
+  + Threat-centric overview
+  	+ 79.4% Ideology driven
+      + NoName057 was responsible for over 60% of claims, sustained by its DDoSia platform, with activity spikes pertaining to EU support to geopolitical events and national elections.
+    + Despite a reported decrease of 11% compared to the previous ETL, ransomware remained the most impactful cybercrime tool. 
+      Initial Access Brokers continued trading low-cost, high-volume VPN and RDP access.
+
+#### 3.2. ENISA Threat Landscape 2024
 
   + Source (2024) - https://www.enisa.europa.eu/publications/enisa-threat-landscape-2024
 
