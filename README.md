@@ -579,7 +579,7 @@ to expansion and one or more command and control phases, until the target is ide
   + Threat Hunter
     + Proactively searches for and identifies advanced threats and vulnerabilities within the organization's environment that may evade traditional security measures.
 
-#### Common SOC indicators and metrics
+#### Common SOC metrics and indicators
 
 + Operational metrics
   + Operational metrics like mean time to detect (MTTD), mean time to resolve (MTTR), false positive/negative rates, and incident escalation/closure rates are crucial for measuring the effectiveness of your security operations.
@@ -618,14 +618,6 @@ to expansion and one or more command and control phases, until the target is ide
     + Formula: True Positives ÷ (True Positives + False Negatives)
   + Cases Opened vs Closed
     + Measures incidents handling throughput and potential backlog.
-  + SOC analyst throughput - Events per Analyst Hour (EPAH)
-    + Measures analyst efficiency and workload.
-    + Indicates analyst workload, staffing adequacy, and efficiency.
-    + Calculation: Total events/alerts ÷ total analyst hours worked.
-    + High EPAH: May indicate analysts are processing cases too quickly, increasing the risk of missed issues or mistakes.
-    + Target range: 8–13 events per analyst hour generally suggests analysts have enough time for thorough investigations without being overwhelmed.
-    + AI/ML impact: Use EPAH to identify where AI/ML can help and measure its impact after implementation.
-    + Success indicator: AI/ML should ideally improve analyst capacity and be reflected in EPAH.
   + Incident Closure Rate
     + The percentage of security incidents resolved out of total time that's reported the incident within that specific time frame and the alert reopen rate.
     + Percentage of reported incidents that are successfully resolved.
@@ -638,11 +630,18 @@ to expansion and one or more command and control phases, until the target is ide
     + < 5%: Team is generally doing a good job identifying, classifying, and investigating cases upfront.
     + 5–10%: Indicates potential gaps or process issues.
     + '> 10%: Signals significant issues, such as insufficient analyst training or incomplete investigations. 
-  + Time spent per alert
-    + In this case, what you're looking at is the average time the analyst spends investigating each alert.
-    + It could be the events per analyst hour. This is used to measure the workload of the SOC analysts. 
   + Log source health
-    + Completeness and reliability of logs ingested in the SIEM
+    + Completeness and reliability of logs ingested in the SIEM.
+  + Time spent per alert
+    + Average time a SOC analyst spends investigating each alert.
+  + Events per Analyst Hour (EPAH) - SOC analyst throughput
+    + Measures analyst efficiency and workload.
+    + Indicates analyst workload, staffing adequacy, and efficiency.
+    + Calculation: Total events/alerts ÷ total analyst hours worked.
+    + High EPAH: May indicate analysts are processing cases too quickly, increasing the risk of missed issues or mistakes.
+    + Target range: 8–13 events per analyst hour generally suggests analysts have enough time for thorough investigations without being overwhelmed.
+    + AI/ML impact: Use EPAH to identify where AI/ML can help and measure its impact after implementation.
+    + Success indicator: AI/ML should ideally improve analyst capacity and be reflected in EPAH.
   + SOC Dashboard
       + It helps assess team maturity, incident-handling effectiveness, analyst workload and burnout risk.
     + Workload management: Monitor and balance analyst workloads; avoid having analysts handle incidents continuously without rotation or scheduling.
