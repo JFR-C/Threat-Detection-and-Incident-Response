@@ -630,6 +630,10 @@ to expansion and one or more command and control phases, until the target is ide
     + < 5%: Team is generally doing a good job identifying, classifying, and investigating cases upfront.
     + 5–10%: Indicates potential gaps or process issues.
     + '> 10%: Signals significant issues, such as insufficient analyst training or incomplete investigations. 
+  + SOC Incident Escalation Rate
+    + Incident Escalation Rate measures the percentage of security incidents that need to be escalated to a higher-tier analyst, specialist, or another team for further investigation or response.
+    + High rate: It may indicate complex incidents, insufficient Tier 1 analyst skills, poor alert/context quality, gaps in playbooks or automation.
+    + Low rate: Can indicate effective Tier 1 investigation, but an extremely low rate isn't necessarily good, it could also mean analysts are failing to escalate serious incidents.
   + Log source health
     + Completeness and reliability of logs ingested in the SIEM.
   + Time spent per alert
