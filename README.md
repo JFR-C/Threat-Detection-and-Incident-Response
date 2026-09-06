@@ -186,22 +186,22 @@
 
 + There are currently 14 Enterprise tactics (https://attack.mitre.org/tactics/enterprise/)
 
-|    ID   |   Name  | DESCRIPTION | 
-| :-----: | :-----: |  :-------:  |
-| TA0043  |  Reconnaissance  |  The adversary is trying to gather information they can use to plan future operations.  |  
-| TA0042  |  Resource Development  |  The adversary is trying to establish resources they can use to support operations.  |  
-| TA0001  |  Initial Access  |  The adversary is trying to get into your network.  |  
-| TA0002  |  Execution  |  The adversary is trying to run malicious code.  |  
-| TA0003  |  Persistence  |  The adversary is trying to maintain their foothold.  |  
-| TA0004  |  Privilege Escalation  |  The adversary is trying to gain higher-level permissions.  |  
-| TA0005  |  Defense Evasion  |  The adversary is trying to avoid being detected.  |  
-| TA0006  |  Credential Access  |  The adversary is trying to steal account names and passwords.  |  
-| TA0007  |  Discovery  |  The adversary is trying to figure out your environment.  |  
-| TA0008  |  Lateral Movement  |  The adversary is trying to move through your environment.  |  
-| TA0009  |  Collection  |  The adversary is trying to gather data of interest to their goal.  |  
-| TA0011  |  Command and Control  |  The adversary is trying to communicate with compromised systems to control them.  |  
-| TA0010  |  Exfiltration  |  The adversary is trying to steal data.  |  
-| TA0040  |  Impact  |  The adversary is trying to manipulate, interrupt, or destroy your systems and data.  |  
+	|    ID   |   Name  | DESCRIPTION | 
+	| :-----: | :-----: |  :-------:  |
+	| TA0043  |  Reconnaissance  |  The adversary is trying to gather information they can use to plan future operations.  |  
+	| TA0042  |  Resource Development  |  The adversary is trying to establish resources they can use to support operations.  |  
+	| TA0001  |  Initial Access  |  The adversary is trying to get into your network.  |  
+	| TA0002  |  Execution  |  The adversary is trying to run malicious code.  |  
+	| TA0003  |  Persistence  |  The adversary is trying to maintain their foothold.  |  
+	| TA0004  |  Privilege Escalation  |  The adversary is trying to gain higher-level permissions.  |  
+	| TA0005  |  Defense Evasion  |  The adversary is trying to avoid being detected.  |  
+	| TA0006  |  Credential Access  |  The adversary is trying to steal account names and passwords.  |  
+	| TA0007  |  Discovery  |  The adversary is trying to figure out your environment.  |  
+	| TA0008  |  Lateral Movement  |  The adversary is trying to move through your environment.  |  
+	| TA0009  |  Collection  |  The adversary is trying to gather data of interest to their goal.  |  
+	| TA0011  |  Command and Control  |  The adversary is trying to communicate with compromised systems to control them.  |  
+	| TA0010  |  Exfiltration  |  The adversary is trying to steal data.  |  
+	| TA0040  |  Impact  |  The adversary is trying to manipulate, interrupt, or destroy your systems and data.  |  
 
 #### 2. MITRE DEFEND Framework
 
@@ -213,15 +213,15 @@
 
 + There are currently 7 tactics in the D3FEND matrix (https://d3fend.mitre.org)
   
-|   Tactic   |   Tactic description  | Defensive technique  | 
-| :-----: | :-----: | :-----: |
-| 1. Model  |  The model tactic is used to apply security engineering, vulnerability, threat, and risk analyses to digital systems | Asset Inventory, Network Mapping, Operational Activity Mapping, System Mapping  |
-| 2. Harden  |  The harden tactic is used to increase the opportunity cost of computer network exploitation | Agent Authentication, Application Hardening, Credentials Hardening, Message Hardening, Platform Hardening, Source Code Hardening  |
-| 3. Detect  |  The detect tactic is used to identify adversary access to or unauthorized activity on computer networks | File Analysis, Identifier Analysis, Message Analysis, Network Traffic Analysis, Platform Monitoring, Process Analysis, User Behaviour Analysis  |
-| 4. Isolate  |  The isolate tactic creates logical or physical barriers in a system which reduces opportunities for adversaries to create further accesses | Access Mediation, Access Policy Administration, Execution Isolation, Network Isolation  |
-| 5. Deceive  |  The deceive tactic is used to advertise, entice, and allow potential attackers access to an observed or controlled environment | Decoy Environment,  Decoy Object  |
-| 6. Evict  |  The eviction tactic is used to remove an adversary from a computer network |  Credential Eviction, Object Eviction, Process Eviction  |
-| 7. Restore  |  The restore tactic is used to return the system to a better state |  Restore Access, Restore Object  |
+	|   Tactic   |   Tactic description  | Defensive technique  | 
+	| :-----: | :-----: | :-----: |
+	| 1. Model  |  The model tactic is used to apply security engineering, vulnerability, threat, and risk analyses to digital systems | Asset Inventory, Network Mapping, Operational Activity Mapping, System Mapping  |
+	| 2. Harden  |  The harden tactic is used to increase the opportunity cost of computer network exploitation | Agent Authentication, Application Hardening, Credentials Hardening, Message Hardening, Platform Hardening, Source Code Hardening  |
+	| 3. Detect  |  The detect tactic is used to identify adversary access to or unauthorized activity on computer networks | File Analysis, Identifier Analysis, Message Analysis, Network Traffic Analysis, Platform Monitoring, Process Analysis, User Behaviour Analysis  |
+	| 4. Isolate  |  The isolate tactic creates logical or physical barriers in a system which reduces opportunities for adversaries to create further accesses | Access Mediation, Access Policy Administration, Execution Isolation, Network Isolation  |
+	| 5. Deceive  |  The deceive tactic is used to advertise, entice, and allow potential attackers access to an observed or controlled environment | Decoy Environment,  Decoy Object  |
+	| 6. Evict  |  The eviction tactic is used to remove an adversary from a computer network |  Credential Eviction, Object Eviction, Process Eviction  |
+	| 7. Restore  |  The restore tactic is used to return the system to a better state |  Restore Access, Restore Object  |
 
 --------
 ### IV. The Cyber Attack Kill Chain Model & Defense
@@ -244,58 +244,58 @@ to expansion and one or more command and control phases, until the target is ide
 
 + The 7 "Kill Chain" phases
   + The intrusion kill chain breaks intrusions down into distinct phases, which are defined quite well in the Lockheed Martin paper:
-```
-🔹 Phase 1 - RECONNAISSANCE
-   ------------------------
-   ➤ The reconnaissance phase of a cyberattack is focused on learning as much as possible about the target.  
-     This can include the use of open-source intelligence (websites, social media, etc.) and active investigation of the target environment.  
-   ➤ Research, identification and selection of targets, often represented as crawling Internet websites such as conference proceedings and mailing lists
-     for email addresses, social relationships, or information on specific technologies. 
-    
-🔹 Phase 2 - WEAPONIZATION
-   -----------------------
-   ➤ The goal of the reconnaissance phase is to discover a potential attack vector, and weaponization is intended to develop a method of exploiting a 
-     discovered weakness. This may include development of custom malware, crafting a phishing email, etc.
-   ➤ Coupling a remote access trojan with an exploit into a deliverable payload, typically by means of an automated tool (weaponizer). 
-     Increasingly, client application data files such as Adobe Portable Document Format (PDF) or Microsoft Office documents serve as the weaponized deliverable. 
-
-🔹 Phase 3 - DELIVERY
-   ------------------
-   ➤ Transmission of the weapon to the targeted environment. 
-     The three most prevalent delivery vectors for weaponized payloads by APT actors, as observed by the Lockheed Martin Computer Incident Response Team (LM-CIRT)
-     for the years 2004-2010, are email attachments (phishing), websites, and USB removable media. 
-   ➤ The delivery stage involves setting up the target for exploitation. This could be as simple as clicking send on a phishing email or may involve 
-     a complicated process of getting the right person at the right place at the right time.  
-    
-🔹 Phase 4 - EXPLOITATION
-   ----------------------
-   ➤ The exploitation phase is when the attacker takes advantage of the discovered weakness to gain access to the target environment.  
-     This may involve exploiting a vulnerability in a webserver, a user enabling macros on a malicious document, etc.
-   ➤ After the weapon is delivered to victim host, exploitation triggers intruders’ code. Most often, exploitation targets an application or operating system
-     vulnerability, but it could also more simply exploit the users themselves or leverage an operating system feature that auto-executes code.
-
-🔹 Phase 5 - INSTALLATION
-   ----------------------
-   ➤ Installation of a remote access trojan or backdoor on the victim system allows the adversary to maintain persistence inside the environment.
-   ➤ One of the goals of a cyberattack is to gain a foothold on the target network. Once the identified vulnerability has been exploited, 
-     an attacker should be able to install and execute malware on the target system.
-  
-🔹 Phase 6 - COMMAND & CONTROL (C2)
-   --------------------------------
-   ➤ Typically, compromised hosts must beacon outbound to an Internet controller server to establish a C2 channel. 
-     APT malware especially requires manual interaction rather than conduct activity automatically. 
-     Once the C2 channel establishes, intruders have “hands on the keyboard” access inside the target environment.
-   ➤ A great deal of malware is designed to be interactive, receiving instructions from its creator and/or sending data to them.  
-     Establishing a channel for these communications is the next stage in the process.  
-  
-🔹 Phase 7 - Actions on Objectives
-   --------------------------------
-   ➤ Only now, after progressing through the first six phases, can intruders take actions to achieve their original objectives. 
-     Typically, this objective is data exfiltration which involves collecting, encrypting and extracting information from the victim environment; 
-     violations of data integrity or availability are potential objectives as well. 
-     Alternatively, the intruders may only desire access to the initial victim box for use as a hop point to compromise additional systems
-     and move laterally inside the network.
-```
+	```
+	🔹 Phase 1 - RECONNAISSANCE
+	   ------------------------
+	   ➤ The reconnaissance phase of a cyberattack is focused on learning as much as possible about the target.  
+	     This can include the use of open-source intelligence (websites, social media, etc.) and active investigation of the target environment.  
+	   ➤ Research, identification and selection of targets, often represented as crawling Internet websites such as conference proceedings and mailing lists
+	     for email addresses, social relationships, or information on specific technologies. 
+	    
+	🔹 Phase 2 - WEAPONIZATION
+	   -----------------------
+	   ➤ The goal of the reconnaissance phase is to discover a potential attack vector, and weaponization is intended to develop a method of exploiting a 
+	     discovered weakness. This may include development of custom malware, crafting a phishing email, etc.
+	   ➤ Coupling a remote access trojan with an exploit into a deliverable payload, typically by means of an automated tool (weaponizer). 
+	     Increasingly, client application data files such as Adobe Portable Document Format (PDF) or Microsoft Office documents serve as the weaponized deliverable. 
+	
+	🔹 Phase 3 - DELIVERY
+	   ------------------
+	   ➤ Transmission of the weapon to the targeted environment. 
+	     The three most prevalent delivery vectors for weaponized payloads by APT actors, as observed by the Lockheed Martin Computer Incident Response Team (LM-CIRT)
+	     for the years 2004-2010, are email attachments (phishing), websites, and USB removable media. 
+	   ➤ The delivery stage involves setting up the target for exploitation. This could be as simple as clicking send on a phishing email or may involve 
+	     a complicated process of getting the right person at the right place at the right time.  
+	    
+	🔹 Phase 4 - EXPLOITATION
+	   ----------------------
+	   ➤ The exploitation phase is when the attacker takes advantage of the discovered weakness to gain access to the target environment.  
+	     This may involve exploiting a vulnerability in a webserver, a user enabling macros on a malicious document, etc.
+	   ➤ After the weapon is delivered to victim host, exploitation triggers intruders’ code. Most often, exploitation targets an application or operating system
+	     vulnerability, but it could also more simply exploit the users themselves or leverage an operating system feature that auto-executes code.
+	
+	🔹 Phase 5 - INSTALLATION
+	   ----------------------
+	   ➤ Installation of a remote access trojan or backdoor on the victim system allows the adversary to maintain persistence inside the environment.
+	   ➤ One of the goals of a cyberattack is to gain a foothold on the target network. Once the identified vulnerability has been exploited, 
+	     an attacker should be able to install and execute malware on the target system.
+	  
+	🔹 Phase 6 - COMMAND & CONTROL (C2)
+	   --------------------------------
+	   ➤ Typically, compromised hosts must beacon outbound to an Internet controller server to establish a C2 channel. 
+	     APT malware especially requires manual interaction rather than conduct activity automatically. 
+	     Once the C2 channel establishes, intruders have “hands on the keyboard” access inside the target environment.
+	   ➤ A great deal of malware is designed to be interactive, receiving instructions from its creator and/or sending data to them.  
+	     Establishing a channel for these communications is the next stage in the process.  
+	  
+	🔹 Phase 7 - Actions on Objectives
+	   --------------------------------
+	   ➤ Only now, after progressing through the first six phases, can intruders take actions to achieve their original objectives. 
+	     Typically, this objective is data exfiltration which involves collecting, encrypting and extracting information from the victim environment; 
+	     violations of data integrity or availability are potential objectives as well. 
+	     Alternatively, the intruders may only desire access to the initial victim box for use as a hop point to compromise additional systems
+	     and move laterally inside the network.
+	```
 
 --------
 ###  V. Threat Detection & Incident Response (TDIR)
@@ -338,25 +338,25 @@ to expansion and one or more command and control phases, until the target is ide
 + Threat hunting requires acquiring and maintaining a deep understanding of the organization’s infrastructure, systems, and typical network behaviors. By knowing what’s normal, security teams can quickly spot any anomalies that could indicate a potential threat. It also involves staying updated on the latest threat intelligence externally, especially specific to your industry and geography, to anticipate new types of attacks.
 
 + Four threat-hunting methodologies exist
-```
-1. Structured hunting
-   ➤ Combining attacker tactics, techniques, and procedures (TTPs) with Indicators of Attack (IoA) often aligned to a known framework, like MITRE ATT&CK
-2. Unstructured hunting
-   ➤ Using a trigger event, like an Indicator of Compromise (IoC), to search logs for pre-detection and post-detection patterns
-3. Intel-based hunting
-   ➤ Initiating reactive hunting with inputs from IoCs, like hash values, domain names and networks, host artifacts, and IP addresses
-4. Hybrid hunting
-   ➤ Designing customized searches based on situational awareness that use structured, unstructured, and intel-based methodologies
-```
+	```
+	1. Structured hunting
+	   ➤ Combining attacker tactics, techniques, and procedures (TTPs) with Indicators of Attack (IoA) often aligned to a known framework, like MITRE ATT&CK
+	2. Unstructured hunting
+	   ➤ Using a trigger event, like an Indicator of Compromise (IoC), to search logs for pre-detection and post-detection patterns
+	3. Intel-based hunting
+	   ➤ Initiating reactive hunting with inputs from IoCs, like hash values, domain names and networks, host artifacts, and IP addresses
+	4. Hybrid hunting
+	   ➤ Designing customized searches based on situational awareness that use structured, unstructured, and intel-based methodologies
+	```
 
 + Benefits of proactively detecting threats
-```
-1. Reduce Risks          - Identify vulnerabilities and threats early, reducing the chances of a successful breach.
-2. Minimize Downtime     - Faster response times can lead to quicker recovery and reduced business disruption.
-3. Protect Assets        - Safeguard critical data and intellectual property from theft or damage.
-4. Stay Ahead of Threats - Continuously update threat intelligence to anticipate and prepare for emerging threats.
-5. Save Costs            - Preventing or swiftly addressing incidents can reduce the financial impact of data breaches.
-```
+	```
+	1. Reduce Risks          - Identify vulnerabilities and threats early, reducing the chances of a successful breach.
+	2. Minimize Downtime     - Faster response times can lead to quicker recovery and reduced business disruption.
+	3. Protect Assets        - Safeguard critical data and intellectual property from theft or damage.
+	4. Stay Ahead of Threats - Continuously update threat intelligence to anticipate and prepare for emerging threats.
+	5. Save Costs            - Preventing or swiftly addressing incidents can reduce the financial impact of data breaches.
+	```
 
 #### STEP 3. Incident Detection
 + The third step is the detection and identification of threats and anomalies at scale thanks to advanced security tools (e.g., SIEM, EDR, XDR, IPS, AV) that use both signature-based and behaviour-based detection methods and that perform log analysis and event correlation.
@@ -618,6 +618,10 @@ to expansion and one or more command and control phases, until the target is ide
     + Formula: True Positives ÷ (True Positives + False Negatives)
   + Cases Opened vs Closed
     + Measures incidents handling throughput and potential backlog.
+  + Incident Escalation Rate
+    + Incident Escalation Rate measures the percentage of security incidents that need to be escalated to a higher-tier analyst, specialist, or another team for further investigation or response (Level 1 > Level 2 > Level 3).
+    + High rate: It may indicate complex incidents, insufficient Tier 1 analyst skills, poor alert/context quality, gaps in playbooks or automation.
+    + Low rate: Can indicate effective Tier 1 investigation, but an extremely low rate isn't necessarily good, it could also mean analysts are failing to escalate serious incidents.
   + Incident Closure Rate
     + The percentage of security incidents resolved out of total time that's reported the incident within that specific time frame and the alert reopen rate.
     + Percentage of reported incidents that are successfully resolved.
@@ -630,10 +634,6 @@ to expansion and one or more command and control phases, until the target is ide
     + < 5%: Team is generally doing a good job identifying, classifying, and investigating cases upfront.
     + 5–10%: Indicates potential gaps or process issues.
     + '> 10%: Signals significant issues, such as insufficient analyst training or incomplete investigations. 
-  + SOC Incident Escalation Rate
-    + Incident Escalation Rate measures the percentage of security incidents that need to be escalated to a higher-tier analyst, specialist, or another team for further investigation or response.
-    + High rate: It may indicate complex incidents, insufficient Tier 1 analyst skills, poor alert/context quality, gaps in playbooks or automation.
-    + Low rate: Can indicate effective Tier 1 investigation, but an extremely low rate isn't necessarily good, it could also mean analysts are failing to escalate serious incidents.
   + Log source health
     + Completeness and reliability of logs ingested in the SIEM.
   + Time spent per alert
@@ -646,7 +646,9 @@ to expansion and one or more command and control phases, until the target is ide
     + Target range: 8–13 events per analyst hour generally suggests analysts have enough time for thorough investigations without being overwhelmed.
     + AI/ML impact: Use EPAH to identify where AI/ML can help and measure its impact after implementation.
     + Success indicator: AI/ML should ideally improve analyst capacity and be reflected in EPAH.
-  + SOC Dashboard
+  + SOC staff turnover rate
+    + Analyst attrition rate. Impacts operational knowledge and alert fatigue.
+  +  SOC Dashboard
       + It helps assess team maturity, incident-handling effectiveness, analyst workload and burnout risk.
     + Workload management: Monitor and balance analyst workloads; avoid having analysts handle incidents continuously without rotation or scheduling.
     + Dashboard design considerations:
