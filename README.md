@@ -605,10 +605,21 @@ to expansion and one or more command and control phases, until the target is ide
     + The percentage of security incidents resolved out of total time that's reported the incident within that specific time frame and the alert reopen rate.
     + Percentage of reported incidents that are successfully resolved.
     + Healthy range: 85–95%.
-    + > 90%: Indicates highly efficient cyber operations.
+    + '> 90%: Indicates highly efficient cyber operations.
     + Track by incident type: Malware, phishing, DoS, etc., to identify which incidents take longer to resolve and allocate resources accordingly.
-    + SOC Dashboard
-      + Helps assess: team maturity, incident-handling effectiveness, analyst workload and burnout risk
+  + Alert/Incident reopen rate
+  	+ That's the alerts that were closed but may have been reopened later potentially because of misclassification.
+    + A strong indicator of investigation quality and operational maturity.
+    + < 5%: Team is generally doing a good job identifying, classifying, and investigating cases upfront.
+    + 5–10%: Indicates potential gaps or process issues.
+    + '> 10%: Signals significant issues, such as insufficient analyst training or incomplete investigations. 
+  + Time spent per alert
+    + In this case, what you're looking at is the average time the analyst spends investigating each alert.
+    + It could be the events per analyst hour. This is used to measure the workload of the SOC analysts. 
+  + Log source health
+    + Completeness and reliability of logs ingested in the SIEM
+  + SOC Dashboard
+      + It helps assess team maturity, incident-handling effectiveness, analyst workload and burnout risk.
     + Workload management: Monitor and balance analyst workloads; avoid having analysts handle incidents continuously without rotation or scheduling.
     + Dashboard design considerations:
       + Critical data
@@ -616,17 +627,16 @@ to expansion and one or more command and control phases, until the target is ide
       + Effectiveness
       + Data visualization
       + Real-time visibility
-  + Alert/Incident reopen rate
-  	+ That's the alerts that were closed but may have been reopened later potentially because of misclassification.
-    + A strong indicator of investigation quality and operational maturity.
-    + < 5%: Team is generally doing a good job identifying, classifying, and investigating cases upfront.
-    + 5–10%: Indicates potential gaps or process issues.
-    + > 10%: Signals significant issues, such as insufficient analyst training or incomplete investigations. 
-  + Time spent per alert
-    + In this case, what you're looking at is the average time the analyst spends investigating each alert.
-    + It could be the events per analyst hour. This is used to measure the workload of the SOC analysts. 
-  + Log source health
-    + Completeness and reliability of logs ingested in the SIEM
+    + Examples of indicators for a tactical SOC Dashboard:
+      + MTTA,
+      + MTTA by type of alerts,
+      + Types of incidents,
+      + Events per Analyst,
+      + Incident Closure Rate,
+      + Case Re-open Rate,
+      + Case Reassignment Rate,
+      + Case Documentation Completion.
+  
 
 #### Common SOC Challenges
   + Shortage of cybersecurity skills
