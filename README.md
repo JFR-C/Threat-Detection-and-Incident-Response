@@ -581,10 +581,20 @@ to expansion and one or more command and control phases, until the target is ide
 
 #### Common SOC metrics and indicators
 
++ Tactical metrics
+  + Tactical metrics like mean time to acknowledge (MTTA), incident closure rate, alert reopen rate, and events per analyst hour provide immediate visibility into SOC performance and help quickly identify areas needing adjustment.
+  + Different dashboards should be designed for various roles (from analysts to senior leadership) to present relevant metrics clearly and effectively.
+  + Managing analyst workload using approaches like the 30-30-30 rule (balancing triage, detection tuning, and threat hunting) helps reduce burnout and improves analyst retention and job satisfaction.
+
 + Operational metrics
   + Operational metrics like mean time to detect (MTTD), mean time to resolve (MTTR), false positive/negative rates, and incident escalation/closure rates are crucial for measuring the effectiveness of your security operations.
   + These metrics help leadership understand the performance and return on investment of security tools and personnel, supporting decisions on funding and process improvements.
   + Investing in analyst training, automation, and continuous monitoring of these metrics can improve SOC efficiency, reduce burnout, and enhance overall security posture.
+
++ Strategic metrics
+  + Strategic metrics demonstrate how cybersecurity efforts reduce risk and improve resilience over time, helping communicate value to leadership in their language.
+  + Using tiered funding requests and tools like SWOT analysis and strategy maps can effectively build business cases and prioritize security investments.
+  + Clear, concise dashboards and reports aligned with business risk reduction enable quick, impactful communication with executives and boards, supporting better decision-making and program support.
 
 + Common SOC indicators 
   + Use Case coverage
@@ -657,16 +667,24 @@ to expansion and one or more command and control phases, until the target is ide
       + Effectiveness
       + Data visualization
       + Real-time visibility
-    + Examples of indicators for a tactical SOC Dashboard:
-      + MTTA,
-      + MTTA by type of alerts,
-      + Types of incidents,
-      + Events per Analyst (L1/L2/L3),
-      + Incident Closure Rate,
-      + Case Re-open Rate,
-      + Case Reassignment Rate,
-      + Case Documentation Completion.
-  
+    + Tactical SOC Dashboard indicators:
+      + MTTA
+      + MTTA by type of alerts
+      + Types of incidents
+      + Events per Analyst (L1/L2/L3)
+      + Incident Closure Rate
+      + Case Re-open Rate
+      + Case Reassignment Rate
+      + Case Documentation Completion
+    + Operational SOC Dashboard indicators:
+      + MTTD
+      + MTTC
+      + MTTR
+      + Incident Closure Rate
+      + Incident Escalation Rate
+      + <i/>Security metrics (simulated phishing, device patched, vuln remediation)</i>
+
+    
 #### Common SOC Challenges
   + Shortage of cybersecurity skills
     + Many SOC teams are understaffed and lack the advanced skills necessary to identify and respond to threats in a timely and effective manner. The (ISC)² Workforce Study estimated that the cybersecurity workforce needs to grow by 145% to close skills gap and better defend organizations worldwide.
