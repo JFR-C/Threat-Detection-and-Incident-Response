@@ -580,17 +580,42 @@ to expansion and one or more command and control phases, until the target is ide
     + Proactively searches for and identifies advanced threats and vulnerabilities within the organization's environment that may evade traditional security measures.
 
 #### Common SOC indicators and metrics
+
++ Operational metrics
+  + Operational metrics like mean time to detect (MTTD), mean time to resolve (MTTR), false positive/negative rates, and incident escalation/closure rates are crucial for measuring the effectiveness of your security operations.
+  + These metrics help leadership understand the performance and return on investment of security tools and personnel, supporting decisions on funding and process improvements.
+  + Investing in analyst training, automation, and continuous monitoring of these metrics can improve SOC efficiency, reduce burnout, and enhance overall security posture.
+
++ Common SOC indicators 
   + Use Case coverage
     + % of detections mapped to the Mitre ATTACK framewok or Kill Chain
   + MTTD (Mean Time to Detect)
+    + How quickly threats are detected.
     + Measures how long it takes for a team or automated monitoring tool to realize an incident or threat has occurred.
   + MTTA (Mean Time To Acknowledge)
+    + How quickly an alert is acknowledged.
     + Measures how long it takes for the SOC analysts to acknowledge a new alert.
     + If you have high MTTA numbers, especially for critical incidents, it indicated that you've got issues, alert fatigue, ineffective processes etc.
+  + MTTC (Mean Time to Contain)
+    + How quickly the threat is contained after it has been identified.
+    + Measures how quickly the SOC can limit the impact and prevent an incident from spreading.
   + MTTR (Mean Time to Repair / Recover / Respond / Resolve)
+    + How quickly the incident is fully addressed.
     + Measures how long it takes to handle, fix, and recover from the problem after it happens.
   + Alerts by severity
     + Number of alerts categorised by criticality.
+  + False Negative Rate (FNR - detection accuracy)
+    + Percentage of actual threats/incidents that the SOC fails to detect.
+    + Lower is better.
+    + Formula: False Negatives ÷ (True Positives + False Negatives)
+  + False Postive Rate (FPR)
+    + False Positive Rate (FPR): Percentage of benign/non-threat events incorrectly flagged as threats.
+    + Lower is better.
+    + Formula: False Positives ÷ (True Negatives + False Positives)
+  + True Postive Rate (TPR)
+    + Percentage of actual threats that are correctly detected.
+    + Higher is better.
+    + Formula: True Positives ÷ (True Positives + False Negatives)
   + Cases Opened vs Closed
     + Measures incidents handling throughput and potential backlog.
   + SOC analyst throughput - Events per Analyst Hour (EPAH)
