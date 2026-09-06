@@ -658,31 +658,50 @@ to expansion and one or more command and control phases, until the target is ide
     + Success indicator: AI/ML should ideally improve analyst capacity and be reflected in EPAH.
   + SOC staff turnover rate
     + Analyst attrition rate. Impacts operational knowledge and alert fatigue.
-  +  SOC Dashboard
-      + It helps assess team maturity, incident-handling effectiveness, analyst workload and burnout risk.
-    + Workload management: Monitor and balance analyst workloads; avoid having analysts handle incidents continuously without rotation or scheduling.
-    + Dashboard design considerations:
-      + Critical data
-      + Clarity
-      + Effectiveness
-      + Data visualization
-      + Real-time visibility
-    + Tactical SOC Dashboard indicators:
-      + MTTA
-      + MTTA by type of alerts
-      + Types of incidents
-      + Events per Analyst (L1/L2/L3)
-      + Incident Closure Rate
-      + Case Re-open Rate
-      + Case Reassignment Rate
-      + Case Documentation Completion
-    + Operational SOC Dashboard indicators:
-      + MTTD
-      + MTTC
-      + MTTR
-      + Incident Closure Rate
-      + Incident Escalation Rate
-      + <i/>Security metrics (simulated phishing, device patched, vuln remediation)</i>
+  + Risk Reduction Over Time
+    + Measures whether cybersecurity efforts are effectively lowering risk and improving resilience.
+  + Year-to-Year Trend Analysis
+    + Tracks changes in security posture and risk metrics across years to show improvement or decline.
+  + Detection Coverage vs. Threat Landscape
+    + Assesses how well security controls cover the current threat environment.
+  + Security Control Return on Investment (ROI)
+    + Evaluates the effectiveness and value gained from cybersecurity investments.
+  + Cost Per Incident
+    + Measures the average financial impact of a security breach or incident.
+  + Compliance Audit Success Rate
+    + Tracks how often the organization meets regulatory and compliance requirements.
+  + Business Key Performance Indicators (KPIs)
+    + Aligns cybersecurity outcomes with broader business goals.
+  + Time for Full Recovery
+    + Measures how quickly the organization can resume normal operations after an incident, reflecting business resiliency.
+  + Board-Level Risk Reporting Quality
+    + Provides clear, concise risk information tailored for executive leadership and board members.
+
++ SOC Dashboard
+  + It helps assess team maturity, incident-handling effectiveness, analyst workload and burnout risk.
+  + Workload management: Monitor and balance analyst workloads; avoid having analysts handle incidents continuously without rotation or scheduling.
+  + Dashboard design considerations:
+    + Critical data
+    + Clarity
+    + Effectiveness
+    + Data visualization
+    + Real-time visibility
+  + Tactical SOC Dashboard indicators:
+    + MTTA
+    + MTTA by type of alerts
+    + Types of incidents
+    + Events per Analyst (L1/L2/L3)
+    + Incident Closure Rate
+    + Case Re-open Rate
+    + Case Reassignment Rate
+    + Case Documentation Completion
+  + Operational SOC Dashboard indicators:
+    + MTTD
+    + MTTC
+    + MTTR
+    + Incident Closure Rate
+    + Incident Escalation Rate
+    + <i/>Security metrics (simulated phishing, device patched, vuln remediation)</i>
 
     
 #### Common SOC Challenges
