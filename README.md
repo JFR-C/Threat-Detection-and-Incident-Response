@@ -637,7 +637,6 @@ to expansion and one or more command and control phases, until the target is ide
       + Case Reassignment Rate,
       + Case Documentation Completion.
   
-
 #### Common SOC Challenges
   + Shortage of cybersecurity skills
     + Many SOC teams are understaffed and lack the advanced skills necessary to identify and respond to threats in a timely and effective manner. The (ISC)² Workforce Study estimated that the cybersecurity workforce needs to grow by 145% to close skills gap and better defend organizations worldwide.
@@ -645,6 +644,14 @@ to expansion and one or more command and control phases, until the target is ide
     + As organizations add new tools for threat detection, the volume of security alerts grows continually. With security teams today already inundated with work, the overwhelming number of threat alerts can cause threat fatigue. In addition, many of these alerts do not provide sufficient intelligence, context to investigate, or are false positives. False positives not only drain time and resources, but can also distract teams from real incidents.
   + Operational Overhead
     + Many organizations use an assortment of disconnected security tools. This means that security personnel must translate security alerts and policies between environments, leading to costly, complex, and inefficient security operations.
+
+#### SOC 30/30/30 Rule
+  + The SOC 30/30/30 rule is a workload-balancing approach designed to help prevent SOC analysts burnout:
+    + 30% — Triage: Investigate and respond to high-fidelity signals.
+    + 30% — Detection Engineering: Build, improve, and tune detection analytics.
+    + 30% — Threat Hunting: Perform proactive threat hunting and retrospective analysis.
+    + 10% — Sharpening the Saw: Training, learning, skills development, and staying current.
+  + A mature SOC deliberately reserves time for improving detections, proactive hunting, and analyst development.
 
 #### Cyber Fusion Center (CFC)
 + A Cyber Fusion Center (CFC) is an advanced cybersecurity operations center or next-generation SOC that integrates and aligns people, processes, and technologies to enhance the organization's ability to detect, respond to, and mitigate cyber threats and incidents. It is an evolution of the traditional Security Operations Center (SOC) and typically incorporates elements of threat intelligence, incident response, and proactive threat hunting in a collaborative and integrated environment.
