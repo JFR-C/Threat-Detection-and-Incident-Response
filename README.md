@@ -631,7 +631,7 @@ to expansion and one or more command and control phases, until the target is ide
       + MTTA,
       + MTTA by type of alerts,
       + Types of incidents,
-      + Events per Analyst,
+      + Events per Analyst (L1/L2/L3),
       + Incident Closure Rate,
       + Case Re-open Rate,
       + Case Reassignment Rate,
