@@ -796,11 +796,26 @@ to expansion and one or more command and control phases, until the target is ide
       + CFCs leverage advanced cybersecurity technologies, such as Security Information and Event Management (SIEM), Endpoint Detection and Response (EDR), and threat intelligence platforms, to support holistic monitoring and response capabilities.
     + Data-Driven Decision Making
       + CFCs emphasize data-driven decision-making processes, leveraging analytics and metrics to measure the effectiveness of security operations and incident response efforts.
-
-+ Futur of SOCs and AI
-  + The future of cybersecurity operations is increasingly shaped by artificial intelligence (AI), which goes beyond traditional security tools to transform how security operations centers (SOCs) function. Effective cybersecurity requires the integration of people, processes, and technology working cohesively. The industry is moving from reactive approaches to proactive security models where AI-driven SOC agents automate tasks such as triage, investigation, and response at machine speed. These AI agents mimic human decision-making logic rather than relying on static rules, enhancing efficiency while keeping human analysts essential for oversight and complex judgments.
-  + AI significantly reduces the workload of Tier 1 analysts by handling up to 90% of triage tasks, allowing human experts to focus on strategic and complex investigations closer to command and control functions. This shift leads to a restructuring of SOC operational models around AI-first workflows that prioritize automation, analytics, detection, investigation, and then human intervention.
-  + Cloud-native SOCs contribute further by reducing mean time to respond (MTTR) by up to 60%, while identity-centric security emerges as a new control plane for managing access and detecting misuse. Cloud-native SOCs and identity-centric security are becoming essential for faster response, better visibility, and controlling access.
+  
+#### Tools for building a modern SOC
++ Frameworks like SOC CMM, SWOT, and PEST help assess and improve SOC maturity by aligning people, processes, technology, business, and services.
+  + SOC CMM (Capability Maturity Model):
+    + This framework evaluates SOC maturity across five domains: people, process, technology, business, and services.
+    + It helps organizations measure their current maturity level and identify areas for continuous improvement, ensuring that all aspects of the SOC work together effectively.
+  + SWOT Analysis:
+    + This tool assesses internal strengths and weaknesses (like strong detection engineering or data quality issues) and external opportunities and threats (such as advancing AI capabilities or adversarial AI risks).
+    + When applied with AI in cybersecurity, it helps balance benefits and risks to guide strategic decisions.
+  + PEST Analysis:
+    + This framework examines external factors influencing the SOC—Political (regulations and compliance), Economic (budget constraints and breach costs), Societal (talent availability and remote work trends), and Technological (emerging AI tools and expanded attack surfaces).
+    + It aids in strategic planning by understanding the broader environment impacting cybersecurity operations.
++ Effective change management is crucial, balancing incremental and transformational changes while reducing repetitive "keep the lights on" tasks through automation.
++ Metrics and OKRs can track efficiency gains, such as reducing mean time to resolution, freeing up the team for advanced tasks like threat hunting.
++ Overcoming resistance to change involves understanding human behaviors and ensuring clear, consistent communication to align the team.
+  
+#### Futur of SOCs and AI
++ The future of cybersecurity operations is increasingly shaped by artificial intelligence (AI), which goes beyond traditional security tools to transform how security operations centers (SOCs) function. Effective cybersecurity requires the integration of people, processes, and technology working cohesively. The industry is moving from reactive approaches to proactive security models where AI-driven SOC agents automate tasks such as triage, investigation, and response at machine speed. These AI agents mimic human decision-making logic rather than relying on static rules, enhancing efficiency while keeping human analysts essential for oversight and complex judgments.
++ AI significantly reduces the workload of Tier 1 analysts by handling up to 90% of triage tasks, allowing human experts to focus on strategic and complex investigations closer to command and control functions. This shift leads to a restructuring of SOC operational models around AI-first workflows that prioritize automation, analytics, detection, investigation, and then human intervention.
++ Cloud-native SOCs contribute further by reducing mean time to respond (MTTR) by up to 60%, while identity-centric security emerges as a new control plane for managing access and detecting misuse. Cloud-native SOCs and identity-centric security are becoming essential for faster response, better visibility, and controlling access.
   + Workforce transformation accompanies these technological advances; large manual teams evolve into smaller specialized groups where analysts serve as trust anchors ensuring accountability and ethical decision-making.
   + SOC maturity spans from reactive manual processes toward autonomous AI-driven operations. A practical action plan for organizations includes piloting AI triage capabilities, expanding them with governance frameworks, and deploying predictive AI SOC agents progressively over six months to two years. Overall, this section outlines a comprehensive roadmap for evolving SOCs responsibly with AI while emphasizing collaboration between humans and machines.
 
@@ -825,8 +840,8 @@ to expansion and one or more command and control phases, until the target is ide
     + Analysts -> Detection / Investigation / Response -> Analytics (AI/ML) -> Automation
   + Desirate state
     + Automation -> Analytics (AI/ML) -> Detection / Investigation / Response -> Analysts
-      
-       
+        
+	   
 --------
 ### VIII. ISO/IEC 27035 — Information Security Incident Management
 
