@@ -799,10 +799,34 @@ to expansion and one or more command and control phases, until the target is ide
 
 + Futur of SOCs and AI
   + The future of cybersecurity operations is increasingly shaped by artificial intelligence (AI), which goes beyond traditional security tools to transform how security operations centers (SOCs) function. Effective cybersecurity requires the integration of people, processes, and technology working cohesively. The industry is moving from reactive approaches to proactive security models where AI-driven SOC agents automate tasks such as triage, investigation, and response at machine speed. These AI agents mimic human decision-making logic rather than relying on static rules, enhancing efficiency while keeping human analysts essential for oversight and complex judgments.
-  + AI significantly reduces the workload of Tier 1 analysts by handling up to 90% of triage tasks, allowing human experts to focus on strategic and complex investigations closer to command and control functions. This shift leads to a restructuring of SOC operational models around AI-first workflows that prioritize automation, analytics, detection, investigation, and then human intervention. Cloud-native SOCs contribute further by reducing mean time to respond (MTTR) by up to 60%, while identity-centric security emerges as a new control plane for managing access and detecting misuse.
-  + Workforce transformation accompanies these technological advances; large manual teams evolve into smaller specialized groups where analysts serve as trust anchors ensuring accountability and ethical decision-making. SOC maturity spans from reactive manual processes toward autonomous AI-driven operations. A practical action plan for organizations includes piloting AI triage capabilities, expanding them with governance frameworks, and deploying predictive AI SOC agents progressively over six months to two years. Overall, this section outlines a comprehensive roadmap for evolving SOCs responsibly with AI while emphasizing collaboration between humans and machines.
+  + AI significantly reduces the workload of Tier 1 analysts by handling up to 90% of triage tasks, allowing human experts to focus on strategic and complex investigations closer to command and control functions. This shift leads to a restructuring of SOC operational models around AI-first workflows that prioritize automation, analytics, detection, investigation, and then human intervention.
+  + Cloud-native SOCs contribute further by reducing mean time to respond (MTTR) by up to 60%, while identity-centric security emerges as a new control plane for managing access and detecting misuse. Cloud-native SOCs and identity-centric security are becoming essential for faster response, better visibility, and controlling access.
+  + Workforce transformation accompanies these technological advances; large manual teams evolve into smaller specialized groups where analysts serve as trust anchors ensuring accountability and ethical decision-making.
+  + SOC maturity spans from reactive manual processes toward autonomous AI-driven operations. A practical action plan for organizations includes piloting AI triage capabilities, expanding them with governance frameworks, and deploying predictive AI SOC agents progressively over six months to two years. Overall, this section outlines a comprehensive roadmap for evolving SOCs responsibly with AI while emphasizing collaboration between humans and machines.
+
++ SOC evolution -> SOC maturity stages
+  + Reactive: Manual processes with basic SIEM tools, mostly responding to alerts.
+  + Defined: More structured processes and defined workflows (level two maturity).
+  + Managed: Integrated systems and processes for better coordination.
+  + Predictive: Use of AI-assisted detection and threat hunting to anticipate threats.
+  + Autonomous: Implementation of generative AI with adaptive governance, enabling more automated and proactive defense.
+
+> This progression reflects how SOCs evolve from manual, reactive teams to AI-empowered, proactive operations with a focus on automation, analytics, and human oversight. 
+
+| Timeframe | Next Steps |
+|----------------|-----------------------------------------------------------------------------------------------|
+| Short-term | Pilot AI triage for about six months; focus on enrichment; ensure good governance and guardrails. |
+| Mid-term | Expand AI capabilities over 6-18 months; maintain human-in-the-loop oversight; improve response accuracy and MTTR. |
+| Long-term | Deploy AI SOC agents for predictive defense and adaptive governance (18 months to 2 years); implement governance models for risk and authority management. |
+  
+   
++ Defining AI SOC - A new operating model
+  + Current state
+    + Analysts -> Detection / Investigation / Response -> Analytics (AI/ML) -> Automation
+  + Desirate state
+    + Automation -> Analytics (AI/ML) -> Detection / Investigation / Response -> Analysts
       
-     
+       
 --------
 ### VIII. ISO/IEC 27035 — Information Security Incident Management
 
