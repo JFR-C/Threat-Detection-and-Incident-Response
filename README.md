@@ -809,8 +809,16 @@ to expansion and one or more command and control phases, until the target is ide
     + This framework examines external factors influencing the SOC—Political (regulations and compliance), Economic (budget constraints and breach costs), Societal (talent availability and remote work trends), and Technological (emerging AI tools and expanded attack surfaces).
     + It aids in strategic planning by understanding the broader environment impacting cybersecurity operations.
 + Effective change management is crucial, balancing incremental and transformational changes while reducing repetitive "keep the lights on" tasks through automation.
+  + Effective change management in SOCs involves carefully balancing two types of change:
+    + Incremental change: Small, gradual improvements that steadily enhance processes without disrupting daily operations.
+    + Transformational change: Large-scale shifts in mission or structure, which are more challenging but necessary for major advancements.
+  + A key goal is to reduce the repetitive "keep the lights on" (KTLO) tasks (routine work that consumes much of the team's time by automating these processes). This frees up resources to focus on more strategic, transformational work like threat hunting and advanced analysis.
 + Metrics and OKRs can track efficiency gains, such as reducing mean time to resolution, freeing up the team for advanced tasks like threat hunting.
-+ Overcoming resistance to change involves understanding human behaviors and ensuring clear, consistent communication to align the team.
++ Overcoming resistance to change involves understanding human behaviors and ensuring clear, consistent communication to align the team. Over-communicating ensures everyone understands the reasons for change, the benefits, and their role in it, helping align the team and reduce uncertainty.
+  + Herding instinct: People tend to follow the majority, which can slow adoption if the group resists change.
+  + Mental accounting: Different perceptions of cost depending on who pays can affect willingness to invest.
+  + Overconfidence: Belief that "we've done it before, we can do it again" may resist new approaches.
+  + Anchoring: Fixating on initial information can bias decisions.
   
 #### Futur of SOCs and AI
 + The future of cybersecurity operations is increasingly shaped by artificial intelligence (AI), which goes beyond traditional security tools to transform how security operations centers (SOCs) function. Effective cybersecurity requires the integration of people, processes, and technology working cohesively. The industry is moving from reactive approaches to proactive security models where AI-driven SOC agents automate tasks such as triage, investigation, and response at machine speed. These AI agents mimic human decision-making logic rather than relying on static rules, enhancing efficiency while keeping human analysts essential for oversight and complex judgments.
