@@ -358,6 +358,36 @@ to expansion and one or more command and control phases, until the target is ide
 	5. Save Costs            - Preventing or swiftly addressing incidents can reduce the financial impact of data breaches.
 	```
 
++ Integrating Cyber Threat Intelligence (CTI) with Threat Hunting 
+  + The main goal of Cyber Threat Intelligence (CTI) is to provide actionable data that enables new detections, prioritizes threat hunts, tunes controls, and supports informed risk decisions, giving your team a decision advantage.
+  + Integrating CTI with threat hunting involves understanding your threat profile, developing hypotheses based on known threat actors and tactics, mapping these to frameworks like MITRE ATT&CK, and using telemetry sources such as EDR, SIEM, and network traffic to detect signs of compromise.
+  + The process includes enriching findings with tools like sandboxes for malware analysis, then reporting and responding by documenting findings and creating detection rules, establishing a proactive and continuously improving security posture.
+  + Below is a table summarizing the key points on integrating threat hunting with cyber threat intelligence (CTI). This structured approach helps create a proactive, continuously improving security posture by linking threat intelligence directly to threat hunting activities.
+  
+	| Step | Description | Tools/Frameworks Mentioned |
+	|---------------------------|-------------------------------------------------------------------------------------------------|------------------------------------|
+	| Threat Profile | Identify sources of threat intelligence such as threat actors, campaigns, TTPs, and IOCs. | MITRE ATT&CK framework |
+	| Hypothesis Development | Formulate hypotheses based on known threat actor behaviors (e.g., APT29 using credential dumping).| |
+	| Mapping to Framework | Align threat actors and TTPs to the MITRE ATT&CK framework for structured understanding. | MITRE ATT&CK |
+	| Telemetry Collection | Gather data from telemetry sources like EDR, SIEM, and network traffic to detect signs of compromise.| EDR, SIEM, Network Traffic |
+	| Enrichment | Analyze suspicious findings using sandbox tools for malware analysis. | Cuckoo, Anyrun |
+	| Reporting and Response | Document findings with context, develop detection rules (e.g., RF signatures, firewall blocks), and respond.| Detection rules, Reporting tools |
+    
++ Cyber Threat Intelligence (CTI) -  Reminder
+  + Cyber Threat Intelligence (CTI) aims to provide actionable, relevant data to improve security operations.
+  + A major challenge is data overload; filtering and prioritizing intelligence relevant to your organization is essential.
+  + Building trust with partners and stakeholders is critical for sharing indicators of compromise (IOCs) and tactics, techniques, and procedures (TTPs).
+  + Legal and compliance issues, especially cross-border data sharing restrictions, must be carefully managed.
+  + Automation can help parse large volumes of data, reduce false positives, and deliver cleaner, actionable intelligence to analysts.
+  + Continuous improvement and program maturity take time—expect to evolve your CTI program over months or years.
+  + Prioritize intelligence that directly impacts your organization’s risk profile and validate the sources before use.
+  + Embedding CTI into security workflows enhances operational effectiveness and enables faster, informed decision-making.
+  + Integration with Security Orchestration, Automation, and Response (SOAR) tools helps act quickly on threat intelligence.
+  + Feedback loops between incident response and CTI refinement are vital for maintaining accuracy and relevance.
+  + Selecting CTI tools should balance budget, functionality, and organizational maturity; start simple and scale up.
+  + Operational essentials include integrating CTI with SIEM systems and using intelligence to support threat hunting and detection engineering.
+
+
 #### STEP 3. Incident Detection
 + The third step is the detection and identification of threats and anomalies at scale thanks to advanced security tools (e.g., SIEM, EDR, XDR, IPS, AV) that use both signature-based and behaviour-based detection methods and that perform log analysis and event correlation.
 + The main objectives are to:
