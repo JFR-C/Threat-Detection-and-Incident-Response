@@ -348,7 +348,7 @@ to expansion and one or more command and control phases, until the target is ide
 	4. Hybrid hunting
 	   ➤ Designing customized searches based on situational awareness that use structured, unstructured, and intel-based methodologies
 	```
-
+  
 + Benefits of proactively detecting threats
 	```
 	1. Reduce Risks          - Identify vulnerabilities and threats early, reducing the chances of a successful breach.
@@ -357,7 +357,21 @@ to expansion and one or more command and control phases, until the target is ide
 	4. Stay Ahead of Threats - Continuously update threat intelligence to anticipate and prepare for emerging threats.
 	5. Save Costs            - Preventing or swiftly addressing incidents can reduce the financial impact of data breaches.
 	```
-
+  
++ Threat Hunting Maturity model
+  + Most organizations typically fall between levels 0 to 2. Success depends on aligning threat hunting with cyber threat intelligence and detection engineering, supported by clear metrics and leadership understanding.
+  + Level 0:
+    + Immature SOC with limited alert triage; threat hunting is generally not advised.
+  + Level 1:
+    + SOC has matured alert triage and sufficient controls; some time can be spent on threat hunting.
+  + Level 2:
+    + Dedicated hunting teams with limited intelligence consumption; hunting is mapped to business requirements.
+  + Level 3:
+    + Real-time defensive capabilities with extensive automation; able to handle new and novel threats.
+  + Level 4:
+    + Highly sophisticated SOC with broad visibility and data collection; commercial-grade cybersecurity detections.
+  
+  
 + Integrating Cyber Threat Intelligence (CTI) with Threat Hunting 
   + The main goal of Cyber Threat Intelligence (CTI) is to provide actionable data that enables new detections, prioritizes threat hunts, tunes controls, and supports informed risk decisions, giving your team a decision advantage.
   + Integrating CTI with threat hunting involves understanding your threat profile, developing hypotheses based on known threat actors and tactics, mapping these to frameworks like MITRE ATT&CK, and using telemetry sources such as EDR, SIEM, and network traffic to detect signs of compromise.
@@ -372,7 +386,8 @@ to expansion and one or more command and control phases, until the target is ide
 	| Telemetry Collection | Gather data from telemetry sources like EDR, SIEM, and network traffic to detect signs of compromise.| EDR, SIEM, Network Traffic |
 	| Enrichment | Analyze suspicious findings using sandbox tools for malware analysis. | Cuckoo, Anyrun |
 	| Reporting and Response | Document findings with context, develop detection rules (e.g., RF signatures, firewall blocks), and respond.| Detection rules, Reporting tools |
-    
+
+  	  
 + Cyber Threat Intelligence (CTI) -  Reminder
   + Cyber Threat Intelligence (CTI) aims to provide actionable, relevant data to improve security operations.
   + A major challenge is data overload; filtering and prioritizing intelligence relevant to your organization is essential.
@@ -386,8 +401,8 @@ to expansion and one or more command and control phases, until the target is ide
   + Feedback loops between incident response and CTI refinement are vital for maintaining accuracy and relevance.
   + Selecting CTI tools should balance budget, functionality, and organizational maturity; start simple and scale up.
   + Operational essentials include integrating CTI with SIEM systems and using intelligence to support threat hunting and detection engineering.
-
-
+  
+  
 #### STEP 3. Incident Detection
 + The third step is the detection and identification of threats and anomalies at scale thanks to advanced security tools (e.g., SIEM, EDR, XDR, IPS, AV) that use both signature-based and behaviour-based detection methods and that perform log analysis and event correlation.
 + The main objectives are to:
