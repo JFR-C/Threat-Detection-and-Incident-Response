@@ -408,7 +408,19 @@ to expansion and one or more command and control phases, until the target is ide
 + The main objectives are to:
   + detect threat actors' tactics, techniques, and procedures at the earliest stages of execution
   + trace the malicious activities to identify compromised assets and identify the malicious actor
-
+  
++ Detection engineering
+  + Detection engineering bridges cyber threat intelligence and SOC operations by designing and continuously improving security detections.
+  + Its goal is to create high-fidelity alerts that proactively identify adversarial behavior and reduce attacker dwell time.
+  + It codifies known attacker behaviors into automated, repeatable detection rules.
+  + Detection engineering complements threat hunting, turning hunting insights into scalable operational detections.
+  + Use case development ensures detections are relevant, reliable, maintainable, and aligned with business risk.
+  + Detection rules are mapped to frameworks like MITRE ATT&CK for behavioral clarity and prioritization.
+  + Tools involved include SIEM, XDR, SOAR, and AI-assisted detection platforms.
+  + Continuous testing and validation against benign activities help reduce false positives.
+  + Key metrics to measure effectiveness include MITRE coverage, data source breadth, hunting lifecycle time, and cloud hunting procedures.
+  + The process closes the loop between detection, response, and continuous improvement, enhancing operational resilience.
+  
 #### STEP 4. Incident Investigation (Threat Analysis and Prioritization)
 + The fourth step is to prioritize and analyze the threats and anomalies that have been detected. Not all threats pose the same level of risk in terms of affect or impact to the organization, so it’s important to determine which ones need immediate attention. This step is crucial for devising an effective response strategy.
 + Analysis involves understanding the nature of the threat, its origin, its current reach and scope, and its potential trajectory.
