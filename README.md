@@ -1136,18 +1136,65 @@ typically by improving the preventive controls or other risk treatments.
        + A total of 12 individuals wreaking havoc across the world with ransomware attacks against critical infrastructure were targeted as the result of a law enforcement and judicial operation involving eight countries. More than 50 foreign investigators, including six Europol specialists, were deployed to Ukraine for the action day to assist the National Police with conducting jointly investigative measures.
        + These attacks are believed to have affected over 1800 victims in 71 countries. These cyber actors were known for specifically targeting large corporations, effectively bringing their business to a standstill.
 
+#### 3.1. ENISA Threat Landscape 2026
 
-#### 3.1. ENISA Threat Landscape 2025
+  + Source (2026) - https://www.enisa.europa.eu/publications/enisa-threat-landscape-2026
+
+  + Threat Overview
+    + In the EU, 57% of analysed incidents were ideology driven while almost 30% were financially motivated.
+    + Public administration remained the most targeted sector, accounting for 32% of cases. NIS2 Essential entities were affected in nearly 73% of incidents.
+    + Phishing and exploited vulnerabilities remain two of the most common entry points.
+    + DDoS attacks (51%) and unauthorised access (39%) continued to account for a large share of recorded activity targeting EU Member States and EU-based organisations.
+
+  + Sectorial overview
+    + Top 5 targeted sectors in the EU
+      + Public administration (31,8%)
+      + Business Services (8,5%)
+      + Transport (8%)
+      + Manufacturing (6,9%)
+      + Finance / Banking (5,6%)
+  	+ Public Administration remains the most targeted sector, accounting for almost 32% of all recorded events. The events primarily impacted central (35%) and local entities (34%).
+    + The business sector is primarily impacted by unauthorised accesses (57%), followed by DDoS attacks (38%). Recorded unauthorised accesses included ransomware and data breaches.
+      Hospitality, consultancy and broadcast media together accounted for 55% of events impacting this sector.
+    + The transport sector remained largely impacted by DDoS claims (83%), nearly always ideology-driven. With repeated DDoS claims against operators of railways, metros and tramways services, railway accounts for 32% of incidents in the sector
+
+  + Incident type in Cybercrime
+    + 47,3% - Ransomware
+      + This kind of attack continued disrupting operations, notably through data encryption. Fraud schemes, including business email compromises, payment diversions, scams and investment fraud, also remained widespread.
+    + 36,0% - Data Breaches
+      + Data breaches continued to affect organisations across multiple sectors, exposing personal, financial, and corporate information that could be further exploited in criminal operations.
+    + 13,3% - Fraud / Impersonation
+   
+  + Hacktivist Activities
+    + ENISA recorded 4 709 hacktivist claims against EU Member States, of which more than 89% involved low-impact DDoS, notably driven by the geopolitical context. Activities were driven by several groups, particularly pro-Russia NoName057(16).
+    + Hacktivism remains relevant because it combines disruption and intrusion claims with a FIMI component that is directly linked to political and societal events. This ultimately creates reputational and operational pressure on public and private entities across the EU.
+    + ENISA observed an increasing number of claims pertaining to the targeting of Operational Technology, notably by pro-Russia hacktivist groups. 
+
+  + Outlook
+    + Hacktivism will persist
+      + Public and private organisations in EU Member States will continue to face hacktivist- associated threats, with periodic peaks, notably around high-visibility events and announcements by EU MSs and Union entities.
+    + Stable cyberespionage activity
+      + State-nexus intrusion sets, with a continued prevalence of Russia-nexus and China-nexus groups, are likely to maintain sustained activity, particularly targeting public administration and other high-value sectors.
+    + Cybercrime remains a major threat
+      + Cybercrime will highly likely remain one of the most impactful threats to business continuity. Extortion schemes and breaches will evolve, with displaced Ransomware-As-A-Service (RaaS) brands quickly replaced by emerging programmes, and an increasingly mature, fragmented and resilient ecosystem.
+    + Convergence across threats
+      + Operational practices across cybercriminal, hacktivist and State-nexus groups are likely to further converge, with similar vulnerabilities, platforms and toolsets used regardless of assessed objectives, complicating imputation and increasing the need to address common weaknesses.
+    + Growing digital dependencies
+      + Software suppliers, developers, managed service providers, cloud platforms and customer-service environments will remain high-value targets. Opportunities for threat groups to achieve broader impact through a single compromise are likely to increase.
+    + AI = a force multiplier
+      + AI is likely to further accelerate threat activity. While it will highly likely continue to primarily act as a force multiplier, 2026 may see an increased number of the kill chain’s phases being directly enabled by AI, with possible experimentation of Human-out- of-the-loop proof of concepts.
+
+#### 3.2. ENISA Threat Landscape 2025
 
   + Source (2025) - https://www.enisa.europa.eu/publications/enisa-threat-landscape-2025
     
   + Threat Overview
     + Top 5 targeted sectors in the EU
-      + Public administration
-      + Transport
-      + Digital infrastructure and services
-      + Finance
-      + Manufacturing
+      + Public administration (38,2%)
+      + Transport (7,5%)
+      + Digital infrastructure and services (4,8%)
+      + Finance (4,5%)
+      + Manufacturing (2,9%)
     + Hacktivism dominates incident volume in the EU
       + It was mainly driven by low-impact DDoS campaigns targeting EU Member States’ organisations’websites, with only 2% of incidents leading to service disruption.
     + State-aligned operations against EU Member States organisations persist
@@ -1174,7 +1221,7 @@ typically by improving the preventive controls or other risk treatments.
     + Despite a reported decrease of 11% compared to the previous ETL, ransomware remained the most impactful cybercrime tool. 
       Initial Access Brokers continued trading low-cost, high-volume VPN and RDP access.
 
-#### 3.2. ENISA Threat Landscape 2024
+#### 3.3. ENISA Threat Landscape 2024
 
   + Source (2024) - https://www.enisa.europa.eu/publications/enisa-threat-landscape-2024
 
